@@ -1,0 +1,9 @@
+errors:
+  - george.aristy@gmail.com
+# alerts:
+#   github:
+#     - yegor256
+
+tags:
+  - pdd
+  - bug
