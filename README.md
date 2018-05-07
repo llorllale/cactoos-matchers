@@ -10,12 +10,13 @@
 [![Test Coverage](https://img.shields.io/codecov/c/github/llorllale/cactoos-matchers.svg)](https://codecov.io/github/llorllale/cactoos-matchers?branch=master)
 [![SonarQube](https://img.shields.io/badge/sonar-ok-green.svg)](https://sonarcloud.io/dashboard?id=org.llorllale%3Acactoos-matchers)
 
+## What it is
 **cactoos-matchers** is an object-oriented wrapper around hamcrest's matchers.
 
-**Principles**.
+## Principles
 [Design principles](http://www.elegantobjects.org#principles) behind cactoos-matchers.
 
-**How to use**.
+## How to use
 This library depends on [cactoos](https://github.com/yegor256/cactoos) and [hamcrest](https://github.com/hamcrest/JavaHamcrest).
 Get the latest version [here](https://github.com/llorllale/cactoos-matchers/releases):
 
