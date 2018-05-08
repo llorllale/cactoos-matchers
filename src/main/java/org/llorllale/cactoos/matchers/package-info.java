@@ -26,7 +26,7 @@
  */
 
 /**
- * Matchers.
+ * An extension of cactoos with object-oriented hamcrest matchers.
  *
  * @author Yegor Bugayenko (yegor256@gmail.com)
  * @version $Id$
