@@ -83,7 +83,7 @@ public final class FuncApplies<X, Y> extends TypeSafeMatcher<Func<X, Y>> {
 
     @Override
     public void describeTo(final Description description) {
-        description.appendText("Scalar with ");
+        description.appendText("Func with ");
         description.appendDescriptionOf(this.matcher);
     }
 }
