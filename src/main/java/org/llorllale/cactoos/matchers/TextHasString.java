@@ -27,11 +27,11 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
+import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsEqual;
 
 /**
  * Matcher for the content.
@@ -62,7 +62,15 @@ public final class TextHasString extends TypeSafeMatcher<Text> {
      * @param text The text to match against
      */
     public TextHasString(final String text) {
-        this(new IsEqual<>(text));
+        this(new TextOf(text));
+    }
+
+    /**
+     * Ctor.
+     * @param text The text to match against
+     */
+    public TextHasString(final Text text) {
+        this(new MatcherOf<>((String input) -> text.asString().equals(input)));
     }
 
     /**

@@ -26,45 +26,43 @@
  */
 package org.cactoos.matchers;
 
+import org.cactoos.Input;
 import org.cactoos.io.InputOf;
-import org.cactoos.io.Md5DigestOf;
-import org.cactoos.text.HexOf;
-import org.hamcrest.Description;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.StringContains;
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
-import org.llorllale.cactoos.matchers.TextHasString;
+import org.llorllale.cactoos.matchers.InputHasContent;
 
 /**
- * Test case for {@link TextHasString}.
+ * Test case for {@link InputHasContent}.
  *
- * @author Nikita Salomatin (nsalomatin@hotmail.com)
+ * @author Vedran Vatavuk (123vgv@gmail.com)
  * @version $Id$
- * @since 0.29
+ * @since 1.1
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class TextHasStringTest {
+public final class InputHasContentTest {
 
     @Test
-    public void hasClearDescriptionForFailedTest() throws Exception {
-        final HexOf hex = new HexOf(
-            new Md5DigestOf(
-                new InputOf("Hello World!")
-            )
-        );
-        final Description description = new StringDescription();
-        final TextHasString matcher = new TextHasString(
-            "ed076287532e86365e841e92bfc50d8c6"
-        );
-        matcher.matchesSafely(hex);
-        matcher.describeMismatchSafely(hex, description);
+    public void matchesInputContent() throws Exception {
+        final String text = "Hello World!";
+        final Input input = new InputOf(text);
+        final InputHasContent matcher = new InputHasContent(text);
         MatcherAssert.assertThat(
-            "Description is not clear ",
-            description.toString(),
-            new StringContains(
-                "Text with \"ed076287532e86365e841e92bfc50d8c\""
-            )
+            "Matcher does not compare values",
+            matcher.matchesSafely(input),
+            new IsEqual<>(true)
+        );
+    }
+
+    @Test
+    public void failsIfContentDoesNotMatch() throws Exception {
+        final Input input = new InputOf("hello");
+        final InputHasContent matcher = new InputHasContent("world");
+        MatcherAssert.assertThat(
+            "Matcher doesn't compare values",
+            matcher.matchesSafely(input),
+            new IsEqual<>(false)
         );
     }
 }
