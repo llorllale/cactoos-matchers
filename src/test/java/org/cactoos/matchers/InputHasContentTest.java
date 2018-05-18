@@ -49,7 +49,7 @@ public final class InputHasContentTest {
         final Input input = new InputOf(text);
         final InputHasContent matcher = new InputHasContent(text);
         MatcherAssert.assertThat(
-            "Matcher does not compare values",
+            "Matcher does not match equal values",
             matcher.matchesSafely(input),
             new IsEqual<>(true)
         );
@@ -60,7 +60,7 @@ public final class InputHasContentTest {
         final Input input = new InputOf("hello");
         final InputHasContent matcher = new InputHasContent("world");
         MatcherAssert.assertThat(
-            "Matcher doesn't compare values",
+            "Matcher matches values that are not equal",
             matcher.matchesSafely(input),
             new IsEqual<>(false)
         );
