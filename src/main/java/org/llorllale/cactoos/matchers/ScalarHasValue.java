@@ -66,15 +66,27 @@ public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
     }
 
     @Override
-    public boolean matchesSafely(final Scalar<T> item) {
+    public void describeTo(final Description description) {
+        description.appendText("Scalar with ");
+        description.appendDescriptionOf(this.matcher);
+    }
+
+    // @checkstyle ProtectedMethodInFinalClassCheck (1 line)
+    @Override
+    protected boolean matchesSafely(final Scalar<T> item) {
         return this.matcher.matches(
             new UncheckedScalar<>(item).value()
         );
     }
 
+    // @checkstyle ProtectedMethodInFinalClassCheck (1 line)
     @Override
-    public void describeTo(final Description description) {
-        description.appendText("Scalar with ");
-        description.appendDescriptionOf(this.matcher);
+    protected void describeMismatchSafely(final Scalar<T> item,
+        final Description description) {
+        description
+            .appendText("was ")
+            .appendValue(
+                new UncheckedScalar<>(item).value()
+            );
     }
 }

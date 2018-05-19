@@ -24,29 +24,78 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.scalar.Constant;
+import org.cactoos.scalar.UncheckedScalar;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.StringContains;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
- * Test case for {@link org.llorllale.cactoos.matchers.ScalarHasValue}.
+ * Test case for {@link ScalarHasValue}.
  *
  * @author Alexander Menshikov (sharplermc@gmail.com)
+ * @author Victor Noel (victor.noel@crazydwarves.org)
  * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class ScalarHasValueTest {
 
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Test
-    public void matchPositive() {
-        final ScalarHasValue<Integer> matcher = new ScalarHasValue<>(1);
+    public void matchesAsExpectedWithString() {
+        final String expected = "some text";
         MatcherAssert.assertThat(
-            "Can't match equaled values",
-            matcher.matchesSafely(() -> 1),
-            new IsEqual<>(true)
+            "doesn't match a String",
+            new UncheckedScalar<>(() -> expected),
+            new ScalarHasValue<>(expected)
+        );
+    }
+
+    @Test
+    public void matchesAsExpectedWithMatcher() {
+        final String expected = "text";
+        MatcherAssert.assertThat(
+            "doesn't match a Matcher",
+            new UncheckedScalar<>(() -> expected),
+            new ScalarHasValue<>(new IsEqual<>(expected))
+        );
+    }
+
+    @Test
+    public void hasMatcherDescriptionForFailedTest() throws Exception {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(
+            new StringContains("Expected: Scalar with \"something\"")
+        );
+        MatcherAssert.assertThat(
+            "missing matcher description",
+            new Constant<>("something else"),
+            new ScalarHasValue<>(new IsEqual<>("something"))
+        );
+    }
+
+    @Test
+    public void hasMismatchDescriptionForFailedTest() throws Exception {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(
+            new StringContains("but: was \"actual\"")
+        );
+        MatcherAssert.assertThat(
+            "missing mismatch description",
+            new Constant<>("actual"),
+            new ScalarHasValue<>(new IsEqual<>("expected"))
         );
     }
 }
