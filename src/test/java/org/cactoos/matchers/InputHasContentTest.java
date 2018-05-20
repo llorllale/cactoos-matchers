@@ -29,12 +29,12 @@ package org.cactoos.matchers;
 import org.cactoos.Input;
 import org.cactoos.io.InputOf;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 import org.llorllale.cactoos.matchers.InputHasContent;
 
 /**
- * Test case for {@link InputHasContent}.
+ * Test case for {@link org.llorllale.cactoos.matchers.InputHasContent}.
  *
  * @author Vedran Vatavuk (123vgv@gmail.com)
  * @version $Id$
@@ -44,25 +44,23 @@ import org.llorllale.cactoos.matchers.InputHasContent;
 public final class InputHasContentTest {
 
     @Test
-    public void matchesInputContent() throws Exception {
+    public void matchesInputContent() {
         final String text = "Hello World!";
         final Input input = new InputOf(text);
-        final InputHasContent matcher = new InputHasContent(text);
         MatcherAssert.assertThat(
             "Matcher does not match equal values",
-            matcher.matchesSafely(input),
-            new IsEqual<>(true)
+            input,
+            new InputHasContent(text)
         );
     }
 
     @Test
-    public void failsIfContentDoesNotMatch() throws Exception {
+    public void failsIfContentDoesNotMatch() {
         final Input input = new InputOf("hello");
-        final InputHasContent matcher = new InputHasContent("world");
         MatcherAssert.assertThat(
             "Matcher matches values that are not equal",
-            matcher.matchesSafely(input),
-            new IsEqual<>(false)
+            input,
+            new IsNot<>(new InputHasContent("world"))
         );
     }
 }
