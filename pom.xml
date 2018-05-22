@@ -36,6 +36,37 @@
   <artifactId>cactoos-matchers</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
+  <name>cactoos-matchers</name>
+  <description>Extension for cactoos providing object-oriented hamcrest matchers.</description>
+  <url>https://github.com/llorllale/cactoos-matchers</url>
+  <inceptionYear>2017</inceptionYear>
+  <licenses>
+    <license>
+      <name>MIT</name>
+      <url>https://www.cactoos.org/LICENSE.txt</url>
+      <distribution>site</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>llorllale</id>
+      <name>George Aristy</name>
+      <email>george.aristy@gmail.com</email>
+    </developer>
+  </developers>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/llorllale/cactoos-matchers/issues</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:git:git@github.com:llorllale/cactoos-matchers.git</connection>
+    <developerConnection>scm:git:git@github.com:llorllale/cactoos-matchers.git</developerConnection>
+    <url>https://github.com/llorllale/cactoos-matchers</url>
+  </scm>
+  <ciManagement>
+    <system>rultor</system>
+    <url>http://www.rultor.com/p/llorllale/cactoos-matchers</url>
+  </ciManagement>
   <dependencies>
     <dependency>
       <groupId>org.cactoos</groupId>
