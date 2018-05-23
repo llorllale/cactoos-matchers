@@ -24,14 +24,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.cactoos.matchers;
+package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Input;
 import org.cactoos.io.InputOf;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
-import org.llorllale.cactoos.matchers.InputHasContent;
 
 /**
  * Test case for {@link org.llorllale.cactoos.matchers.InputHasContent}.

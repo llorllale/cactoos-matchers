@@ -26,54 +26,27 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Func;
-import org.cactoos.Proc;
-import org.cactoos.func.FuncOf;
-import org.cactoos.func.UncheckedFunc;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
 
 /**
- * Func as Matcher.
+ * Test case for {@link org.llorllale.cactoos.matchers.ScalarHasValue}.
  *
- * <p>There is no thread-safety guarantee.
- *
- * @author Yegor Bugayenko (yegor256@gmail.com)
+ * @author Alexander Menshikov (sharplermc@gmail.com)
  * @version $Id$
- * @param <T> Type of object to match
- * @since 0.12
+ * @since 1.1
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class MatcherOf<T> extends TypeSafeMatcher<T> {
+public final class ScalarHasValueTest {
 
-    /**
-     * The func.
-     */
-    private final Func<T, Boolean> func;
-
-    /**
-     * Ctor.
-     * @param proc The func
-     */
-    public MatcherOf(final Proc<T> proc) {
-        this(new FuncOf<>(proc, true));
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The func
-     */
-    public MatcherOf(final Func<T, Boolean> fnc) {
-        super();
-        this.func = fnc;
-    }
-
-    @Override
-    public boolean matchesSafely(final T item) {
-        return new UncheckedFunc<>(this.func).apply(item);
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText(this.func.toString());
+    @Test
+    public void matchPositive() {
+        final ScalarHasValue<Integer> matcher = new ScalarHasValue<>(1);
+        MatcherAssert.assertThat(
+            "Can't match equaled values",
+            matcher.matchesSafely(() -> 1),
+            new IsEqual<>(true)
+        );
     }
 }

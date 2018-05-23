@@ -24,12 +24,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package org.llorllale.cactoos.matchers;
+
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
 
 /**
- * Matcher's tests.
+ * Test case for {@link org.llorllale.cactoos.matchers.FuncApplies}.
  *
- * @author Nikita Salomatin (nsalomatin@hotmail.com)
+ * @author Alexander Menshikov (sharplermc@gmail.com)
  * @version $Id$
- * @since 0.1
+ * @since 1.1
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-package org.cactoos.matchers;
+public final class FuncAppliesTest {
+    @Test
+    public void matchFuncs() {
+        final FuncApplies<Integer, Integer> matcher = new FuncApplies<>(1, 1);
+        MatcherAssert.assertThat(
+            "Can't match equaled values",
+            matcher.matchesSafely(x -> x),
+            new IsEqual<>(true)
+        );
+    }
+}

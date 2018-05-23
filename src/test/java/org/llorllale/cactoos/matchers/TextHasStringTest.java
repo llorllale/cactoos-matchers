@@ -26,54 +26,44 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Func;
-import org.cactoos.Proc;
-import org.cactoos.func.FuncOf;
-import org.cactoos.func.UncheckedFunc;
+import org.cactoos.io.InputOf;
+import org.cactoos.io.Md5DigestOf;
+import org.cactoos.text.HexOf;
 import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.StringDescription;
+import org.hamcrest.core.StringContains;
+import org.junit.Test;
 
 /**
- * Func as Matcher.
+ * Test case for {@link TextHasString}.
  *
- * <p>There is no thread-safety guarantee.
- *
- * @author Yegor Bugayenko (yegor256@gmail.com)
+ * @author Nikita Salomatin (nsalomatin@hotmail.com)
  * @version $Id$
- * @param <T> Type of object to match
- * @since 0.12
+ * @since 0.29
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class MatcherOf<T> extends TypeSafeMatcher<T> {
+public final class TextHasStringTest {
 
-    /**
-     * The func.
-     */
-    private final Func<T, Boolean> func;
-
-    /**
-     * Ctor.
-     * @param proc The func
-     */
-    public MatcherOf(final Proc<T> proc) {
-        this(new FuncOf<>(proc, true));
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The func
-     */
-    public MatcherOf(final Func<T, Boolean> fnc) {
-        super();
-        this.func = fnc;
-    }
-
-    @Override
-    public boolean matchesSafely(final T item) {
-        return new UncheckedFunc<>(this.func).apply(item);
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText(this.func.toString());
+    @Test
+    public void hasClearDescriptionForFailedTest() throws Exception {
+        final HexOf hex = new HexOf(
+            new Md5DigestOf(
+                new InputOf("Hello World!")
+            )
+        );
+        final Description description = new StringDescription();
+        final TextHasString matcher = new TextHasString(
+            "ed076287532e86365e841e92bfc50d8c6"
+        );
+        matcher.matchesSafely(hex);
+        matcher.describeMismatchSafely(hex, description);
+        MatcherAssert.assertThat(
+            "Description is not clear ",
+            description.toString(),
+            new StringContains(
+                "Text with \"ed076287532e86365e841e92bfc50d8c\""
+            )
+        );
     }
 }

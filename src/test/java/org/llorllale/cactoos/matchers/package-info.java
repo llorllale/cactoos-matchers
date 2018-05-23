@@ -24,47 +24,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.cactoos.matchers;
-
-import org.cactoos.io.InputOf;
-import org.cactoos.io.Md5DigestOf;
-import org.cactoos.text.HexOf;
-import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.StringContains;
-import org.junit.Test;
-import org.llorllale.cactoos.matchers.TextHasString;
 
 /**
- * Test case for {@link TextHasString}.
+ * Matcher's tests.
  *
  * @author Nikita Salomatin (nsalomatin@hotmail.com)
  * @version $Id$
- * @since 0.29
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 0.1
  */
-public final class TextHasStringTest {
-
-    @Test
-    public void hasClearDescriptionForFailedTest() throws Exception {
-        final HexOf hex = new HexOf(
-            new Md5DigestOf(
-                new InputOf("Hello World!")
-            )
-        );
-        final Description description = new StringDescription();
-        final TextHasString matcher = new TextHasString(
-            "ed076287532e86365e841e92bfc50d8c6"
-        );
-        matcher.matchesSafely(hex);
-        matcher.describeMismatchSafely(hex, description);
-        MatcherAssert.assertThat(
-            "Description is not clear ",
-            description.toString(),
-            new StringContains(
-                "Text with \"ed076287532e86365e841e92bfc50d8c\""
-            )
-        );
-    }
-}
+package org.llorllale.cactoos.matchers;

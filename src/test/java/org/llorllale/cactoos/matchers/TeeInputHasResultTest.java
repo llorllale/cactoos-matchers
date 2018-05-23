@@ -24,7 +24,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.cactoos.matchers;
+package org.llorllale.cactoos.matchers;
 
 import java.io.ByteArrayOutputStream;
 import org.cactoos.io.OutputTo;
