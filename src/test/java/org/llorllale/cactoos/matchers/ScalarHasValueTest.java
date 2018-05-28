@@ -35,7 +35,7 @@ import org.junit.Test;
  *
  * @author Alexander Menshikov (sharplermc@gmail.com)
  * @version $Id$
- * @since 1.1
+ * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class ScalarHasValueTest {
