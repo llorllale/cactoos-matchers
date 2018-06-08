@@ -34,14 +34,12 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * Matches if a text <em>contains</em> this string.
- *
- * @author Yegor Bugayenko (yegor256@gmail.com)
+ * Matches if a text equals this string.
+ * @author George Aristy (george.aristy@gmail.com)
  * @version $Id$
- * @since 0.2
+ * @since 1.0.0
  */
-public final class TextHasString extends TypeSafeMatcher<Text> {
-
+public final class TextIs extends TypeSafeMatcher<Text> {
     /**
      * Prefix for description.
      */
@@ -61,7 +59,7 @@ public final class TextHasString extends TypeSafeMatcher<Text> {
      * Ctor.
      * @param text The text to match against
      */
-    public TextHasString(final String text) {
+    public TextIs(final String text) {
         this(new TextOf(text));
     }
 
@@ -69,20 +67,19 @@ public final class TextHasString extends TypeSafeMatcher<Text> {
      * Ctor.
      * @param text The text to match against
      */
-    public TextHasString(final Text text) {
+    public TextIs(final Text text) {
         this(
-            new MatcherOf<>((String input) -> input.contains(text.asString()))
+            new MatcherOf<>((String input) -> input.equals(text.asString()))
         );
     }
 
     /**
      * Ctor.
-     * @param mtr Matcher of the text
+     * @param matcher The text matcher
      */
-    public TextHasString(final Matcher<String> mtr) {
+    public TextIs(final Matcher<String> matcher) {
         super();
-        this.matcher = mtr;
-        this.result = "";
+        this.matcher = matcher;
     }
 
     @Override
@@ -93,7 +90,7 @@ public final class TextHasString extends TypeSafeMatcher<Text> {
 
     @Override
     public void describeTo(final Description description) {
-        description.appendText(TextHasString.PREFIX);
+        description.appendText(TextIs.PREFIX);
         description.appendDescriptionOf(this.matcher);
     }
 
@@ -101,7 +98,7 @@ public final class TextHasString extends TypeSafeMatcher<Text> {
     public void describeMismatchSafely(
         final Text item,
         final Description description) {
-        description.appendText(TextHasString.PREFIX);
+        description.appendText(TextIs.PREFIX);
         description.appendValue(this.result);
     }
 }

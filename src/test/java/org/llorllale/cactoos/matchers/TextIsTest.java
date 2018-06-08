@@ -27,70 +27,32 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
-import org.cactoos.io.InputOf;
-import org.cactoos.io.Md5DigestOf;
-import org.cactoos.text.HexOf;
-import org.hamcrest.Description;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.StringContains;
 import org.junit.Test;
 
 /**
- * Test case for {@link TextHasString}.
- *
- * @author Nikita Salomatin (nsalomatin@hotmail.com)
+ * Tests for {@link TextIs}.
+ * @author George Aristy (george.aristy@gmail.com)
  * @version $Id$
- * @since 0.29
+ * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TextHasStringTest {
-
+public final class TextIsTest {
     @Test
-    public void hasClearDescriptionForFailedTest() throws Exception {
-        final HexOf hex = new HexOf(
-            new Md5DigestOf(
-                new InputOf("Hello World!")
-            )
-        );
-        final Description description = new StringDescription();
-        final TextHasString matcher = new TextHasString(
-            "ed076287532e86365e841e92bfc50d8c6"
-        );
-        matcher.matchesSafely(hex);
-        matcher.describeMismatchSafely(hex, description);
+    public void match() {
         MatcherAssert.assertThat(
-            "Description is not clear ",
-            description.toString(),
-            new StringContains(
-                "Text with \"ed076287532e86365e841e92bfc50d8c\""
-            )
-        );
-    }
-
-    @Test
-    public void matchesPrefix() {
-        MatcherAssert.assertThat(
-            new TextHasString("123").matches((Text) () -> "12345"),
+            new TextIs("abcde").matches((Text) () -> "abcde"),
             new IsEqual<>(true)
         );
     }
 
     @Test
-    public void matchesSuffix() {
+    public void noMatch() {
         MatcherAssert.assertThat(
-            new TextHasString("345").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
-        );
-    }
-
-    @Test
-    public void matchesInTheMiddle() {
-        MatcherAssert.assertThat(
-            new TextHasString("234").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
+            new TextIs("xyz").matches((Text) () -> "abcde"),
+            new IsEqual<>(false)
         );
     }
 }
