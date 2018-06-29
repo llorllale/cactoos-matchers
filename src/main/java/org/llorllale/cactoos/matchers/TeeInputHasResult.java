@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -42,8 +42,6 @@ import org.hamcrest.TypeSafeMatcher;
 /**
  * Matcher for the {@link TeeInput}'s results.
  *
- * @author Roman Proshin (roman@proshin.org)
- * @version $Id$
  * @since 1.0
  */
 public final class TeeInputHasResult extends TypeSafeMatcher<TeeInput> {

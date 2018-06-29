@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -38,8 +38,6 @@ import org.hamcrest.TypeSafeMatcher;
  *
  * <p>There is no thread-safety guarantee.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @param <T> Type of object to match
  * @since 0.12
  */

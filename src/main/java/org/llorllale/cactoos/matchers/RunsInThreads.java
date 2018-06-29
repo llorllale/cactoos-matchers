@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -42,8 +42,6 @@ import org.hamcrest.TypeSafeMatcher;
 /**
  * Matcher for {@link Func} that must run in multiple threads.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @param <T> Type of input
  * @since 0.24
  * @checkstyle JavadocMethodCheck (500 lines)

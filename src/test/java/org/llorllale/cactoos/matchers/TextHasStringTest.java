@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -40,8 +40,6 @@ import org.junit.Test;
 /**
  * Test case for {@link TextHasString}.
  *
- * @author Nikita Salomatin (nsalomatin@hotmail.com)
- * @version $Id$
  * @since 0.29
  * @checkstyle JavadocMethodCheck (500 lines)
  */

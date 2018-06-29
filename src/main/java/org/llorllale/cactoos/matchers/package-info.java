@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -28,8 +28,6 @@
 /**
  * An extension of cactoos with object-oriented hamcrest matchers.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.14
  */
 package org.llorllale.cactoos.matchers;

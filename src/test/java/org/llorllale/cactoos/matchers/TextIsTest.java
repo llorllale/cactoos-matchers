@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -33,8 +33,6 @@ import org.junit.Test;
 
 /**
  * Tests for {@link TextIs}.
- * @author George Aristy (george.aristy@gmail.com)
- * @version $Id$
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */

@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -36,8 +36,6 @@ import org.hamcrest.TypeSafeMatcher;
 /**
  * Matches if a text <em>contains</em> this string.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @since 0.2
  */
 public final class TextHasString extends TypeSafeMatcher<Text> {

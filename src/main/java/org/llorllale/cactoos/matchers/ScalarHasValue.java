@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -36,8 +36,6 @@ import org.hamcrest.core.IsEqual;
 /**
  * Matcher for the value.
  *
- * @author Yegor Bugayenko (yegor256@gmail.com)
- * @version $Id$
  * @param <T> Type of result
  * @since 0.2
  */

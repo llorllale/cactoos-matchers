@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -38,8 +38,6 @@ import org.junit.Test;
 /**
  * Test case for {@link TeeInputHasResult}.
  *
- * @author Roman Proshin (roman@proshin.org)
- * @version $Id$
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */

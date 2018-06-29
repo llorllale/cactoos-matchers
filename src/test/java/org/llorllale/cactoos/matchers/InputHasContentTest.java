@@ -1,4 +1,4 @@
-/**
+/*
  * The MIT License (MIT)
  *
  * Copyright (c) for portions of project cactoos-matchers are held by
@@ -35,8 +35,6 @@ import org.junit.Test;
 /**
  * Test case for {@link org.llorllale.cactoos.matchers.InputHasContent}.
  *
- * @author Vedran Vatavuk (123vgv@gmail.com)
- * @version $Id$
  * @since 1.1
  * @checkstyle JavadocMethodCheck (500 lines)
  */
