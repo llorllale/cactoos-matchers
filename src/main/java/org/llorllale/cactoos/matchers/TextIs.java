@@ -41,7 +41,7 @@ public final class TextIs extends TypeSafeMatcher<Text> {
     /**
      * Prefix for description.
      */
-    private static final String PREFIX = "Text with ";
+    private static final String PREFIX = "Text with value ";
 
     /**
      * Matcher of the text.
@@ -67,7 +67,10 @@ public final class TextIs extends TypeSafeMatcher<Text> {
      */
     public TextIs(final Text text) {
         this(
-            new MatcherOf<>((String input) -> input.equals(text.asString()))
+            new MatcherOf<>(
+                (String input) -> input.equals(text.asString()),
+                text
+            )
         );
     }
 

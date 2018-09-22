@@ -28,8 +28,12 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Func;
 import org.cactoos.Proc;
+import org.cactoos.Text;
 import org.cactoos.func.FuncOf;
 import org.cactoos.func.UncheckedFunc;
+import org.cactoos.text.JoinedText;
+import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -49,6 +53,11 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
     private final Func<T, Boolean> func;
 
     /**
+     * Matcher description.
+     */
+    private final UncheckedText desc;
+
+    /**
      * Ctor.
      * @param proc The func
      */
@@ -61,8 +70,25 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
      * @param fnc The func
      */
     public MatcherOf(final Func<T, Boolean> fnc) {
+        this(fnc, new UncheckedText(fnc.toString()));
+    }
+
+    /**
+     * Ctor.
+     * @param fnc The func
+     * @param description The description
+     */
+    public MatcherOf(final Func<T, Boolean> fnc, final Text description) {
         super();
         this.func = fnc;
+        this.desc = new UncheckedText(
+            new JoinedText(
+                new TextOf(""),
+                new TextOf("\""),
+                description,
+                new TextOf("\"")
+            )
+        );
     }
 
     @Override
@@ -72,6 +98,6 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
 
     @Override
     public void describeTo(final Description description) {
-        description.appendText(this.func.toString());
+        description.appendText(this.desc.asString());
     }
 }
