@@ -31,8 +31,7 @@ import org.cactoos.Proc;
 import org.cactoos.Text;
 import org.cactoos.func.FuncOf;
 import org.cactoos.func.UncheckedFunc;
-import org.cactoos.text.JoinedText;
-import org.cactoos.text.TextOf;
+import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
@@ -82,12 +81,7 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
         super();
         this.func = fnc;
         this.desc = new UncheckedText(
-            new JoinedText(
-                new TextOf(""),
-                new TextOf("\""),
-                description,
-                new TextOf("\"")
-            )
+            new FormattedText("\"%s\"", description)
         );
     }
 
