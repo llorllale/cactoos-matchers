@@ -51,6 +51,7 @@ Note: [Checkstyle](https://en.wikipedia.org/wiki/Checkstyle) is used as a static
   - [@yegor256](https://github.com/yegor256) as Yegor Bugayenko ([Blog](http://www.yegor256.com))
   - [@proshin-roman](https://github.com/proshin-roman) as Roman Proshin
   - Nikita Salomatin
+  - [@dgroup](https://github.com/dgroup) as Yurii Dubinka
 
 ## License (MIT)
 
