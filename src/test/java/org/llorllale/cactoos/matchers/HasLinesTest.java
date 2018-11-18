@@ -25,9 +25,33 @@
  * SOFTWARE.
  */
 
+package org.llorllale.cactoos.matchers;
+
+import org.hamcrest.Description;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
+
 /**
- * Text matcher's tests.
+ * Test case for {@link HasLines}.
  *
- * @since 0.12
+ * @since 1.0.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-package org.llorllale.cactoos.matchers.text;
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class HasLinesTest {
+
+    @Test
+    public void matches() {
+        MatcherAssert.assertThat(
+            new HasLines(
+                "A", "C"
+            ).matchesSafely(
+                String.format("A%nB%nC%n"),
+                new Description.NullDescription()
+            ),
+            new IsEqual<>(true)
+        );
+    }
+
+}

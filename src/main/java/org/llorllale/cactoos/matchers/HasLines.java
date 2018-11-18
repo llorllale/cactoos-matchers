@@ -24,11 +24,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package org.llorllale.cactoos.matchers.text;
+package org.llorllale.cactoos.matchers;
 
 import java.util.Collection;
-import java.util.Iterator;
 import org.cactoos.BiFunc;
 import org.cactoos.Scalar;
 import org.cactoos.Text;
@@ -36,6 +34,7 @@ import org.cactoos.collection.CollectionOf;
 import org.cactoos.collection.Mapped;
 import org.cactoos.func.UncheckedBiFunc;
 import org.cactoos.iterable.IterableOf;
+import org.cactoos.list.ListOf;
 import org.cactoos.scalar.UncheckedScalar;
 import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
@@ -45,7 +44,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * Allows to check that text has lines considering platform-dependent line
  *  separator.
  *
- * @since 0.12
+ * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
 public final class HasLines extends TypeSafeDiagnosingMatcher<String> {
@@ -53,7 +52,7 @@ public final class HasLines extends TypeSafeDiagnosingMatcher<String> {
     /**
      * OS dependent line separator.
      */
-    private final Scalar<String> lseparator;
+    private final Scalar<String> separator;
 
     /**
      * The expected lines.
@@ -67,87 +66,43 @@ public final class HasLines extends TypeSafeDiagnosingMatcher<String> {
 
     /**
      * Ctor.
-     * @param lines The expected lines to be present.
+     * @param lns The expected lines to be present.
      */
-    public HasLines(final Text... lines) {
-        this(new Mapped<>(Text::asString, lines));
+    public HasLines(final Text... lns) {
+        this(new Mapped<>(Text::asString, lns));
     }
 
     /**
      * Ctor.
-     * @param lines The expected lines to be present.
+     * @param lns The expected lines to be present.
      */
-    public HasLines(final String... lines) {
-        this(new IterableOf<>(lines));
+    public HasLines(final String... lns) {
+        this(new IterableOf<>(lns));
     }
 
     /**
      * Ctor.
-     * @param lines The expected lines to be present.
+     * @param lns The expected lines to be present.
      */
-    public HasLines(final Iterator<String> lines) {
-        this(new IterableOf<>(lines));
-    }
-
-    /**
-     * Ctor.
-     * @param lines The expected lines.
-     */
-    public HasLines(final Iterable<String> lines) {
-        this(Collection::containsAll, new CollectionOf<>(lines));
+    public HasLines(final Iterable<String> lns) {
+        this(Collection::containsAll, System::lineSeparator, new ListOf<>(lns));
     }
 
     /**
      * Ctor.
      * @param fnc The function to match the actual/expected lines.
-     * @param lines The expected lines.
+     * @param stor OS dependent line separator.
+     * @param lns The expected lines to be present.
      */
     public HasLines(
         final BiFunc<Collection<String>, Collection<String>, Boolean> fnc,
-        final String... lines
-    ) {
-        this(fnc, new CollectionOf<>(lines));
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The function to match the actual/expected lines.
-     * @param lines The expected lines.
-     */
-    public HasLines(
-        final BiFunc<Collection<String>, Collection<String>, Boolean> fnc,
-        final Text... lines
-    ) {
-        this(fnc, new Mapped<>(Text::asString, lines));
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The function to match the actual/expected lines.
-     * @param lines The expected lines.
-     */
-    public HasLines(
-        final BiFunc<Collection<String>, Collection<String>, Boolean> fnc,
-        final Collection<String> lines
-    ) {
-        this(fnc, System::lineSeparator, lines);
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The function to match the actual/expected lines.
-     * @param ltor OS dependent line separator.
-     * @param lines The expected lines.
-     */
-    public HasLines(
-        final BiFunc<Collection<String>, Collection<String>, Boolean> fnc,
-        final Scalar<String> ltor,
-        final Collection<String> lines
+        final Scalar<String> stor,
+        final Collection<String> lns
     ) {
         super();
         this.fnc = new UncheckedBiFunc<>(fnc);
-        this.lseparator = new UncheckedScalar<>(ltor);
-        this.expected = lines;
+        this.separator = new UncheckedScalar<>(stor);
+        this.expected = lns;
     }
 
     @Override
@@ -158,7 +113,7 @@ public final class HasLines extends TypeSafeDiagnosingMatcher<String> {
     @Override
     protected boolean matchesSafely(final String text, final Description desc) {
         final Collection<String> actual = new CollectionOf<>(
-            text.split(new UncheckedScalar<>(this.lseparator).value())
+            text.split(new UncheckedScalar<>(this.separator).value())
         );
         desc.appendValue(new TextOf(actual));
         return new UncheckedBiFunc<>(this.fnc).apply(actual, this.expected);
