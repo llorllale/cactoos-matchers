@@ -39,15 +39,13 @@ public final class NotBlank extends TypeSafeDiagnosingMatcher<String> {
 
     @Override
     public void describeTo(final Description desc) {
-        desc.appendText("[blank]");
+        desc.appendText("not blank");
     }
 
     @Override
     protected boolean matchesSafely(final String text,
         final Description desc) {
-        desc.appendText("The string ")
-            .appendValue(text)
-            .appendText(" is not empty");
+        desc.appendValue(text);
         return !text.trim().isEmpty();
     }
 }

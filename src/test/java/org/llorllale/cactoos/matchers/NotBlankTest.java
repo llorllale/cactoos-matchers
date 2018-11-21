@@ -66,14 +66,19 @@ public final class NotBlankTest {
     public void nonBlankMessage() {
         final Description desc = new StringDescription();
         MatcherAssert.assertThat(
-            new NotBlank().matchesSafely(".$-", desc),
+            new NotBlank().matchesSafely("text", desc),
             new IsEqual<>(true)
         );
         MatcherAssert.assertThat(
             desc.toString(),
-            new IsEqual<>(
-                "The string \".$-\" is not empty"
-            )
+            new IsEqual<>("\"text\"")
+        );
+    }
+
+    @Test(expected = AssertionError.class)
+    public void describeTo() {
+        MatcherAssert.assertThat(
+            "", new NotBlank()
         );
     }
 
