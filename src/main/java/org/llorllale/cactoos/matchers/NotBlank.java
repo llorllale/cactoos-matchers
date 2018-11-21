@@ -24,54 +24,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Test case for {@link NotEmpty}.
+ * The matcher to check that text is not empty.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class NotEmptyTest {
+public final class NotBlank extends TypeSafeDiagnosingMatcher<String> {
 
-    @Test
-    public void empty() {
-        MatcherAssert.assertThat(
-            new NotEmpty().matchesSafely(
-                "", new Description.NullDescription()
-            ),
-            new IsEqual<>(false)
-        );
+    @Override
+    public void describeTo(final Description desc) {
+        desc.appendText("[blank]");
     }
 
-    @Test
-    public void notEmpty() {
-        MatcherAssert.assertThat(
-            new NotEmpty().matchesSafely(
-                "-.$%", new Description.NullDescription()
-            ),
-            new IsEqual<>(true)
-        );
+    @Override
+    protected boolean matchesSafely(final String text,
+        final Description desc) {
+        desc.appendText("The string ")
+            .appendValue(text)
+            .appendText(" is not empty");
+        return !text.trim().isEmpty();
     }
-
-    @Test
-    public void nonEmptyMessage() {
-        final Description desc = new StringDescription();
-        new NotEmpty().matchesSafely(".$-", desc);
-        MatcherAssert.assertThat(
-            desc.toString(),
-            new IsEqual<>(
-                "The string \".$-\" is not empty"
-            )
-        );
-    }
-
 }

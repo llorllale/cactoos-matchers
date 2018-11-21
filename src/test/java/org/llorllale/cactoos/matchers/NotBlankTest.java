@@ -24,30 +24,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
 
 /**
- * The matcher to check that text is not empty.
+ * Test case for {@link NotBlank}.
  *
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class NotEmpty extends TypeSafeDiagnosingMatcher<String> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class NotBlankTest {
 
-    @Override
-    public void describeTo(final Description desc) {
-        desc.appendText("[blank]");
+    @Test
+    public void blank() {
+        MatcherAssert.assertThat(
+            new NotBlank().matchesSafely(
+                "", new Description.NullDescription()
+            ),
+            new IsEqual<>(false)
+        );
     }
 
-    @Override
-    protected boolean matchesSafely(final String text,
-        final Description desc) {
-        desc.appendText("The string ")
-            .appendValue(text)
-            .appendText(" is not empty");
-        return !text.trim().isEmpty();
+    @Test
+    public void notBlank() {
+        MatcherAssert.assertThat(
+            new NotBlank().matchesSafely(
+                "-.$%", new Description.NullDescription()
+            ),
+            new IsEqual<>(true)
+        );
     }
+
+    @Test
+    public void nonBlankMessage() {
+        final Description desc = new StringDescription();
+        MatcherAssert.assertThat(
+            new NotBlank().matchesSafely(".$-", desc),
+            new IsEqual<>(true)
+        );
+        MatcherAssert.assertThat(
+            desc.toString(),
+            new IsEqual<>(
+                "The string \".$-\" is not empty"
+            )
+        );
+    }
+
 }
