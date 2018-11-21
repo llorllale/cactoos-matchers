@@ -65,16 +65,6 @@ public final class HasValuesTest {
      *  - error message is correct in case false status
      *  - the status of testing is correct itself.
      *  The possible name - {@code IsMatcherOf}.
-     *  For example, <pre>{@code
-     *    MatcherAssert.assertThat(
-     *      new HasValues("a", "b", "c"),
-     *      new IsMatcherOf(
-     *        new IterableOf("a", "b", "c"), //values where status should passed
-     *        new IterableOf("d", "e", "f"), //values where status should failed
-     *        "..failed due to.." // Expected message in case of failed testing
-     *      )
-     *    )
-     *  }</pre>
      */
     @Test
     public void containsErrorMessage() {
