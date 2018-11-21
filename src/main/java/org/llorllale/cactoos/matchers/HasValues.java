@@ -50,7 +50,7 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
     /**
      * Ctor.
      * @param exp The expected values within unit test.
-     * @todo #/DEV Add the opportunity to print the exp values to the
+     * @todo #/DEV:30m Add the opportunity to print the exp values to the
      *  description in order to avoid abstract message like
      *  "The function applied to X,Y,Z is failed".
      */
