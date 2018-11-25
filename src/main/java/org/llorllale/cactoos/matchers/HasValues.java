@@ -37,6 +37,17 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 /**
  * Matcher to check the {@link Iterable} by particular function.
  *
+ * <p>Here is a few examples how {@link HasValues} can be used:</p>
+ * <pre>
+ *  MatcherAssert.assertThat(
+ *    new ListOf<>(2, 3, 4),
+ *    new HasValues<>(val -> val > 1)
+ *  );
+ *  MatcherAssert.assertThat(
+ *    new ListOf<>("line A", "line B", "line C"),
+ *    new HasValues<>(val -> val.startsWith("line"))
+ *  );</pre>
+ *
  * @param <X> Type of item.
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
@@ -50,7 +61,7 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
     /**
      * Ctor.
      * @param exp The expected values within unit test.
-     * @todo #/DEV:30m Add the opportunity to print the exp values to the
+     * @todo #32:30m Add the opportunity to print the exp values to the
      *  description in order to avoid abstract message like
      *  "The function applied to X,Y,Z is failed".
      */
