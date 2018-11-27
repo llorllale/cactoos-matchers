@@ -26,7 +26,11 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.Collection;
+import java.util.Collections;
+import org.cactoos.BiProc;
 import org.cactoos.Func;
+import org.cactoos.func.UncheckedBiProc;
 import org.cactoos.func.UncheckedFunc;
 import org.cactoos.list.ListOf;
 import org.cactoos.scalar.Or;
@@ -53,21 +57,33 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
 public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
+
+    /**
+     * The expected values within the collection.
+     */
+    private final Collection<X> exp;
+
     /**
      * The function to check the {@link Iterable}.
      */
     private final UncheckedFunc<X, Boolean> fnc;
 
     /**
+     * The function to describe the actual values in hamcrest terms.
+     */
+    private final UncheckedBiProc<Iterable<X>, Description> fact;
+
+    /**
      * Ctor.
      * @param exp The expected values within unit test.
-     * @todo #32:30m Add the opportunity to print the exp values to the
-     *  description in order to avoid abstract message like
-     *  "The function applied to X,Y,Z is failed".
      */
     @SafeVarargs
     public HasValues(final X... exp) {
-        this(x -> new ListOf<>(exp).contains(x));
+        this(
+            new ListOf<>(exp),
+            x -> new ListOf<>(exp).contains(x),
+            (act, desc) -> desc.appendValue(new ListOf<>(act))
+        );
     }
 
     /**
@@ -75,21 +91,42 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
      * @param fnc The function to check the {@link Iterable}.
      */
     public HasValues(final Func<X, Boolean> fnc) {
+        this(Collections.emptyList(), fnc,
+            (act, desc) -> desc.appendText("The function applied to ")
+                .appendValue(new ListOf<>(act))
+                .appendText(" is failed.")
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param exp The expected values within the unit test.
+     * @param fnc The function to check the {@link Iterable}.
+     * @param fact The function to describe actual values in hamcrest terms.
+     */
+    public HasValues(final Collection<X> exp, final Func<X, Boolean> fnc,
+        final BiProc<Iterable<X>, Description> fact) {
         super();
+        this.exp = exp;
         this.fnc = new UncheckedFunc<>(fnc);
+        this.fact = new UncheckedBiProc<>(fact);
     }
 
     @Override
     public void describeTo(final Description dsc) {
-        dsc.appendText("No description");
+        if (this.exp.isEmpty()) {
+            dsc.appendText(
+                "At least one element within the iterable match the function."
+            );
+        } else {
+            dsc.appendValue(this.exp);
+        }
     }
 
     @Override
     protected boolean matchesSafely(final Iterable<X> actual,
         final Description dsc) {
-        dsc.appendText("The function applied to ")
-            .appendValue(new ListOf<>(actual))
-            .appendText(" is failed");
+        this.fact.exec(actual, dsc);
         return new UncheckedScalar<>(
             new Or(this.fnc, actual)
         ).value();

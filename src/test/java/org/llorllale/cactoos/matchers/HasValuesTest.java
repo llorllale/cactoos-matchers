@@ -67,18 +67,29 @@ public final class HasValuesTest {
      *  The possible name - {@code IsMatcherOf}.
      */
     @Test
-    public void containsErrorMessage() {
-        final Description msg = new StringDescription();
+    public void thatErrorMessageForStartWithIsCorrect() {
+        final Description expected = new StringDescription();
+        final Description actual = new StringDescription();
+        final HasValues<String> hvalues = new HasValues<>(
+            exp -> exp.startsWith("the")
+        );
+        hvalues.describeTo(expected);
         MatcherAssert.assertThat(
-            new HasValues<>("a", "b").matchesSafely(
-                new ListOf<>("d", "e", "f"),
-                msg
-            ),
+            "The testing status is 'false'",
+            hvalues.matchesSafely(new ListOf<>("book", "phone"), actual),
             new IsEqual<>(false)
         );
         MatcherAssert.assertThat(
-            msg.toString(),
-            new IsEqual<>("The function applied to <[d, e, f]> is failed")
+            "The actual result message in hamcrest terms is correct",
+            actual.toString(),
+            new IsEqual<>("The function applied to <[book, phone]> is failed.")
+        );
+        MatcherAssert.assertThat(
+            "The expected result message in hamcrest terms is correct",
+            expected.toString(),
+            new IsEqual<>(
+                "At least one element within the iterable match the function."
+            )
         );
     }
 
@@ -117,6 +128,29 @@ public final class HasValuesTest {
                     new StringDescription()
                 ),
             new IsEqual<>(true)
+        );
+    }
+
+    @Test
+    public void messageIsCorrect() {
+        final Description expected = new StringDescription();
+        final Description actual = new StringDescription();
+        final HasValues<Integer> hvalues = new HasValues<>(5);
+        hvalues.describeTo(expected);
+        MatcherAssert.assertThat(
+            "The testing status is 'false'",
+            hvalues.matchesSafely(new ListOf<>(1, 2, 3), actual),
+            new IsEqual<>(false)
+        );
+        MatcherAssert.assertThat(
+            "The expected result message in hamcrest terms is correct",
+            expected.toString(),
+            new IsEqual<>("<[5]>")
+        );
+        MatcherAssert.assertThat(
+            "The actual result message in hamcrest terms is correct",
+            actual.toString(),
+            new IsEqual<>("<[1, 2, 3]>")
         );
     }
 }
