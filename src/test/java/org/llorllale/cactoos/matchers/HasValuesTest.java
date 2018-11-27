@@ -60,12 +60,7 @@ public final class HasValuesTest {
 
     /**
      * Verify the matcher message in case when test failed.
-     * @todo #32:30m Matcher to test {@link org.hamcrest.Matcher} objects.
-     *  In order to check the matchers we should verify that
-     *  - error message is correct in case false status
-     *  - the status of testing is correct itself.
-     *  The possible name - {@code IsMatcherOf}.
-     */
+      */
     @Test
     public void containsErrorMessage() {
         final Description msg = new StringDescription();
