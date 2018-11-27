@@ -51,7 +51,7 @@ public final class HasValuesTest {
     public void contains() {
         MatcherAssert.assertThat(
             new HasValues<>("a", "b").matchesSafely(
-                new ListOf<>("a", "b", "c"),
+                new ListOf<>("a", "b", "c", "e"),
                 new StringDescription()
             ),
             new IsEqual<>(true)
