@@ -130,10 +130,12 @@ public final class HasValuesTest {
     public void thatExpectedSectionOfHamcrestResultMessageIsCorrect() {
         final Description description = new StringDescription();
         new HasValues<String>(exp -> exp.startsWith("the"))
-            .matchesSafely(new ListOf<>("book", "phone"), description);
+            .describeTo(description);
         MatcherAssert.assertThat(
             description.toString(),
-            new IsEqual<>("The function applied to <[book, phone]> is failed.")
+            new IsEqual<>(
+                "At least one element within the iterable match the function."
+            )
         );
     }
 
