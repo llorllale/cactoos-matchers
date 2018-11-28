@@ -67,29 +67,73 @@ public final class HasValuesTest {
      *  The possible name - {@code IsMatcherOf}.
      */
     @Test
-    public void thatErrorMessageForStartWithIsCorrect() {
-        final Description expected = new StringDescription();
-        final Description actual = new StringDescription();
-        final HasValues<String> hvalues = new HasValues<>(
-            exp -> exp.startsWith("the")
-        );
-        hvalues.describeTo(expected);
+    public void thatTestingStatusIsCorrect() {
         MatcherAssert.assertThat(
             "The testing status is 'false'",
-            hvalues.matchesSafely(new ListOf<>("book", "phone"), actual),
+            new HasValues<String>(
+                exp -> exp.startsWith("the")
+            ).matchesSafely(
+                new ListOf<>("book", "phone"), new Description.NullDescription()
+            ),
             new IsEqual<>(false)
         );
+    }
+
+    /**
+     * Once test is failed the hamcrest throw the {@link AssertionError}.
+     * The error has a message with expected/actual results.
+     *
+     * This test is required to check that the result hamcrest message
+     * has proper "actual section". For example the test
+     * <pre>{@code
+     * MatcherAssert.assertThat(
+     *    new ListOf<>(1, 2, 3),
+     *    new HasValues<>(5)
+     * );
+     * }</pre> will fail with the following message
+     * <pre>{@code
+     * java.lang.AssertionError:
+     *   Expected: <[5]>
+     *   but: <[1, 2, 3]>
+     * }</pre>, where the "actual section" is "<[1, 2, 3]>".
+     */
+    @Test
+    public void thatActualSectionOfHamcrestResultMessageIsCorrect() {
+        final Description description = new StringDescription();
+        new HasValues<String>(exp -> exp.startsWith("the"))
+            .matchesSafely(new ListOf<>("book", "phone"), description);
         MatcherAssert.assertThat(
-            "The actual result message in hamcrest terms is correct",
-            actual.toString(),
+            description.toString(),
             new IsEqual<>("The function applied to <[book, phone]> is failed.")
         );
+    }
+
+    /**
+     * Once test is failed the hamcrest throw the {@link AssertionError}.
+     * The error has a message with expected/actual results.
+     *
+     * This test is required to check that the result hamcrest message
+     * has proper "expected section". For example the test
+     * <pre>{@code
+     * MatcherAssert.assertThat(
+     *    new ListOf<>(1, 2, 3),
+     *    new HasValues<>(5)
+     * );
+     * }</pre> will fail with the following message
+     * <pre>{@code
+     * java.lang.AssertionError:
+     *   Expected: <[5]>
+     *   but: <[1, 2, 3]>
+     * }</pre>, where the "expected section" is "<[5]>".
+     */
+    @Test
+    public void thatExpectedSectionOfHamcrestResultMessageIsCorrect() {
+        final Description description = new StringDescription();
+        new HasValues<String>(exp -> exp.startsWith("the"))
+            .matchesSafely(new ListOf<>("book", "phone"), description);
         MatcherAssert.assertThat(
-            "The expected result message in hamcrest terms is correct",
-            expected.toString(),
-            new IsEqual<>(
-                "At least one element within the iterable match the function."
-            )
+            description.toString(),
+            new IsEqual<>("The function applied to <[book, phone]> is failed.")
         );
     }
 
@@ -128,29 +172,6 @@ public final class HasValuesTest {
                     new StringDescription()
                 ),
             new IsEqual<>(true)
-        );
-    }
-
-    @Test
-    public void messageIsCorrect() {
-        final Description expected = new StringDescription();
-        final Description actual = new StringDescription();
-        final HasValues<Integer> hvalues = new HasValues<>(5);
-        hvalues.describeTo(expected);
-        MatcherAssert.assertThat(
-            "The testing status is 'false'",
-            hvalues.matchesSafely(new ListOf<>(1, 2, 3), actual),
-            new IsEqual<>(false)
-        );
-        MatcherAssert.assertThat(
-            "The expected result message in hamcrest terms is correct",
-            expected.toString(),
-            new IsEqual<>("<[5]>")
-        );
-        MatcherAssert.assertThat(
-            "The actual result message in hamcrest terms is correct",
-            actual.toString(),
-            new IsEqual<>("<[1, 2, 3]>")
         );
     }
 }

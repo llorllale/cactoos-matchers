@@ -102,7 +102,11 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
      * Ctor.
      * @param exp The expected values within the unit test.
      * @param fnc The function to check the {@link Iterable}.
-     * @param fact The function to describe actual values in hamcrest terms.
+     * @param fact The function to add the description about the object
+     *  (which we are testing) into the result hamcrest message. This is
+     *  required for cases when test is failing and we need to explain what is
+     *  the "expected" and "actual" value. This function add info about "actual"
+     *  object to the result hamcrest message.
      */
     public HasValues(final Collection<X> exp, final Func<X, Boolean> fnc,
         final BiProc<Iterable<X>, Description> fact) {
