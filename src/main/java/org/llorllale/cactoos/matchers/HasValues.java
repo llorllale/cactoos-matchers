@@ -44,7 +44,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *
  * @param <X> Type of item.
  * @since 1.0.0
- * @todo #36/DEV:30min HasValuesMatching that accepts matching function.
+ * @todo #36:30min HasValuesMatching that accepts matching function.
  *  For example, the "non-null", "startWith", "endsWith", "greaterThan" etc.
  *  The HasValue matcher should work only with pre-defined set of expected items
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
