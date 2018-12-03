@@ -27,33 +27,25 @@
 package org.llorllale.cactoos.matchers;
 
 import java.util.Collection;
-import java.util.Collections;
-import org.cactoos.BiProc;
-import org.cactoos.Func;
-import org.cactoos.func.UncheckedBiProc;
-import org.cactoos.func.UncheckedFunc;
-import org.cactoos.list.ListOf;
-import org.cactoos.scalar.Or;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.collection.CollectionOf;
+import org.cactoos.iterable.IterableOf;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
  * Matcher to check the {@link Iterable} by particular function.
  *
- * <p>Here is a few examples how {@link HasValues} can be used:</p>
+ * <p>Here is an examples how {@link HasValues} can be used:</p>
  * <pre>
  *  MatcherAssert.assertThat(
- *    new ListOf<>(2, 3, 4),
- *    new HasValues<>(val -> val > 1)
- *  );
- *  MatcherAssert.assertThat(
- *    new ListOf<>("line A", "line B", "line C"),
- *    new HasValues<>(val -> val.startsWith("line"))
- *  );</pre>
+ *     new ListOf<>(1, 2, 3),
+ *     new HasValues<>(2)
+ * );</pre>
  *
  * @param <X> Type of item.
  * @since 1.0.0
+ * @todo #36/DEV:30m HasValuesMatching that accepts matching function.
+ *  For example, the "non-null", "startWith", "endsWith", "greaterThan" etc.
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
 public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
@@ -61,78 +53,44 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
     /**
      * The expected values within the collection.
      */
-    private final Collection<X> exp;
-
-    /**
-     * The function to check the {@link Iterable}.
-     */
-    private final UncheckedFunc<X, Boolean> fnc;
-
-    /**
-     * The function to describe the actual values in hamcrest terms.
-     */
-    private final UncheckedBiProc<Iterable<X>, Description> fact;
+    private final Collection<X> expected;
 
     /**
      * Ctor.
-     * @param exp The expected values within unit test.
+     * @param expected The expected values within unit test.
      */
     @SafeVarargs
-    public HasValues(final X... exp) {
-        this(
-            new ListOf<>(exp),
-            x -> new ListOf<>(exp).contains(x),
-            (act, desc) -> desc.appendValue(new ListOf<>(act))
-        );
+    public HasValues(final X... expected) {
+        this(new IterableOf<>(expected));
     }
 
     /**
      * Ctor.
-     * @param fnc The function to check the {@link Iterable}.
+     * @param expected The expected values within unit test.
      */
-    public HasValues(final Func<X, Boolean> fnc) {
-        this(Collections.emptyList(), fnc,
-            (act, desc) -> desc.appendText("The function applied to ")
-                .appendValue(new ListOf<>(act))
-                .appendText(" is failed.")
-        );
+    public HasValues(final Iterable<X> expected) {
+        this(new CollectionOf<>(expected));
     }
 
     /**
      * Ctor.
-     * @param exp The expected values within the unit test.
-     * @param fnc The function to check the {@link Iterable}.
-     * @param fact The function to add the description about the object
-     *  (which we are testing) into the result hamcrest message. This is
-     *  required for cases when test is failing and we need to explain what is
-     *  the "expected" and "actual" value. This function add info about "actual"
-     *  object to the result hamcrest message.
+     * @param expected The expected values within unit test.
      */
-    public HasValues(final Collection<X> exp, final Func<X, Boolean> fnc,
-        final BiProc<Iterable<X>, Description> fact) {
+    public HasValues(final Collection<X> expected) {
         super();
-        this.exp = exp;
-        this.fnc = new UncheckedFunc<>(fnc);
-        this.fact = new UncheckedBiProc<>(fact);
+        this.expected = expected;
     }
 
     @Override
     public void describeTo(final Description dsc) {
-        if (this.exp.isEmpty()) {
-            dsc.appendText(
-                "At least one element within the iterable match the function."
-            );
-        } else {
-            dsc.appendValue(this.exp);
-        }
+        dsc.appendValue(this.expected);
     }
 
     @Override
-    protected boolean matchesSafely(final Iterable<X> actual,
+    protected boolean matchesSafely(final Iterable<X> item,
         final Description dsc) {
-        this.fact.exec(actual, dsc);
-        return new UncheckedScalar<>(
-            new Or(this.fnc, actual)
-        ).value();
+        final Collection<X> actual = new CollectionOf<>(item);
+        dsc.appendValue(actual);
+        return actual.containsAll(this.expected);
     }
 }

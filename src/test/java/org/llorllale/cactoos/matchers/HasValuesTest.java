@@ -27,8 +27,6 @@
 
 package org.llorllale.cactoos.matchers;
 
-import java.util.Objects;
-import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
 import org.hamcrest.Description;
 import org.hamcrest.MatcherAssert;
@@ -48,6 +46,14 @@ import org.junit.Test;
 public final class HasValuesTest {
 
     @Test
+    public void matches() {
+        MatcherAssert.assertThat(
+            new ListOf<>(1, 2, 3),
+            new HasValues<>(2)
+        );
+    }
+
+    @Test
     public void contains() {
         MatcherAssert.assertThat(
             new HasValues<>("a", "b").matchesSafely(
@@ -55,27 +61,6 @@ public final class HasValuesTest {
                 new StringDescription()
             ),
             new IsEqual<>(true)
-        );
-    }
-
-    /**
-     * Verify the matcher message in case when test failed.
-     * @todo #32:30m Matcher to test {@link org.hamcrest.Matcher} objects.
-     *  In order to check the matchers we should verify that
-     *  - error message is correct in case false status
-     *  - the status of testing is correct itself.
-     *  The possible name - {@code IsMatcherOf}.
-     */
-    @Test
-    public void thatTestingStatusIsCorrect() {
-        MatcherAssert.assertThat(
-            "The testing status is 'false'",
-            new HasValues<String>(
-                exp -> exp.startsWith("the")
-            ).matchesSafely(
-                new ListOf<>("book", "phone"), new Description.NullDescription()
-            ),
-            new IsEqual<>(false)
         );
     }
 
@@ -95,85 +80,27 @@ public final class HasValuesTest {
      * java.lang.AssertionError:
      *   Expected: <[5]>
      *   but: <[1, 2, 3]>
-     * }</pre>, where the "actual section" is "<[1, 2, 3]>".
+     * }</pre>, where
+     *  - the "actual section" is "<[1, 2, 3]>"
+     *  - the "expected section" is "<[5]>".
      */
     @Test
     public void thatActualSectionOfHamcrestResultMessageIsCorrect() {
         final Description description = new StringDescription();
-        new HasValues<String>(exp -> exp.startsWith("the"))
-            .matchesSafely(new ListOf<>("book", "phone"), description);
+        new HasValues<>(5).matchesSafely(new ListOf<>(1, 2, 3), description);
         MatcherAssert.assertThat(
             description.toString(),
-            new IsEqual<>("The function applied to <[book, phone]> is failed.")
+            new IsEqual<>("<[1, 2, 3]>")
         );
     }
 
-    /**
-     * Once test is failed the hamcrest throw the {@link AssertionError}.
-     * The error has a message with expected/actual results.
-     *
-     * This test is required to check that the result hamcrest message
-     * has proper "expected section". For example the test
-     * <pre>{@code
-     * MatcherAssert.assertThat(
-     *    new ListOf<>(1, 2, 3),
-     *    new HasValues<>(5)
-     * );
-     * }</pre> will fail with the following message
-     * <pre>{@code
-     * java.lang.AssertionError:
-     *   Expected: <[5]>
-     *   but: <[1, 2, 3]>
-     * }</pre>, where the "expected section" is "<[5]>".
-     */
     @Test
-    public void thatExpectedSectionOfHamcrestResultMessageIsCorrect() {
+    public void describeExpectedValues() {
         final Description description = new StringDescription();
-        new HasValues<String>(exp -> exp.startsWith("the"))
-            .describeTo(description);
+        new HasValues<>(5).describeTo(description);
         MatcherAssert.assertThat(
             description.toString(),
-            new IsEqual<>(
-                "At least one element within the iterable match the function."
-            )
-        );
-    }
-
-    @Test
-    public void startsWith() {
-        MatcherAssert.assertThat(
-            new HasValues<String>(
-                expected -> expected.startsWith("aa")
-            ).matchesSafely(
-                new ListOf<>("aaA", "bbB", "ccC"),
-                new StringDescription()
-            ),
-            new IsEqual<>(true)
-        );
-    }
-
-    @Test
-    public void nonNull() {
-        MatcherAssert.assertThat(
-            new HasValues<>(
-                Objects::nonNull
-            ).matchesSafely(
-                new ListOf<>("aA", "bB", "cC"),
-                new StringDescription()
-            ),
-            new IsEqual<>(true)
-        );
-    }
-
-    @Test
-    public void greaterThan() {
-        MatcherAssert.assertThat(
-            new HasValues<Integer>(expected -> expected > 3)
-                .matchesSafely(
-                    new IterableOf<>(4, 3, 2),
-                    new StringDescription()
-                ),
-            new IsEqual<>(true)
+            new IsEqual<>("<[5]>")
         );
     }
 }
