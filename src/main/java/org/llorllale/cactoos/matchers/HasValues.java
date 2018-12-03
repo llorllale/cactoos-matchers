@@ -26,72 +26,72 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Func;
-import org.cactoos.func.UncheckedFunc;
-import org.cactoos.list.ListOf;
-import org.cactoos.scalar.Or;
-import org.cactoos.scalar.UncheckedScalar;
+import java.util.Collection;
+import org.cactoos.collection.CollectionOf;
+import org.cactoos.iterable.IterableOf;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Matcher to check the {@link Iterable} by particular function.
+ * Matcher to check that {@link Iterable} has particular elements.
  *
- * <p>Here is a few examples how {@link HasValues} can be used:</p>
+ * <p>Here is an example how {@link HasValues} can be used:</p>
  * <pre>
  *  MatcherAssert.assertThat(
- *    new ListOf<>(2, 3, 4),
- *    new HasValues<>(val -> val > 1)
- *  );
- *  MatcherAssert.assertThat(
- *    new ListOf<>("line A", "line B", "line C"),
- *    new HasValues<>(val -> val.startsWith("line"))
- *  );</pre>
+ *     new ListOf<>(1, 2, 3),
+ *     new HasValues<>(2)
+ * );</pre>
  *
  * @param <X> Type of item.
  * @since 1.0.0
+ * @todo #36:30min HasValuesMatching that accepts matching function.
+ *  For example, the "non-null", "startWith", "endsWith", "greaterThan" etc.
+ *  The HasValue matcher should work only with pre-defined set of expected items
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
 public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
+
     /**
-     * The function to check the {@link Iterable}.
+     * The expected values within the collection.
      */
-    private final UncheckedFunc<X, Boolean> fnc;
+    private final Collection<X> expected;
 
     /**
      * Ctor.
-     * @param exp The expected values within unit test.
-     * @todo #32:30m Add the opportunity to print the exp values to the
-     *  description in order to avoid abstract message like
-     *  "The function applied to X,Y,Z is failed".
+     * @param expected The expected values within unit test.
      */
     @SafeVarargs
-    public HasValues(final X... exp) {
-        this(x -> new ListOf<>(exp).contains(x));
+    public HasValues(final X... expected) {
+        this(new IterableOf<>(expected));
     }
 
     /**
      * Ctor.
-     * @param fnc The function to check the {@link Iterable}.
+     * @param expected The expected values within unit test.
      */
-    public HasValues(final Func<X, Boolean> fnc) {
+    public HasValues(final Iterable<X> expected) {
+        this(new CollectionOf<>(expected));
+    }
+
+    /**
+     * Ctor.
+     * @param expected The expected values within unit test.
+     */
+    public HasValues(final Collection<X> expected) {
         super();
-        this.fnc = new UncheckedFunc<>(fnc);
+        this.expected = expected;
     }
 
     @Override
     public void describeTo(final Description dsc) {
-        dsc.appendText("No description");
+        dsc.appendValue(this.expected);
     }
 
     @Override
-    protected boolean matchesSafely(final Iterable<X> actual,
+    protected boolean matchesSafely(final Iterable<X> item,
         final Description dsc) {
-        dsc.appendText("The function applied to ")
-            .appendValue(new ListOf<>(actual))
-            .appendText(" is failed");
-        return new UncheckedScalar<>(
-            new Or(this.fnc, actual)
-        ).value();
+        final Collection<X> actual = new CollectionOf<>(item);
+        dsc.appendValue(actual);
+        return actual.containsAll(this.expected);
     }
 }
