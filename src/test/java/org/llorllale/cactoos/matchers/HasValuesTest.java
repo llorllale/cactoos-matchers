@@ -40,7 +40,9 @@ import org.junit.Test;
  * @since 1.0.0
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
  * @checkstyle MultilineJavadocTagsCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasValuesTest {
@@ -48,6 +50,7 @@ public final class HasValuesTest {
     @Test
     public void matches() {
         MatcherAssert.assertThat(
+            "The matcher check that [1,2,3] contains [2]",
             new ListOf<>(1, 2, 3),
             new HasValues<>(2)
         );
@@ -56,6 +59,7 @@ public final class HasValuesTest {
     @Test
     public void contains() {
         MatcherAssert.assertThat(
+            "The matcher check that [a,b,c,e] contains [a,b]",
             new HasValues<>("a", "b").matchesSafely(
                 new ListOf<>("a", "b", "c", "e"),
                 new StringDescription()
@@ -89,6 +93,7 @@ public final class HasValuesTest {
         final Description description = new StringDescription();
         new HasValues<>(5).matchesSafely(new ListOf<>(1, 2, 3), description);
         MatcherAssert.assertThat(
+            "The matcher print the value which came for testing",
             description.toString(),
             new IsEqual<>("<[1, 2, 3]>")
         );
@@ -99,6 +104,8 @@ public final class HasValuesTest {
         final Description description = new StringDescription();
         new HasValues<>(5).describeTo(description);
         MatcherAssert.assertThat(
+            "The matcher print the value which should be present in the "
+                + "iterable",
             description.toString(),
             new IsEqual<>("<[5]>")
         );
