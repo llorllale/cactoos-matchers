@@ -24,40 +24,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.list.ListOf;
-import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Test case for {@link IsMatcherOf}.
+ * Matcher to test {@link org.hamcrest.Matcher} objects.
  *
+ * <p>Here is an example:</p>
+ * <pre>{@code
+ *  @Test
+ *  public void matches() {
+ *      MatcherAssert.assertThat(
+ *          new TextIs("abc"),
+ *          new Matches<>(new TextOf("abc"))
+ *      );
+ *  }
+ * }</pre>
+ *
+ * @param <X> Type of item.
  * @since 1.0.0
- * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class IsMatcherOfTest {
+public final class Matches<X> extends TypeSafeDiagnosingMatcher<Matcher<X>> {
 
-    @Test
-    public void checkTestingStatusOnly() {
-        MatcherAssert.assertThat(
-            new HasValues<>(5),
-            new IsMatcherOf<>(false, new ListOf<>(1, 2, 3))
-        );
+    /**
+     * The testing arguments for the target matcher.
+     */
+    private final X args;
+
+    /**
+     * Ctor.
+     * @param args The testing arguments for the matcher.
+     */
+    public Matches(final X args) {
+        super();
+        this.args = args;
     }
 
-    @Test
-    public void matchesSafely() {
-        MatcherAssert.assertThat(
-            new HasValues<>(5),
-            new IsMatcherOf<>(
-                false, new ListOf<>(1, 2, 3),
-                "The function applied to <[1, 2, 3]> is failed",
-                "No description"
-            )
-        );
+    @Override
+    public void describeTo(final Description desc) {
+        desc.appendValue(this.args);
     }
 
+    @Override
+    protected boolean matchesSafely(final Matcher<X> matcher,
+        final Description dsc) {
+        matcher.describeTo(dsc);
+        return matcher.matches(this.args);
+    }
 }
