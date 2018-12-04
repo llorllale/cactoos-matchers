@@ -39,14 +39,15 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle RegexpSinglelineCheck (500 lines)
- * @checkstyle MultilineJavadocTagsCheck (500 lines)
  * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasValuesTest {
 
+    /**
+     * Example of {@link HasValues} usage.
+     */
     @Test
     public void matches() {
         MatcherAssert.assertThat(
@@ -56,8 +57,11 @@ public final class HasValuesTest {
         );
     }
 
+    /**
+     * Give the positive testing result for the valid arguments.
+     */
     @Test
-    public void contains() {
+    public void matchSafely() {
         MatcherAssert.assertThat(
             "The matcher check that [a,b,c,e] contains [a,b]",
             new HasValues<>("a", "b").matchesSafely(
@@ -69,6 +73,8 @@ public final class HasValuesTest {
     }
 
     /**
+     * Matcher prints the actual value(s) properly.
+     *
      * Once test is failed the hamcrest throw the {@link AssertionError}.
      * The error has a message with expected/actual results.
      *
@@ -82,32 +88,35 @@ public final class HasValuesTest {
      * }</pre> will fail with the following message
      * <pre>{@code
      * java.lang.AssertionError:
-     *   Expected: <[5]>
-     *   but: <[1, 2, 3]>
+     *   Expected: <5>
+     *   but: <1, 2, 3>
      * }</pre>, where
-     *  - the "actual section" is "<[1, 2, 3]>"
-     *  - the "expected section" is "<[5]>".
+     *  - the "actual section" is "<1, 2, 3>"
+     *  - the "expected section" is "<5>".
      */
     @Test
-    public void thatActualSectionOfHamcrestResultMessageIsCorrect() {
+    public void describeActualValues() {
         final Description description = new StringDescription();
         new HasValues<>(5).matchesSafely(new ListOf<>(1, 2, 3), description);
         MatcherAssert.assertThat(
             "The matcher print the value which came for testing",
             description.toString(),
-            new IsEqual<>("<[1, 2, 3]>")
+            new IsEqual<>("<1, 2, 3>")
         );
     }
 
+    /**
+     * Matcher prints the expected value(s) properly.
+     */
     @Test
     public void describeExpectedValues() {
         final Description description = new StringDescription();
-        new HasValues<>(5).describeTo(description);
+        new HasValues<>(3, 4).describeTo(description);
         MatcherAssert.assertThat(
             "The matcher print the value which should be present in the "
-                + "iterable",
+                + "target iterable",
             description.toString(),
-            new IsEqual<>("<[5]>")
+            new IsEqual<>("<3, 4>")
         );
     }
 }

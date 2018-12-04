@@ -26,9 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import java.util.Collection;
-import org.cactoos.collection.CollectionOf;
 import org.cactoos.iterable.IterableOf;
+import org.cactoos.list.ListOf;
+import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
@@ -54,7 +54,7 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
     /**
      * The expected values within the collection.
      */
-    private final Collection<X> expected;
+    private final Iterable<X> expected;
 
     /**
      * Ctor.
@@ -70,28 +70,19 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
      * @param expected The expected values within unit test.
      */
     public HasValues(final Iterable<X> expected) {
-        this(new CollectionOf<>(expected));
-    }
-
-    /**
-     * Ctor.
-     * @param expected The expected values within unit test.
-     */
-    public HasValues(final Collection<X> expected) {
         super();
         this.expected = expected;
     }
 
     @Override
     public void describeTo(final Description dsc) {
-        dsc.appendValue(this.expected);
+        dsc.appendValue(new TextOf(this.expected));
     }
 
     @Override
-    protected boolean matchesSafely(final Iterable<X> item,
+    protected boolean matchesSafely(final Iterable<X> actual,
         final Description dsc) {
-        final Collection<X> actual = new CollectionOf<>(item);
-        dsc.appendValue(actual);
-        return actual.containsAll(this.expected);
+        dsc.appendValue(new TextOf(actual));
+        return new ListOf<>(actual).containsAll(new ListOf<>(this.expected));
     }
 }
