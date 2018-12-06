@@ -27,8 +27,6 @@
 
 package org.llorllale.cactoos.matchers;
 
-import java.util.Objects;
-import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
 import org.hamcrest.Description;
 import org.hamcrest.MatcherAssert;
@@ -41,15 +39,31 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle MultilineJavadocTagsCheck (500 lines)
+ * @checkstyle RegexpSinglelineCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasValuesTest {
 
+    /**
+     * Example of {@link HasValues} usage.
+     */
     @Test
-    public void contains() {
+    public void matches() {
         MatcherAssert.assertThat(
+            "The matcher check that [1,2,3] contains [2]",
+            new ListOf<>(1, 2, 3),
+            new HasValues<>(2)
+        );
+    }
+
+    /**
+     * Give the positive testing result for the valid arguments.
+     */
+    @Test
+    public void matchSafely() {
+        MatcherAssert.assertThat(
+            "The matcher check that [a,b,c,e] contains [a,b]",
             new HasValues<>("a", "b").matchesSafely(
                 new ListOf<>("a", "b", "c", "e"),
                 new StringDescription()
@@ -59,59 +73,50 @@ public final class HasValuesTest {
     }
 
     /**
-     * Verify the matcher message in case when test failed.
-      */
+     * Matcher prints the actual value(s) properly.
+     *
+     * Once test is failed the hamcrest throw the {@link AssertionError}.
+     * The error has a message with expected/actual results.
+     *
+     * This test is required to check that the result hamcrest message
+     * has proper "actual section". For example the test
+     * <pre>{@code
+     * MatcherAssert.assertThat(
+     *    new ListOf<>(1, 2, 3),
+     *    new HasValues<>(5)
+     * );
+     * }</pre> will fail with the following message
+     * <pre>{@code
+     * java.lang.AssertionError:
+     *   Expected: <5>
+     *   but: <1, 2, 3>
+     * }</pre>, where
+     *  - the "actual section" is "<1, 2, 3>"
+     *  - the "expected section" is "<5>".
+     */
     @Test
-    public void containsErrorMessage() {
-        final Description msg = new StringDescription();
+    public void describeActualValues() {
+        final Description description = new StringDescription();
+        new HasValues<>(5).matchesSafely(new ListOf<>(1, 2, 3), description);
         MatcherAssert.assertThat(
-            new HasValues<>("a", "b").matchesSafely(
-                new ListOf<>("d", "e", "f"),
-                msg
-            ),
-            new IsEqual<>(false)
-        );
-        MatcherAssert.assertThat(
-            msg.toString(),
-            new IsEqual<>("The function applied to <[d, e, f]> is failed")
-        );
-    }
-
-    @Test
-    public void startsWith() {
-        MatcherAssert.assertThat(
-            new HasValues<String>(
-                expected -> expected.startsWith("aa")
-            ).matchesSafely(
-                new ListOf<>("aaA", "bbB", "ccC"),
-                new StringDescription()
-            ),
-            new IsEqual<>(true)
-        );
-    }
-
-    @Test
-    public void nonNull() {
-        MatcherAssert.assertThat(
-            new HasValues<>(
-                Objects::nonNull
-            ).matchesSafely(
-                new ListOf<>("aA", "bB", "cC"),
-                new StringDescription()
-            ),
-            new IsEqual<>(true)
+            "The matcher print the value which came for testing",
+            description.toString(),
+            new IsEqual<>("<1, 2, 3>")
         );
     }
 
+    /**
+     * Matcher prints the expected value(s) properly.
+     */
     @Test
-    public void greaterThan() {
+    public void describeExpectedValues() {
+        final Description description = new StringDescription();
+        new HasValues<>(3, 4).describeTo(description);
         MatcherAssert.assertThat(
-            new HasValues<Integer>(expected -> expected > 3)
-                .matchesSafely(
-                    new IterableOf<>(4, 3, 2),
-                    new StringDescription()
-                ),
-            new IsEqual<>(true)
+            "The matcher print the value which should be present in the "
+                + "target iterable",
+            description.toString(),
+            new IsEqual<>("<3, 4>")
         );
     }
 }
