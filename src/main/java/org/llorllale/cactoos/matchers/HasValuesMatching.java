@@ -26,60 +26,80 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.iterable.IterableOf;
-import org.cactoos.list.ListOf;
+import org.cactoos.Func;
+import org.cactoos.scalar.Or;
+import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.text.FormattedText;
 import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Matcher to check that {@link Iterable} has particular elements.
+ * Matcher to check that {@link Iterable} has elements matched by particular
+ *  function.
  *
- * <p>Here is an example how {@link HasValues} can be used:</p>
+ * <p>Here is an example how {@link HasValuesMatching} can be used:</p>
  * <pre>
  *  MatcherAssert.assertThat(
  *     new ListOf<>(1, 2, 3),
- *     new HasValues<>(2)
+ *     new HasValuesMatching<>(value -> value > 2 || value == 3)
  * );</pre>
  *
  * @param <X> Type of item.
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
+public final class HasValuesMatching<X> extends
+    TypeSafeDiagnosingMatcher<Iterable<X>> {
 
     /**
-     * The expected values within the collection.
+     * The description of testing scenario.
      */
-    private final Iterable<X> expected;
+    private final String description;
+
+    /**
+     * The function to match at least one element within the {@link Iterable}.
+     */
+    private final Func<X, Boolean> fnc;
 
     /**
      * Ctor.
-     * @param expected The expected values within unit test.
+     * @param fnc The function to match at least one element within the
+     *  {@link Iterable}.
      */
-    @SafeVarargs
-    public HasValues(final X... expected) {
-        this(new IterableOf<>(expected));
+    public HasValuesMatching(final Func<X, Boolean> fnc) {
+        this("The function matches at least 1 element.", fnc);
     }
 
     /**
      * Ctor.
-     * @param expected The expected values within unit test.
+     * @param desc The description of testing scenario.
+     * @param fnc The function to match at least one element within the
+     *  {@link Iterable}.
      */
-    public HasValues(final Iterable<X> expected) {
+    public HasValuesMatching(final String desc, final Func<X, Boolean> fnc) {
         super();
-        this.expected = expected;
+        this.description = desc;
+        this.fnc = fnc;
     }
 
     @Override
     public void describeTo(final Description dsc) {
-        dsc.appendValue(new TextOf(this.expected));
+        dsc.appendText(this.description);
     }
 
     @Override
     protected boolean matchesSafely(final Iterable<X> actual,
         final Description dsc) {
-        dsc.appendValue(new TextOf(actual));
-        return new ListOf<>(actual).containsAll(new ListOf<>(this.expected));
+        dsc.appendText(
+            new UncheckedText(
+                new FormattedText(
+                    "No any elements from [%s] matches by the function",
+                    new TextOf(actual)
+                )
+            ).asString()
+        );
+        return new UncheckedScalar<>(new Or(this.fnc, actual)).value();
     }
 }
