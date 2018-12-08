@@ -88,7 +88,7 @@ public final class IsFalseTest {
         final Description desc = new StringDescription();
         new IsFalse().describeTo(desc);
         MatcherAssert.assertThat(
-            "The matcher print the details about expected exception",
+            "The matcher print the details about expected value",
             desc.toString(),
             new IsEqual<>("<false>")
         );
