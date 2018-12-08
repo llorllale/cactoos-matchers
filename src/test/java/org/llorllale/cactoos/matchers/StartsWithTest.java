@@ -24,73 +24,79 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
-import org.cactoos.io.InputOf;
-import org.cactoos.io.Md5DigestOf;
-import org.cactoos.text.HexOf;
+import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.StringContains;
 import org.junit.Test;
 
 /**
- * Test case for {@link TextHasString}.
+ * Test case for {@link StartsWith}.
  *
- * @since 0.29
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 1.0.0
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TextHasStringTest {
+public final class StartsWithTest {
 
+    /**
+     * Example of {@link StartsWith} usage.
+     */
     @Test
-    public void hasClearDescriptionForFailedTest() throws Exception {
-        final HexOf hex = new HexOf(
-            new Md5DigestOf(
-                new InputOf("Hello World!")
-            )
-        );
-        final Description description = new StringDescription();
-        final TextHasString matcher = new TextHasString(
-            "ed076287532e86365e841e92bfc50d8c6"
-        );
-        matcher.matchesSafely(hex, description);
+    public void matchPositive() {
         MatcherAssert.assertThat(
-            "Description is not clear ",
-            description.toString(),
-            new StringContains(
-                "Text with \"ed076287532e86365e841e92bfc50d8c\""
-            )
+            "The matcher gives positive result for the valid arguments",
+            new TextOf("I'm simple and I know it."),
+            new StartsWith("I'm simple")
         );
     }
 
+    /**
+     * Give the negative testing result for the invalid arguments.
+     */
     @Test
-    public void matchesPrefix() {
+    public void matchNegative() {
         MatcherAssert.assertThat(
-            "must match text prefix",
-            new TextHasString("123").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
+            "The matcher gives negative result for the invalid arguments",
+            new StartsWith("!").matchesSafely(
+                () -> "The sentence.",
+                new StringDescription()
+            ),
+            new IsEqual<>(false)
         );
     }
 
+    /**
+     * Matcher prints the actual value(s) properly in case of errors.
+     * The actual/expected section are using only when testing is failed and
+     *  we need to explain what exactly went wrong.
+     */
     @Test
-    public void matchesSuffix() {
+    public void describeActualValues() {
+        final Description desc = new StringDescription();
+        new StartsWith("").matchesSafely(new TextOf("ABC"), desc);
         MatcherAssert.assertThat(
-            "must match text suffix",
-            new TextHasString("345").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
+            "The matcher print the value which came for testing",
+            desc.toString(),
+            new IsEqual<>("Text starting with \"ABC\"")
         );
     }
 
+    /**
+     * Matcher prints the expected value(s) properly.
+     * The user has the ability to specify the description for the function.
+     */
     @Test
-    public void matchesInTheMiddle() {
+    public void describeExpectedValues() {
+        final Description desc = new StringDescription();
+        new StartsWith("!").describeTo(desc);
         MatcherAssert.assertThat(
-            "must match random substring in the middle of the text",
-            new TextHasString("234").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
+            "The matcher print the description of the scenario",
+            desc.toString(),
+            new IsEqual<>("Text starting with \"!\"")
         );
     }
+
 }
