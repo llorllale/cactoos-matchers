@@ -71,6 +71,7 @@ public final class TextHasStringTest {
     @Test
     public void matchesPrefix() {
         MatcherAssert.assertThat(
+            "must match text prefix",
             new TextHasString("123").matches((Text) () -> "12345"),
             new IsEqual<>(true)
         );
@@ -79,6 +80,7 @@ public final class TextHasStringTest {
     @Test
     public void matchesSuffix() {
         MatcherAssert.assertThat(
+            "must match text suffix",
             new TextHasString("345").matches((Text) () -> "12345"),
             new IsEqual<>(true)
         );
@@ -87,6 +89,7 @@ public final class TextHasStringTest {
     @Test
     public void matchesInTheMiddle() {
         MatcherAssert.assertThat(
+            "must match random substring in the middle of the text",
             new TextHasString("234").matches((Text) () -> "12345"),
             new IsEqual<>(true)
         );

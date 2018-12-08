@@ -45,6 +45,7 @@ public final class NotBlankTest {
     @Test
     public void blank() {
         MatcherAssert.assertThat(
+            "must not match an empty string",
             new NotBlank().matchesSafely(
                 "", new Description.NullDescription()
             ),
@@ -55,6 +56,7 @@ public final class NotBlankTest {
     @Test
     public void notBlank() {
         MatcherAssert.assertThat(
+            "must match a non-empty string",
             new NotBlank().matchesSafely(
                 "-.$%", new Description.NullDescription()
             ),
@@ -66,20 +68,14 @@ public final class NotBlankTest {
     public void nonBlankMessage() {
         final Description desc = new StringDescription();
         MatcherAssert.assertThat(
+            "must match a non-empty string",
             new NotBlank().matchesSafely("text", desc),
             new IsEqual<>(true)
         );
         MatcherAssert.assertThat(
+            "must describe itself in terms of the text being matched against",
             desc.toString(),
             new IsEqual<>("\"text\"")
         );
     }
-
-    @Test(expected = AssertionError.class)
-    public void describeTo() {
-        MatcherAssert.assertThat(
-            "", new NotBlank()
-        );
-    }
-
 }

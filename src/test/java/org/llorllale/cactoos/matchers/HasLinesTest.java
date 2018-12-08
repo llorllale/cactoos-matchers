@@ -45,6 +45,7 @@ public final class HasLinesTest {
     @Test
     public void matches() {
         MatcherAssert.assertThat(
+            "must match if valid lines are provided",
             new HasLines(
                 "A", "C"
             ).matchesSafely(
@@ -59,6 +60,7 @@ public final class HasLinesTest {
     public void failed() {
         final Description desc = new StringDescription();
         MatcherAssert.assertThat(
+            "must not match if no lines are provided",
             new HasLines(
                 () -> "Tom", () -> "Mike"
             ).matchesSafely(
@@ -68,6 +70,7 @@ public final class HasLinesTest {
             new IsEqual<>(false)
         );
         MatcherAssert.assertThat(
+            "describes itself in terms of the lines being matched",
             desc.toString(),
             new IsEqual<>("<Tom, John>")
         );

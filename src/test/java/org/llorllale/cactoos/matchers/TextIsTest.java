@@ -41,6 +41,7 @@ public final class TextIsTest {
     @Test
     public void match() {
         MatcherAssert.assertThat(
+            "must match identical text",
             new TextIs("abcde").matches((Text) () -> "abcde"),
             new IsEqual<>(true)
         );
@@ -49,6 +50,7 @@ public final class TextIsTest {
     @Test
     public void noMatch() {
         MatcherAssert.assertThat(
+            "must not match text that is not identical",
             new TextIs("xyz").matches((Text) () -> "abcde"),
             new IsEqual<>(false)
         );
