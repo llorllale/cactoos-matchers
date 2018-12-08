@@ -42,7 +42,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *       () -> {
  *            throw new IllegalArgumentException("No object(s) found.");
  *       },
- *       new Throw("No object(s) found.", IllegalArgumentException.class)
+ *       new Throws("No object(s) found.", IllegalArgumentException.class)
  *  );</pre>
  *
  * @since 1.0.0
