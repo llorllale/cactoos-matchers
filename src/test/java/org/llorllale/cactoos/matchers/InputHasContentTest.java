@@ -35,7 +35,7 @@ import org.junit.Test;
 /**
  * Test case for {@link org.llorllale.cactoos.matchers.InputHasContent}.
  *
- * @since 1.1
+ * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class InputHasContentTest {
