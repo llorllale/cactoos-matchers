@@ -27,57 +27,35 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
-import org.cactoos.text.UncheckedText;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.cactoos.text.TextOf;
 
 /**
- * The Text-based {@link TypeSafeDiagnosingMatcher} envelope.
+ * Matches if a text <em>endsWith</em> this string.
  *
  * @since 1.0.0
- * @todo #16:30min Extends the envelope in TextIs, TextHasString, StartsWith,
- *  EndsWith. Most of operations with text like startsWith, endsWith, contains,
- *  equals, etc has the same algorithm. There is only difference in the function
- *  which should be applied to text.
  */
-public abstract class TextMatcherEnvelope extends
-    TypeSafeDiagnosingMatcher<Text> {
-
-    /**
-     * The description/prefix of the matcher's actual/expected values.
-     */
-    private final String prefix;
-
-    /**
-     * The matcher to test.
-     */
-    private final Matcher<Text> matcher;
+public final class EndsWith extends TextMatcherEnvelope {
 
     /**
      * Ctor.
-     * @param mtchr The matcher to test.
-     * @param prfix The description/prefix of the matcher's actual/expected
-     *  values.
+     * @param text The text to match against
      */
-    public TextMatcherEnvelope(final Matcher<Text> mtchr, final String prfix) {
-        super();
-        this.matcher = mtchr;
-        this.prefix = prfix;
+    public EndsWith(final String text) {
+        this(new TextOf(text));
     }
 
-    @Override
-    public final void describeTo(final Description desc) {
-        desc.appendText(this.prefix).appendDescriptionOf(this.matcher);
-    }
-
-    @Override
-    protected final boolean matchesSafely(final Text text,
-        final Description desc) {
-        desc.appendText(this.prefix).appendValue(
-            new UncheckedText(text).asString()
+    /**
+     * Ctor.
+     * @param text The text to match against
+     */
+    public EndsWith(final Text text) {
+        super(
+            new MatcherOf<>(
+                (Text act) -> act.asString().endsWith(text.asString()),
+                text
+            ),
+            "Text ending with "
         );
-        return this.matcher.matches(text);
     }
-
 }
+
