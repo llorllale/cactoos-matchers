@@ -98,14 +98,12 @@ public final class HasValuesMatchingTest {
     @Test
     public void describeExpectedValues() {
         final Description description = new StringDescription();
-        new HasValuesMatching<Integer>(
-            "Iterable has at least 1 element greater than 5",
-            value -> value > 5
-        ).describeTo(description);
+        new HasValuesMatching<Integer>(value -> value > 5)
+            .describeTo(description);
         MatcherAssert.assertThat(
             "The matcher print the optional description of the scenario",
             description.toString(),
-            new IsEqual<>("Iterable has at least 1 element greater than 5")
+            new IsEqual<>("The function matches at least 1 element.")
         );
     }
 }

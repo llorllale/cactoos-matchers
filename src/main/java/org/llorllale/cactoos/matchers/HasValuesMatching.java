@@ -54,11 +54,6 @@ public final class HasValuesMatching<X> extends
     TypeSafeDiagnosingMatcher<Iterable<X>> {
 
     /**
-     * The description of testing scenario.
-     */
-    private final String description;
-
-    /**
      * The function to match at least one element within the {@link Iterable}.
      */
     private final Func<X, Boolean> fnc;
@@ -69,24 +64,13 @@ public final class HasValuesMatching<X> extends
      *  {@link Iterable}.
      */
     public HasValuesMatching(final Func<X, Boolean> fnc) {
-        this("The function matches at least 1 element.", fnc);
-    }
-
-    /**
-     * Ctor.
-     * @param desc The description of testing scenario.
-     * @param fnc The function to match at least one element within the
-     *  {@link Iterable}.
-     */
-    public HasValuesMatching(final String desc, final Func<X, Boolean> fnc) {
         super();
-        this.description = desc;
         this.fnc = fnc;
     }
 
     @Override
     public void describeTo(final Description dsc) {
-        dsc.appendText(this.description);
+        dsc.appendText("The function matches at least 1 element.");
     }
 
     @Override
