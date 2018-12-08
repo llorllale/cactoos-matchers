@@ -68,6 +68,11 @@ public final class RunsInThreadsTest {
     /**
      * Check possibility of concurrent modification.
      *
+     * Note: we added ClassCastException to the union of expected exceptions
+     * because {@link HashMap#put(Object, Object)} is (illegally?) sometimes
+     * throwing this error. See bug #22 and also
+     * https://stackoverflow.com/questions/29967401/strange-hashmap-exception-hashmapnode-cannot-be-cast-to-hashmaptreenode.
+     *
      * @param map Tested map.
      * @return Return {@code true} if the map can be concurrently modified.
      */
@@ -89,7 +94,9 @@ public final class RunsInThreadsTest {
                     );
                 }
             }
-        } catch (final ConcurrentModificationException ignored) {
+        } catch (
+            final ConcurrentModificationException | ClassCastException ignored
+        ) {
             flag = false;
         }
         return flag;
