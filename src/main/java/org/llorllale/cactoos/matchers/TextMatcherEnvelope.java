@@ -45,9 +45,9 @@ public abstract class TextMatcherEnvelope extends
     TypeSafeDiagnosingMatcher<Text> {
 
     /**
-     * The description/prefix of the matcher's actual/expected values.
+     * The description of the matcher's actual/expected values.
      */
-    private final String prefix;
+    private final String description;
 
     /**
      * The matcher to test.
@@ -57,24 +57,23 @@ public abstract class TextMatcherEnvelope extends
     /**
      * Ctor.
      * @param mtchr The matcher to test.
-     * @param prfix The description/prefix of the matcher's actual/expected
-     *  values.
+     * @param desc The description of the matcher's actual/expected values.
      */
-    public TextMatcherEnvelope(final Matcher<Text> mtchr, final String prfix) {
+    public TextMatcherEnvelope(final Matcher<Text> mtchr, final String desc) {
         super();
         this.matcher = mtchr;
-        this.prefix = prfix;
+        this.description = desc;
     }
 
     @Override
     public final void describeTo(final Description desc) {
-        desc.appendText(this.prefix).appendDescriptionOf(this.matcher);
+        desc.appendText(this.description).appendDescriptionOf(this.matcher);
     }
 
     @Override
     protected final boolean matchesSafely(final Text text,
         final Description desc) {
-        desc.appendText(this.prefix).appendValue(
+        desc.appendText(this.description).appendValue(
             new UncheckedText(text).asString()
         );
         return this.matcher.matches(text);

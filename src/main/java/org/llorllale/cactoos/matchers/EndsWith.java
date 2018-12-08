@@ -38,10 +38,10 @@ public final class EndsWith extends TextMatcherEnvelope {
 
     /**
      * Ctor.
-     * @param text The text to match against
+     * @param suffix The suffix to be matched against.
      */
-    public EndsWith(final String text) {
-        this(new TextOf(text));
+    public EndsWith(final String suffix) {
+        this(new TextOf(suffix));
     }
 
     /**
