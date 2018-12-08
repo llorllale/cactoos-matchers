@@ -24,31 +24,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
 import org.cactoos.text.TextOf;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
 
 /**
- * Matches if a text <em>contains</em> this string.
+ * Test case for {@link TextStartsWith}.
  *
  * @since 1.0.0
  */
-public final class TextHasString extends TextMatcherEnvelope<Text> {
+public final class TextStartsWithTest {
 
     /**
-     * Ctor.
-     * @param text The text to match against
+     * Example of {@link TextStartsWith} usage.
      */
-    public TextHasString(final String text) {
-        this(new TextOf(text));
+    @Test
+    public void matchPositive() {
+        MatcherAssert.assertThat(
+            "The matcher gives positive result for the valid arguments",
+            new TextOf("I'm simple and I know it."),
+            new TextStartsWith("I'm simple")
+        );
     }
 
     /**
-     * Ctor.
-     * @param text The text to match against
+     * Give the negative testing result for the invalid arguments.
      */
-    public TextHasString(final Text text) {
-        super(new MatcherOf<>((String txt) -> txt.contains(text.asString())));
+    @Test
+    public void matchNegative() {
+        MatcherAssert.assertThat(
+            "The matcher gives negative result for the invalid arguments",
+            new TextStartsWith("!").matchesSafely(
+                () -> "The sentence."
+            ),
+            new IsEqual<>(false)
+        );
     }
 }

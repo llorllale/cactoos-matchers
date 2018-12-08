@@ -30,17 +30,17 @@ import org.cactoos.Text;
 import org.cactoos.text.TextOf;
 
 /**
- * Matches if a text <em>contains</em> this string.
+ * Matches if a text <em>endsWith</em> this string.
  *
  * @since 1.0.0
  */
-public final class TextHasString extends TextMatcherEnvelope<Text> {
+public final class TextEndsWith extends TextMatcherEnvelope<Text> {
 
     /**
      * Ctor.
      * @param text The text to match against
      */
-    public TextHasString(final String text) {
+    public TextEndsWith(final String text) {
         this(new TextOf(text));
     }
 
@@ -48,7 +48,7 @@ public final class TextHasString extends TextMatcherEnvelope<Text> {
      * Ctor.
      * @param text The text to match against
      */
-    public TextHasString(final Text text) {
-        super(new MatcherOf<>((String txt) -> txt.contains(text.asString())));
+    public TextEndsWith(final Text text) {
+        super(new MatcherOf<>((String txt) -> txt.endsWith(text.asString())));
     }
 }
