@@ -35,7 +35,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 /**
  * Matcher to check that scalar throw the expected exception.
  *
- * <p>Here is an example how {@link Throw} can be used:</p>
+ * <p>Here is an example how {@link Throws} can be used:</p>
  * <pre>
  *  MatcherAssert.assertThat(
  *       "The matcher check that [1,2,3] contains [2]",
@@ -48,7 +48,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Throw extends TypeSafeDiagnosingMatcher<Scalar<?>> {
+public final class Throws extends TypeSafeDiagnosingMatcher<Scalar<?>> {
 
     /**
      * The expected exception message.
@@ -65,7 +65,7 @@ public final class Throw extends TypeSafeDiagnosingMatcher<Scalar<?>> {
      * @param msg The expected exception message.
      * @param type The expected exception type.
      */
-    public Throw(final String msg, final Class<? extends Exception> type) {
+    public Throws(final String msg, final Class<? extends Exception> type) {
         super();
         this.msg = msg;
         this.type = type;

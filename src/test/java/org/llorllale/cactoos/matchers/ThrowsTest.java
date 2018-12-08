@@ -34,16 +34,16 @@ import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
- * Test case for {@link Throw}.
+ * Test case for {@link Throws}.
  *
  * @since 1.0.0
  * @checkstyle StringLiteralsConcatenationCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class ThrowTest {
+public final class ThrowsTest {
 
     /**
-     * Example of {@link Throw} usage.
+     * Example of {@link Throws} usage.
      */
     @Test
     public void matchPositive() {
@@ -52,7 +52,7 @@ public final class ThrowTest {
             () -> {
                 throw new IllegalArgumentException("No object(s) found.");
             },
-            new Throw("No object(s) found.", IllegalArgumentException.class)
+            new Throws("No object(s) found.", IllegalArgumentException.class)
         );
     }
 
@@ -63,7 +63,7 @@ public final class ThrowTest {
     public void matchNegative() {
         MatcherAssert.assertThat(
             "The exception wasn't thrown.",
-            new Throw(
+            new Throws(
                 "No object(s) found.",
                 IllegalArgumentException.class
             ).matchesSafely(
@@ -81,7 +81,7 @@ public final class ThrowTest {
     @Test
     public void describeActualValues() {
         final Description description = new StringDescription();
-        new Throw("NPE", Exception.class).matchesSafely(
+        new Throws("NPE", Exception.class).matchesSafely(
             () -> {
                 throw new IllegalArgumentException("No object(s) found.");
             },
@@ -104,7 +104,7 @@ public final class ThrowTest {
     @Test
     public void describeExpectedValues() {
         final Description description = new StringDescription();
-        new Throw("NPE", NullPointerException.class).describeTo(description);
+        new Throws("NPE", NullPointerException.class).describeTo(description);
         MatcherAssert.assertThat(
             "The matcher print the details about expected exception",
             description.toString(),
