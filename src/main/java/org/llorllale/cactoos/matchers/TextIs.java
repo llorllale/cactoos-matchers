@@ -28,12 +28,30 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
 import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Matches if a text equals this string.
  * @since 1.0.0
  */
-public final class TextIs extends TextMatcherEnvelope<Text> {
+public final class TextIs extends TypeSafeMatcher<Text> {
+    /**
+     * Prefix for description.
+     */
+    private static final String PREFIX = "Text with value ";
+
+    /**
+     * Matcher of the text.
+     */
+    private final Matcher<String> matcher;
+
+    /**
+     * Actual result for comparison.
+     */
+    private String result;
 
     /**
      * Ctor.
@@ -48,9 +66,40 @@ public final class TextIs extends TextMatcherEnvelope<Text> {
      * @param text The text to match against
      */
     public TextIs(final Text text) {
-        super(
-            new MatcherOf<>((String txt) -> txt.equals(text.asString()), text),
-            "Text with value "
+        this(
+            new MatcherOf<>(
+                (String input) -> input.equals(text.asString()),
+                text
+            )
         );
+    }
+
+    /**
+     * Ctor.
+     * @param matcher The text matcher
+     */
+    public TextIs(final Matcher<String> matcher) {
+        super();
+        this.matcher = matcher;
+    }
+
+    @Override
+    public boolean matchesSafely(final Text item) {
+        this.result = new UncheckedText(item).asString();
+        return this.matcher.matches(this.result);
+    }
+
+    @Override
+    public void describeTo(final Description description) {
+        description.appendText(TextIs.PREFIX);
+        description.appendDescriptionOf(this.matcher);
+    }
+
+    @Override
+    public void describeMismatchSafely(
+        final Text item,
+        final Description description) {
+        description.appendText(TextIs.PREFIX);
+        description.appendValue(this.result);
     }
 }

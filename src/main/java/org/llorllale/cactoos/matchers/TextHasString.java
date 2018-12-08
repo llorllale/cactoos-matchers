@@ -28,13 +28,32 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
 import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Matches if a text <em>contains</em> this string.
  *
- * @since 1.0.0
+ * @since 0.2
  */
-public final class TextHasString extends TextMatcherEnvelope<Text> {
+public final class TextHasString extends TypeSafeMatcher<Text> {
+
+    /**
+     * Prefix for description.
+     */
+    private static final String PREFIX = "Text with ";
+
+    /**
+     * Matcher of the text.
+     */
+    private final Matcher<String> matcher;
+
+    /**
+     * Actual result for comparison.
+     */
+    private String result;
 
     /**
      * Ctor.
@@ -49,6 +68,38 @@ public final class TextHasString extends TextMatcherEnvelope<Text> {
      * @param text The text to match against
      */
     public TextHasString(final Text text) {
-        super(new MatcherOf<>((String txt) -> txt.contains(text.asString())));
+        this(
+            new MatcherOf<>((String input) -> input.contains(text.asString()))
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param mtr Matcher of the text
+     */
+    public TextHasString(final Matcher<String> mtr) {
+        super();
+        this.matcher = mtr;
+        this.result = "";
+    }
+
+    @Override
+    public boolean matchesSafely(final Text item) {
+        this.result = new UncheckedText(item).asString();
+        return this.matcher.matches(this.result);
+    }
+
+    @Override
+    public void describeTo(final Description description) {
+        description.appendText(TextHasString.PREFIX);
+        description.appendDescriptionOf(this.matcher);
+    }
+
+    @Override
+    public void describeMismatchSafely(
+        final Text item,
+        final Description description) {
+        description.appendText(TextHasString.PREFIX);
+        description.appendValue(this.result);
     }
 }
