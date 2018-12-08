@@ -45,10 +45,11 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *       new Throws("No object(s) found.", IllegalArgumentException.class)
  *  );</pre>
  *
+ * @param <T> Type of the scalar's value
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Throws extends TypeSafeDiagnosingMatcher<Scalar<?>> {
+public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
 
     /**
      * The expected exception message.
@@ -78,7 +79,7 @@ public final class Throws extends TypeSafeDiagnosingMatcher<Scalar<?>> {
 
     @Override
     @SuppressWarnings("PMD.AvoidCatchingGenericException")
-    protected boolean matchesSafely(final Scalar<?> obj,
+    protected boolean matchesSafely(final Scalar<T> obj,
         final Description dsc) {
         // @checkstyle IllegalCatchCheck (20 lines)
         boolean matches;

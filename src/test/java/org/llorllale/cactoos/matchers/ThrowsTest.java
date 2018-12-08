@@ -52,7 +52,7 @@ public final class ThrowsTest {
             () -> {
                 throw new IllegalArgumentException("No object(s) found.");
             },
-            new Throws("No object(s) found.", IllegalArgumentException.class)
+            new Throws<>("No object(s) found.", IllegalArgumentException.class)
         );
     }
 
@@ -63,7 +63,7 @@ public final class ThrowsTest {
     public void matchNegative() {
         MatcherAssert.assertThat(
             "The exception wasn't thrown.",
-            new Throws(
+            new Throws<>(
                 "No object(s) found.",
                 IllegalArgumentException.class
             ).matchesSafely(
@@ -81,7 +81,7 @@ public final class ThrowsTest {
     @Test
     public void describeActualValues() {
         final Description description = new StringDescription();
-        new Throws("NPE", Exception.class).matchesSafely(
+        new Throws<>("NPE", Exception.class).matchesSafely(
             () -> {
                 throw new IllegalArgumentException("No object(s) found.");
             },
@@ -104,7 +104,7 @@ public final class ThrowsTest {
     @Test
     public void describeExpectedValues() {
         final Description description = new StringDescription();
-        new Throws("NPE", NullPointerException.class).describeTo(description);
+        new Throws<>("NPE", NullPointerException.class).describeTo(description);
         MatcherAssert.assertThat(
             "The matcher print the details about expected exception",
             description.toString(),
