@@ -38,7 +38,6 @@ import org.junit.Test;
  * Test case for {@link MatchesRegex}.
  *
  * @since 1.0.0
- * @checkstyle MultilineJavadocTagsCheck (100 lines)
  */
 public final class MatchesRegexTest {
 
@@ -78,22 +77,15 @@ public final class MatchesRegexTest {
      *  description object which describe actual/expected objects and leads to
      *  uninformative message in case of failure of MatchesRegexp. For example
      *  <pre>{@code
-     *  MatcherAssert.assertThat(
-     *    new TextOf("I'm simple."),
-     *    new MatchesRegex("^.*know\\sit\\.$")
-     *  );} </pre> gives the following error message
-     *  <pre>{@code
      *  java.lang.AssertionError:
-     *     Expected: Text matches "^.*know\sit\.$"
-     *     but: Text matches "I'm simple."
+     *  Expected: Text matches "^.*know\sit\.$"
+     *  but:      Text matches "I'm simple."
      *  }</pre> Its better to have this error message
      *  <pre>{@code
      *  java.lang.AssertionError:
      *  Expected: Text matches "^.*know\sit\.$"
-     *       but: Text is "I'm simple."
+     *  but:      Text is "I'm simple."
      *  }</pre>
-     *  Once this puzzle is removed, the checkstyle MultilineJavadocTagsCheck
-     *  rule above should be removed also.
      */
     @Test
     public void describeActualValues() {
