@@ -29,9 +29,9 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -46,11 +46,11 @@ public final class MatchesRegexTest {
      */
     @Test
     public void matchPositive() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives positive result for the valid arguments",
-            new TextOf("I'm simple and I know it."),
+            () -> new TextOf("I'm simple and I know it."),
             new MatchesRegex("^.*know\\sit\\.$")
-        );
+        ).affirm();
     }
 
     /**
@@ -58,13 +58,11 @@ public final class MatchesRegexTest {
      */
     @Test
     public void matchNegative() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives negative result for the invalid arguments",
-            new MatchesRegex("^.*!$").matchesSafely(
-                () -> "The sentence.", new StringDescription()
-            ),
-            new IsEqual<>(false)
-        );
+            () -> new MatchesRegex("^.*!$"),
+            new IsNot<>(new Matches<>(() -> "The sentence."))
+        ).affirm();
     }
 
     /**
@@ -89,13 +87,15 @@ public final class MatchesRegexTest {
      */
     @Test
     public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new MatchesRegex("").matchesSafely(new TextOf("ABC"), desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new MatchesRegex("").matchesSafely(new TextOf("ABC"), desc);
+                return desc.toString();
+            },
             new IsEqual<>("Text matches \"ABC\"")
-        );
+        ).affirm();
     }
 
     /**
@@ -104,12 +104,14 @@ public final class MatchesRegexTest {
      */
     @Test
     public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new MatchesRegex("^.*\\.$").describeTo(desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the description of the scenario",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new MatchesRegex("^.*\\.$").describeTo(desc);
+                return desc.toString();
+            },
             new IsEqual<>("Text matches \"^.*\\.$\"")
-        );
+        ).affirm();
     }
 }
