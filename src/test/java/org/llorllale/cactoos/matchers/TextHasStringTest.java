@@ -61,9 +61,7 @@ public final class TextHasStringTest {
         MatcherAssert.assertThat(
             "Description is not clear ",
             description.toString(),
-            new StringContains(
-                "Text with \"ed076287532e86365e841e92bfc50d8c\""
-            )
+            new StringContains("Text is \"ed076287532e86365e841e92bfc50d8c\"")
         );
     }
 

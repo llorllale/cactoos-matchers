@@ -80,7 +80,7 @@ public final class EndsWithTest {
         MatcherAssert.assertThat(
             "The matcher print the value which came for testing",
             desc.toString(),
-            new IsEqual<>("Text ending with \"ABC\"")
+            new IsEqual<>("Text is \"ABC\"")
         );
     }
 

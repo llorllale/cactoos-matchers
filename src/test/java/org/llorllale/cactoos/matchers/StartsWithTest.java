@@ -80,7 +80,7 @@ public final class StartsWithTest {
         MatcherAssert.assertThat(
             "The matcher print the value which came for testing",
             desc.toString(),
-            new IsEqual<>("Text starting with \"ABC\"")
+            new IsEqual<>("Text is \"ABC\"")
         );
     }
 

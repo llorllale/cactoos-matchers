@@ -36,18 +36,9 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * The Text-based {@link TypeSafeDiagnosingMatcher} envelope.
  *
  * @since 1.0.0
- * @todo #16:30min Extends the envelope in TextIs, TextHasString, StartsWith,
- *  EndsWith. Most of operations with text like startsWith, endsWith, contains,
- *  equals, etc has the same algorithm. There is only difference in the function
- *  which should be applied to text.
  */
 public abstract class TextMatcherEnvelope extends
     TypeSafeDiagnosingMatcher<Text> {
-
-    /**
-     * The description of the matcher's actual/expected values.
-     */
-    private final String description;
 
     /**
      * The matcher to test.
@@ -55,25 +46,50 @@ public abstract class TextMatcherEnvelope extends
     private final Matcher<Text> matcher;
 
     /**
+     * The description of the matcher's expected text.
+     */
+    private final String expected;
+
+    /**
+     * The description of the matcher's actual text.
+     */
+    private final String actual;
+
+    /**
      * Ctor.
      * @param mtchr The matcher to test.
-     * @param desc The description of the matcher's actual/expected values.
+     * @param expected The description of the matcher's expected text.
      */
-    public TextMatcherEnvelope(final Matcher<Text> mtchr, final String desc) {
+    public TextMatcherEnvelope(
+        final Matcher<Text> mtchr, final String expected
+    ) {
+        this(mtchr, expected, "Text is ");
+    }
+
+    /**
+     * Ctor.
+     * @param mtchr The matcher to test.
+     * @param expected The description of the matcher's expected text.
+     * @param actual The description of the matcher's actual text.
+     */
+    public TextMatcherEnvelope(
+        final Matcher<Text> mtchr, final String expected, final String actual
+    ) {
         super();
         this.matcher = mtchr;
-        this.description = desc;
+        this.expected = expected;
+        this.actual = actual;
     }
 
     @Override
     public final void describeTo(final Description desc) {
-        desc.appendText(this.description).appendDescriptionOf(this.matcher);
+        desc.appendText(this.expected).appendDescriptionOf(this.matcher);
     }
 
     @Override
     protected final boolean matchesSafely(final Text text,
         final Description desc) {
-        desc.appendText(this.description).appendValue(
+        desc.appendText(this.actual).appendValue(
             new UncheckedText(text).asString()
         );
         return this.matcher.matches(text);

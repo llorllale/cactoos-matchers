@@ -69,21 +69,6 @@ public final class MatchesRegexTest {
      * Matcher prints the actual value(s) properly in case of errors.
      * The actual/expected section are using only when testing is failed and
      *  we need to explain what exactly went wrong.
-     * @todo #35:30min The TextMatcherEnvelope should support the description
-     *  for actual/expected values separately. For example, for now we are
-     *  using single `TextMatcherEnvelope#TextMatcherEnvelope(Matcher, String)`
-     *  description object which describe actual/expected objects and leads to
-     *  uninformative message in case of failure of MatchesRegexp. For example
-     *  <pre>{@code
-     *  java.lang.AssertionError:
-     *  Expected: Text matches "^.*know\sit\.$"
-     *  but:      Text matches "I'm simple."
-     *  }</pre> Its better to have this error message
-     *  <pre>{@code
-     *  java.lang.AssertionError:
-     *  Expected: Text matches "^.*know\sit\.$"
-     *  but:      Text is "I'm simple."
-     *  }</pre>
      */
     @Test
     public void describeActualValues() {
@@ -94,7 +79,7 @@ public final class MatchesRegexTest {
                 new MatchesRegex("").matchesSafely(new TextOf("ABC"), desc);
                 return desc.toString();
             },
-            new IsEqual<>("Text matches \"ABC\"")
+            new IsEqual<>("Text is \"ABC\"")
         ).affirm();
     }
 
