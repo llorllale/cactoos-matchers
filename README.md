@@ -33,6 +33,111 @@ Get the latest version [here](https://github.com/llorllale/cactoos-matchers/rele
 
 Java version required: 1.8+.
 
+## How to use
+
+Use our matchers inside your JUnit [`@Test`](http://junit.sourceforge.net/javadoc/org/junit/Test.html) case. We also provide `Assertion<T>` in which you can compose the behavior under test and the test case's matcher, and attempt to affirm it.
+
+We provide matchers for several different domains:
+
+### Text
+Examples:
+
+```java
+@Test
+public void textHasPrefix() {
+  final String prefix = "Application startup";
+  new Assertion<>(
+    "must have the prefix",
+    () -> new TextOf(new File("some.log")),
+    new StartsWith(prefix)
+  ).affirm();
+}  
+
+@Test
+public void csvLineHasCorrectFormat() throws Exception {
+  final String fields = "^[^|]+|[^|]+|[^|]+$";
+  new Assertion<>(
+    "must match the expected pattern",
+    () -> new FirstOf<>(
+      line -> true,
+      new SplitText(
+        new TextOf(new File("report.csv")),
+        "\n"
+      )
+    ).value(),
+    new MatchesRegex(fields)
+  ).affirm();
+}
+```
+
+### Concurrency
+Examples:
+
+*RunsInThreads*
+```java
+/**
+ * Want some assurance that your object is thread-safe?
+ */
+@Test
+public void threadSafety() {
+  new Assertion<>(
+    "must be able to modify the map concurrently",
+    () -> map -> {
+      boolean success = true;
+      try {
+        map.forEach(
+          (key, value) -> {
+            map.remove(key);
+            final Random r = new Random();
+            map.put(r.nextInt(), r.nextInt());
+          }
+        );
+      } catch (ConcurrentModificationException ex) {
+        success = false;
+      }
+      return success;
+    },
+    new RunsInThreads<>(new ConcurrentHashMap<>(), 100)
+  ).affirm();
+}
+```
+
+### Matching errors
+Examples:
+
+```java
+@Test
+public void throwIllegalArgumentExceptionIfLessThan10() throws Exception {
+  final Func<Integer, Integer> test = input -> {
+    if (input < 10) {
+      throw new IllegalArgumentException();
+    }
+    return input * 10;
+  };
+  new Assertion<>(
+    "must throw illegalargumentexception if input is less than 10",
+    () -> test.apply(5),
+    new Throws(IllegalArgumentException.class)
+  ).affirm();
+}
+```
+
+### Meta-matching: a matcher to test your matchers
+Examples:
+
+Use `Matches` to test matchers themselves:
+
+```java
+@Test
+public void matchExactString() {
+  new Assertion<>(
+    "must match the exact text",
+    () -> new TextIs("abc"),          // matcher being tested
+    new Matches<>(new TextOf("abc"))  // reference against which the matcher is tested
+  ).affirm();
+}
+```
+
 ## How to contribute?
 
 Just fork the repo and send us a pull request.
