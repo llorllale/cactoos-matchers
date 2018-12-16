@@ -30,32 +30,32 @@ import org.cactoos.Text;
 import org.cactoos.text.TextOf;
 
 /**
- * Matches if a text <em>equals</em> this string.
+ * Matches if a text <em>startsWith</em> this string.
  *
  * @since 1.0.0
  */
-public final class TextIs extends TextMatcherEnvelope {
+public final class StartsWith extends TextMatcherEnvelope {
 
     /**
      * Ctor.
-     * @param text The text to match against
+     * @param prefix The prefix to be matched against.
      */
-    public TextIs(final String text) {
-        this(new TextOf(text));
+    public StartsWith(final String prefix) {
+        this(new TextOf(prefix));
     }
 
     /**
      * Ctor.
      * @param text The text to match against
      */
-    public TextIs(final Text text) {
+    public StartsWith(final Text text) {
         super(
             new MatcherOf<>(
-                (Text actual) -> actual.asString().equals(text.asString()),
+                (Text act) -> act.asString().startsWith(text.asString()),
                 text
             ),
-            "Text with value "
+            "Text starting with "
         );
     }
-
 }
+

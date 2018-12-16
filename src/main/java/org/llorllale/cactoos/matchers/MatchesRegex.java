@@ -30,32 +30,32 @@ import org.cactoos.Text;
 import org.cactoos.text.TextOf;
 
 /**
- * Matches if a text <em>equals</em> this string.
+ * Matches if a text matches <em>regex</em> expression.
  *
  * @since 1.0.0
  */
-public final class TextIs extends TextMatcherEnvelope {
+public final class MatchesRegex extends TextMatcherEnvelope {
 
     /**
      * Ctor.
-     * @param text The text to match against
+     * @param regex The regexp to match against.
      */
-    public TextIs(final String text) {
-        this(new TextOf(text));
+    public MatchesRegex(final String regex) {
+        this(new TextOf(regex));
     }
 
     /**
      * Ctor.
-     * @param text The text to match against
+     * @param regex The regexp to match against.
      */
-    public TextIs(final Text text) {
+    public MatchesRegex(final Text regex) {
         super(
             new MatcherOf<>(
-                (Text actual) -> actual.asString().equals(text.asString()),
-                text
+                (Text act) -> act.asString().matches(regex.asString()),
+                regex
             ),
-            "Text with value "
+            "Text matches "
         );
     }
-
 }
+
