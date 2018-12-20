@@ -33,12 +33,11 @@ import org.cactoos.Text;
 import org.cactoos.collection.CollectionOf;
 import org.cactoos.collection.Mapped;
 import org.cactoos.func.UncheckedBiFunc;
+import org.cactoos.func.UncheckedFunc;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
-import org.cactoos.scalar.UncheckedScalar;
-import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Allows to check that text has lines considering platform-dependent line
@@ -47,12 +46,12 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HasLines extends TypeSafeDiagnosingMatcher<String> {
+public final class HasLines extends TypeSafeMatcher<String> {
 
     /**
-     * OS dependent line separator.
+     * The function to split the text which came for testing.
      */
-    private final Scalar<String> separator;
+    private final UncheckedFunc<String, Collection<String>> split;
 
     /**
      * The expected lines.
@@ -91,31 +90,38 @@ public final class HasLines extends TypeSafeDiagnosingMatcher<String> {
     /**
      * Ctor.
      * @param fnc The function to match the actual/expected lines.
-     * @param stor OS dependent line separator.
+     * @param sep OS dependent line separator.
      * @param lns The expected lines to be present.
      */
     public HasLines(
         final BiFunc<Collection<String>, Collection<String>, Boolean> fnc,
-        final Scalar<String> stor,
+        final Scalar<String> sep,
         final Collection<String> lns
     ) {
         super();
-        this.fnc = new UncheckedBiFunc<>(fnc);
-        this.separator = new UncheckedScalar<>(stor);
+        this.fnc = fnc;
         this.expected = lns;
+        this.split = new UncheckedFunc<>(
+            text -> new CollectionOf<>(text.split(sep.value()))
+        );
     }
 
     @Override
     public void describeTo(final Description desc) {
-        desc.appendValue(new TextOf(this.expected));
+        desc.appendText("Lines are ").appendValue(this.expected);
     }
 
     @Override
-    protected boolean matchesSafely(final String text, final Description desc) {
-        final Collection<String> actual = new CollectionOf<>(
-            text.split(new UncheckedScalar<>(this.separator).value())
+    protected boolean matchesSafely(final String text) {
+        return new UncheckedBiFunc<>(this.fnc).apply(
+            this.split.apply(text), this.expected
         );
-        desc.appendValue(new TextOf(actual));
-        return new UncheckedBiFunc<>(this.fnc).apply(actual, this.expected);
+    }
+
+    @Override
+    protected void describeMismatchSafely(
+        final String text, final Description description
+    ) {
+        description.appendValue(this.split.apply(text));
     }
 }
