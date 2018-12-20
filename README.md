@@ -36,7 +36,7 @@ Java version required: 1.8+.
 ## cactoos-matchers versus Hamcrest/JUnit
 
 cactoos-matchers | Hamcrest (static method) | Hamcrest (object) | JUnit
----------------- | --------
+------ | ------
 `Assertion` | `MatcherAssert.assertThat` | - | -
 `Throws` | - | - | `@expected`/`ExpectedException`
 `EndsWith` | `Matchers.endsWith` | `StringEndsWith` | -
