@@ -33,10 +33,10 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * The matcher to check that text is not empty.
  *
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  * @todo #58:30min NotBlank should be changed to `IsBlank`. Users should
  *  be able to negate it by simply decorating it with `IsNot`. Update the
  *  README once done.
+ * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
 public final class NotBlank extends TypeSafeDiagnosingMatcher<String> {
 
