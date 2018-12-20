@@ -27,53 +27,51 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link HasLines}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasLinesTest {
 
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
+    /**
+     * Example of {@link HasLines} behavior for positive results.
+     */
     @Test
     public void matches() {
-        MatcherAssert.assertThat(
-            "must match if valid lines are provided",
-            new HasLines(
-                "A", "C"
-            ).matchesSafely(
-                String.format("A%nB%nC%n"),
-                new Description.NullDescription()
-            ),
-            new IsEqual<>(true)
-        );
+        new Assertion<>(
+            "The matcher gives positive result for valid input arguments",
+            () -> String.format("A%nB%nC%n"),
+            new HasLines("A", "C")
+        ).affirm();
     }
 
+    /**
+     * Example of {@link HasLines} behavior for negative results:
+     *  - The matcher should fail in the case of incorrect input arguments;
+     *  - The matcher should explain the mismatch between comparing objects.
+     */
     @Test
     public void failed() {
-        final Description desc = new StringDescription();
-        MatcherAssert.assertThat(
-            "must not match if no lines are provided",
-            new HasLines(
-                () -> "Tom", () -> "Mike"
-            ).matchesSafely(
-                String.format("Tom%nJohn%n"),
-                desc
-            ),
-            new IsEqual<>(false)
-        );
-        MatcherAssert.assertThat(
-            "describes itself in terms of the lines being matched",
-            desc.toString(),
-            new IsEqual<>("<Tom, John>")
-        );
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage("Expected: Lines are <[Tom, Mike]>");
+        this.exception.expectMessage(" but was: <[Tom, John]>");
+        new Assertion<>(
+            "The matcher gives negative results for invalid input arguments",
+            () -> String.format("Tom%nJohn%n"),
+            new HasLines("Tom", "Mike")
+        ).affirm();
     }
 
 }
