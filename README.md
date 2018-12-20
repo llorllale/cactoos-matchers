@@ -33,6 +33,27 @@ Get the latest version [here](https://github.com/llorllale/cactoos-matchers/rele
 
 Java version required: 1.8+.
 
+## cactoos-matchers versus Hamcrest/JUnit
+
+cactoos-matchers | Hamcrest (static method) | Hamcrest (object) | JUnit
+---------------- | --------
+`Assertion` | `MatcherAssert.assertThat` | - | -
+`Throws` | - | - | `@expected`/`ExpectedException`
+`EndsWith` | `Matchers.endsWith` | `StringEndsWith` | -
+`StartsWith` | `Matcers.startsWith` | `StringStartsWith` | -
+`TextIs` | `Matchers.is` | `IsEqual` | -
+`HasLines` | - | - | -
+`MatchesRegex` | - | - | -
+`TextHasString` | `Matchers.stringContainsInOrder` | `StringContains` | -
+`FuncApplies` | - | - | -
+`HasValues` | `Matchers.containsInAnyOrder` | `IsIterableContainingInAnyOrder` | -
+`HasValuesMatching` | `Matchers.containsInAnyOrder` | `IsIterableContainingInAnyOrder` | -
+`InputHasContent` | - | - | -
+`IsTrue` | - | - | `Assert.assertTrue`
+`Matches` | - | - | -
+`RunsInThreads` | - | - | -
+`ScalarHasValue` | - | - | -
+
 ## How to use
 
 Use our matchers inside your JUnit [`@Test`](http://junit.sourceforge.net/javadoc/org/junit/Test.html) case. We also provide `Assertion<T>` in which you can compose the behavior under test and the test case's matcher, and attempt to affirm it.

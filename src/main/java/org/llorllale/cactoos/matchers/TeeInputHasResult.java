@@ -43,6 +43,9 @@ import org.hamcrest.TypeSafeMatcher;
  * Matcher for the {@link TeeInput}'s results.
  *
  * @since 1.0
+ * @todo #58:30min Delete TeeInputHasResult from the library. It's too specific.
+ *  Users should use InputHasContent instead. Should be moved to test packages
+ *  in cactoos.
  */
 public final class TeeInputHasResult extends TypeSafeMatcher<TeeInput> {
 

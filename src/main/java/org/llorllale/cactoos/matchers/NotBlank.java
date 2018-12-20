@@ -34,6 +34,9 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
+ * @todo #58:30min NotBlank should be changed to `IsBlank`. Users should
+ *  be able to negate it by simply decorating it with `IsNot`. Update the
+ *  README once done.
  */
 public final class NotBlank extends TypeSafeDiagnosingMatcher<String> {
 
