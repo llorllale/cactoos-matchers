@@ -7,6 +7,7 @@ Many thanks for your contribution, we truly appreciate it. We will appreciate it
   - You ran the build locally and it passed
   - Title begins with the issue's number, then a short title
   - Description begins with the issue's number, then enumerates the changes - summarized - in bulletpoints
+  - It can be reasonably reviewed within 15 minutes or less.
 
 This article will help you understand what we are looking for: http://www.yegor256.com/2015/02/09/serious-code-reviewer.html
 
