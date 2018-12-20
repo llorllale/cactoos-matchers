@@ -90,19 +90,19 @@ public final class HasLines extends TypeSafeMatcher<String> {
     /**
      * Ctor.
      * @param fnc The function to match the actual/expected lines.
-     * @param stor OS dependent line separator.
+     * @param sep OS dependent line separator.
      * @param lns The expected lines to be present.
      */
     public HasLines(
         final BiFunc<Collection<String>, Collection<String>, Boolean> fnc,
-        final Scalar<String> stor,
+        final Scalar<String> sep,
         final Collection<String> lns
     ) {
         super();
         this.fnc = fnc;
         this.expected = lns;
         this.split = new UncheckedFunc<>(
-            text -> new CollectionOf<>(text.split(stor.value()))
+            text -> new CollectionOf<>(text.split(sep.value()))
         );
     }
 
