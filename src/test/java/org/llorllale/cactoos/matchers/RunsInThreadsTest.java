@@ -31,7 +31,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadLocalRandom;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
@@ -45,24 +44,28 @@ public final class RunsInThreadsTest {
 
     @Test
     public void matchPositive() {
-        final RunsInThreads<Map<Integer, Integer>> matcher =
-            new RunsInThreads<>(new ConcurrentHashMap<>());
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Can't concurrently modify ConcurrentHashMap",
-            matcher.matchesSafely(RunsInThreadsTest::modify),
+            () -> {
+                final RunsInThreads<Map<Integer, Integer>> matcher =
+                    new RunsInThreads<>(new ConcurrentHashMap<>());
+                return matcher.matchesSafely(RunsInThreadsTest::modify);
+            },
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 
     @Test
     public void matchNegative() {
-        final RunsInThreads<Map<Integer, Integer>> matcher =
-            new RunsInThreads<>(new HashMap<>());
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Can concurrently modify HashMap",
-            matcher.matchesSafely(RunsInThreadsTest::modify),
+            () -> {
+                final RunsInThreads<Map<Integer, Integer>> matcher =
+                    new RunsInThreads<>(new HashMap<>());
+                return matcher.matchesSafely(RunsInThreadsTest::modify);
+            },
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     /**
@@ -71,7 +74,8 @@ public final class RunsInThreadsTest {
      * Note: we added ClassCastException to the union of expected exceptions
      * because {@link HashMap#put(Object, Object)} is (illegally?) sometimes
      * throwing this error. See bug #22 and also
-     * https://stackoverflow.com/questions/29967401/strange-hashmap-exception-hashmapnode-cannot-be-cast-to-hashmaptreenode.
+     * https://stackoverflow.com/questions/29967401/strange-hashmap-exception
+     * -hashmapnode-cannot-be-cast-to-hashmaptreenode.
      *
      * @param map Tested map.
      * @return Return {@code true} if the map can be concurrently modified.

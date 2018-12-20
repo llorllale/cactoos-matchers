@@ -28,7 +28,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -44,36 +43,36 @@ public final class HasLinesTest {
 
     @Test
     public void matches() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match if valid lines are provided",
-            new HasLines(
+            () -> new HasLines(
                 "A", "C"
             ).matchesSafely(
                 String.format("A%nB%nC%n"),
                 new Description.NullDescription()
             ),
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 
     @Test
     public void failed() {
         final Description desc = new StringDescription();
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must not match if no lines are provided",
-            new HasLines(
+            () -> new HasLines(
                 () -> "Tom", () -> "Mike"
             ).matchesSafely(
                 String.format("Tom%nJohn%n"),
                 desc
             ),
             new IsEqual<>(false)
-        );
-        MatcherAssert.assertThat(
+        ).affirm();
+        new Assertion<>(
             "describes itself in terms of the lines being matched",
-            desc.toString(),
+            desc::toString,
             new IsEqual<>("<Tom, John>")
-        );
+        ).affirm();
     }
 
 }

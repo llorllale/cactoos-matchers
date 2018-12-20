@@ -37,8 +37,9 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *
  * <p>Here is an example how {@link HasValues} can be used:</p>
  * <pre>
- *  MatcherAssert.assertThat(
- *     new ListOf<>(1, 2, 3),
+ *  new Assertion<>(
+ *     "The list of [1, 2, 3] contains 2"
+ *     () -> new ListOf<>(1, 2, 3),
  *     new HasValues<>(2)
  * );</pre>
  *

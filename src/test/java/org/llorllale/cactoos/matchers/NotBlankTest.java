@@ -28,7 +28,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -44,38 +43,38 @@ public final class NotBlankTest {
 
     @Test
     public void blank() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must not match an empty string",
-            new NotBlank().matchesSafely(
+            () -> new NotBlank().matchesSafely(
                 "", new Description.NullDescription()
             ),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     @Test
     public void notBlank() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match a non-empty string",
-            new NotBlank().matchesSafely(
+            () -> new NotBlank().matchesSafely(
                 "-.$%", new Description.NullDescription()
             ),
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 
     @Test
     public void nonBlankMessage() {
         final Description desc = new StringDescription();
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match a non-empty string",
-            new NotBlank().matchesSafely("text", desc),
+            () -> new NotBlank().matchesSafely("text", desc),
             new IsEqual<>(true)
-        );
-        MatcherAssert.assertThat(
+        ).affirm();
+        new Assertion<>(
             "must describe itself in terms of the text being matched against",
-            desc.toString(),
+            desc::toString,
             new IsEqual<>("\"text\"")
-        );
+        ).affirm();
     }
 }

@@ -30,7 +30,6 @@ import java.io.ByteArrayOutputStream;
 import org.cactoos.io.OutputTo;
 import org.cactoos.io.TeeInput;
 import org.cactoos.text.TextOf;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -40,86 +39,87 @@ import org.junit.Test;
  *
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class TeeInputHasResultTest {
 
     @Test
     public void failsIfInputDoesNotMatchExpectedValue() {
-        final TeeInput matchable = new TeeInput(
-            new TextOf("input"),
-            new OutputTo(new ByteArrayOutputStream())
-        );
-        final String expected = "expected-1";
-        final TeeInputHasResult matcher = new TeeInputHasResult(
-            expected,
-            new TextOf(expected)
-        );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher does not compare input and expected values",
-            matcher.matchesSafely(matchable),
+            () -> {
+                final TeeInput matchable = new TeeInput(
+                    new TextOf("input"),
+                    new OutputTo(new ByteArrayOutputStream())
+                );
+                final String expected = "expected-1";
+                final TeeInputHasResult matcher = new TeeInputHasResult(
+                    expected, new TextOf(expected)
+                );
+                return matcher.matchesSafely(matchable);
+            },
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     @Test
     public void describesMismatchOfInputAndExpected() {
-        final TeeInput matchable = new TeeInput(
-            new TextOf("i"),
-            new OutputTo(new ByteArrayOutputStream())
-        );
-        final TeeInputHasResult matcher = new TeeInputHasResult(
-            "e",
-            new TextOf("e")
-        );
-        final StringDescription description = new StringDescription();
-        matcher.matchesSafely(matchable);
-        matcher.describeMismatchSafely(matchable, description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Description of mismatch of input and expected incorrect",
-            description.toString(),
-            new IsEqual<>(
-                "TeeInput with result \"e\" and copied value \"e\""
-            )
-        );
+            () -> {
+                final TeeInput matchable = new TeeInput(
+                    new TextOf("i"),
+                    new OutputTo(new ByteArrayOutputStream())
+                );
+                final TeeInputHasResult matcher = new TeeInputHasResult(
+                    "e", new TextOf("e")
+                );
+                final StringDescription description = new StringDescription();
+                matcher.matchesSafely(matchable);
+                matcher.describeMismatchSafely(matchable, description);
+                return description.toString();
+            },
+            new IsEqual<>("TeeInput with result \"e\" and copied value \"e\"")
+        ).affirm();
     }
 
     @Test
     public void failsIfCopiedValueDoesNotMatchExpectedValue() {
-        final String expected = "expected-2";
-        final TeeInput matchable = new TeeInput(
-            new TextOf(expected),
-            new OutputTo(new ByteArrayOutputStream())
-        );
-        final TeeInputHasResult matcher = new TeeInputHasResult(
-            expected,
-            new TextOf("incorrect")
-        );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher does not compare copied and expected values",
-            matcher.matchesSafely(matchable),
+            () -> {
+                final String expected = "expected-2";
+                final TeeInput matchable = new TeeInput(
+                    new TextOf(expected),
+                    new OutputTo(new ByteArrayOutputStream())
+                );
+                final TeeInputHasResult matcher = new TeeInputHasResult(
+                    expected, new TextOf("incorrect")
+                );
+                return matcher.matchesSafely(matchable);
+            },
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     @Test
     public void describesMismatchOfCopiedAndExpected() {
-        final TeeInput matchable = new TeeInput(
-            new TextOf("i"),
-            new OutputTo(new ByteArrayOutputStream())
-        );
-        final TeeInputHasResult matcher = new TeeInputHasResult(
-            "i",
-            new TextOf("wrong")
-        );
-        final StringDescription description = new StringDescription();
-        matcher.matchesSafely(matchable);
-        matcher.describeMismatchSafely(matchable, description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Description of mismatch of copied and expected incorrect",
-            description.toString(),
-            new IsEqual<>(
-                "TeeInput with result \"i\" and copied value \"i\""
-            )
-        );
+            () -> {
+                final TeeInput matchable = new TeeInput(
+                    new TextOf("i"),
+                    new OutputTo(new ByteArrayOutputStream())
+                );
+                final TeeInputHasResult matcher = new TeeInputHasResult(
+                    "i", new TextOf("wrong")
+                );
+                final StringDescription description = new StringDescription();
+                matcher.matchesSafely(matchable);
+                matcher.describeMismatchSafely(matchable, description);
+                return description.toString();
+            },
+            new IsEqual<>("TeeInput with result \"i\" and copied value \"i\"")
+        ).affirm();
     }
 }

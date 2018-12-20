@@ -28,7 +28,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -47,13 +46,13 @@ public final class ThrowsTest {
      */
     @Test
     public void matchPositive() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The thrown exception is valid.",
             () -> {
                 throw new IllegalArgumentException("No object(s) found.");
             },
             new Throws<>("No object(s) found.", IllegalArgumentException.class)
-        );
+        ).affirm();
     }
 
     /**
@@ -61,16 +60,16 @@ public final class ThrowsTest {
      */
     @Test
     public void matchNegative() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The exception wasn't thrown.",
-            new Throws<>(
+            () -> new Throws<>(
                 "No object(s) found.",
                 IllegalArgumentException.class
             ).matchesSafely(
                 () -> "No object(s) found.", new StringDescription()
             ),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     /**
@@ -80,21 +79,25 @@ public final class ThrowsTest {
      */
     @Test
     public void describeActualValues() {
-        final Description description = new StringDescription();
-        new Throws<>("NPE", Exception.class).matchesSafely(
-            () -> {
-                throw new IllegalArgumentException("No object(s) found.");
-            },
-            description
-        );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            description.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new Throws<>("NPE", Exception.class).matchesSafely(
+                    () -> {
+                        throw new IllegalArgumentException(
+                            "No object(s) found."
+                        );
+                    },
+                    description
+                );
+                return description.toString();
+            },
             new IsEqual<>(
                 "Exception has type 'java.lang.IllegalArgumentException'"
                     + " and message 'No object(s) found.'"
             )
-        );
+        ).affirm();
     }
 
     /**
@@ -103,15 +106,19 @@ public final class ThrowsTest {
      */
     @Test
     public void describeExpectedValues() {
-        final Description description = new StringDescription();
-        new Throws<>("NPE", NullPointerException.class).describeTo(description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the details about expected exception",
-            description.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new Throws<>("NPE", NullPointerException.class).describeTo(
+                    description
+                );
+                return description.toString();
+            },
             new IsEqual<>(
                 "Exception has type 'java.lang.NullPointerException'"
                     + " and message 'NPE'"
             )
-        );
+        ).affirm();
     }
 }

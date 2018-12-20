@@ -81,10 +81,6 @@ public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
     @Override
     protected void describeMismatchSafely(final Scalar<T> item,
         final Description description) {
-        description
-            .appendText("was ")
-            .appendValue(
-                new UncheckedScalar<>(item).value()
-            );
+        description.appendValue(new UncheckedScalar<>(item).value());
     }
 }

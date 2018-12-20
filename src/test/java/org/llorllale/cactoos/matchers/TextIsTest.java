@@ -27,7 +27,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
@@ -40,19 +39,19 @@ import org.junit.Test;
 public final class TextIsTest {
     @Test
     public void match() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match identical text",
-            new TextIs("abcde").matches((Text) () -> "abcde"),
+            () -> new TextIs("abcde").matches((Text) () -> "abcde"),
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 
     @Test
     public void noMatch() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must not match text that is not identical",
-            new TextIs("xyz").matches((Text) () -> "abcde"),
+            () -> new TextIs("xyz").matches((Text) () -> "abcde"),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 }

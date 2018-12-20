@@ -26,9 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Input;
 import org.cactoos.io.InputOf;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
@@ -43,21 +41,19 @@ public final class InputHasContentTest {
     @Test
     public void matchesInputContent() {
         final String text = "Hello World!";
-        final Input input = new InputOf(text);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher does not match equal values",
-            input,
+            () -> new InputOf(text),
             new InputHasContent(text)
-        );
+        ).affirm();
     }
 
     @Test
     public void failsIfContentDoesNotMatch() {
-        final Input input = new InputOf("hello");
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher matches values that are not equal",
-            input,
+            () -> new InputOf("hello"),
             new IsNot<>(new InputHasContent("world"))
-        );
+        ).affirm();
     }
 }

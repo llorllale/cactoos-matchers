@@ -37,8 +37,9 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * <pre>{@code
  *  @Test
  *  public void matches() {
- *      MatcherAssert.assertThat(
- *          new TextIs("abc"),
+ *      new Assertion<>(
+ *          "Verify that new matcher gives positive result for valid arguments",
+ *          () -> new TextIs("abc"),
  *          new Matches<>(new TextOf("abc"))
  *      );
  *  }

@@ -37,7 +37,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *
  * <p>Here is an example how {@link Throws} can be used:</p>
  * <pre>
- *  MatcherAssert.assertThat(
+ *  new Assertion<>(
  *       "The matcher check that [1,2,3] contains [2]",
  *       () -> {
  *            throw new IllegalArgumentException("No object(s) found.");

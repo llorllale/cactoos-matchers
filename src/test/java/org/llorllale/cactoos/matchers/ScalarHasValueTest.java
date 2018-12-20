@@ -29,7 +29,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.scalar.Constant;
 import org.cactoos.scalar.UncheckedScalar;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.StringContains;
 import org.junit.Rule;
@@ -53,21 +52,21 @@ public final class ScalarHasValueTest {
     @Test
     public void matchesAsExpectedWithString() {
         final String expected = "some text";
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "doesn't match a String",
-            new UncheckedScalar<>(() -> expected),
+            () -> new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(expected)
-        );
+        ).affirm();
     }
 
     @Test
     public void matchesAsExpectedWithMatcher() {
         final String expected = "text";
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "doesn't match a Matcher",
-            new UncheckedScalar<>(() -> expected),
+            () -> new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(new IsEqual<>(expected))
-        );
+        ).affirm();
     }
 
     @Test
@@ -76,23 +75,23 @@ public final class ScalarHasValueTest {
         this.exception.expectMessage(
             new StringContains("Expected: Scalar with \"something\"")
         );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "missing matcher description",
-            new Constant<>("something else"),
-            new ScalarHasValue<>(new IsEqual<>("something"))
-        );
+            () -> new Constant<>("something else"),
+            new ScalarHasValue<>("something")
+        ).affirm();
     }
 
     @Test
     public void hasMismatchDescriptionForFailedTest() throws Exception {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
-            new StringContains("but: was \"actual\"")
+            new StringContains("but was: \"actual\"")
         );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "missing mismatch description",
-            new Constant<>("actual"),
-            new ScalarHasValue<>(new IsEqual<>("expected"))
-        );
+            () -> new Constant<>("actual"),
+            new ScalarHasValue<>("expected")
+        ).affirm();
     }
 }
