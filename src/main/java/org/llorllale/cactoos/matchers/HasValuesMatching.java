@@ -42,7 +42,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * <p>Here is an example how {@link HasValuesMatching} can be used:</p>
  * <pre>
  *  new Assertion<>(
- *     "The list of [1, 2, 3] has values which are more that 2 or less than 3"
+ *     "The list of [1, 2, 3] has values which are more than 2 or less than 3"
  *     () -> new ListOf<>(1, 2, 3),
  *     new HasValuesMatching<>(value -> value > 2 || value == 3)
  * );</pre>
