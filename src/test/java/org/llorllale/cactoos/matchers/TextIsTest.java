@@ -35,8 +35,9 @@ import org.junit.Test;
  * Tests for {@link TextIs}.
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @todo #52/DEV Replace all uses of MatcherAssert.assertThat() with Assertion.
- *  Ensure that tests behavior wasn't changed during this refactoring
+ * @todo #52/DEV:30min Replace all uses of MatcherAssert.assertThat() with
+ *  Assertion. Ensure that the tests behavior wasn't changed during this
+ *  refactoring.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TextIsTest {

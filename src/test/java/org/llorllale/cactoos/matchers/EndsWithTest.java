@@ -37,8 +37,9 @@ import org.junit.Test;
  * Test case for {@link EndsWith}.
  *
  * @since 1.0.0
- * @todo #52/DEV Ban all overloads of the former in forbidden-apis.txt.
- *  We should also look into banning common matchers like Matchers.is(), etc.
+ * @todo #52/DEV:30min Ban all overloads of the former in forbidden-apis.txt.
+ *  We should also look into banning common static matchers like Matchers.is(),
+ *  etc.
  */
 public final class EndsWithTest {
 
