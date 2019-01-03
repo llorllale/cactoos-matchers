@@ -26,7 +26,6 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
@@ -39,11 +38,14 @@ import org.junit.Test;
 public final class FuncAppliesTest {
     @Test
     public void matchFuncs() {
-        final FuncApplies<Integer, Integer> matcher = new FuncApplies<>(1, 1);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Can't match equaled values",
-            matcher.matchesSafely(x -> x),
+            () -> {
+                final FuncApplies<Integer, Integer> matcher =
+                    new FuncApplies<>(1, 1);
+                return matcher.matchesSafely(x -> x);
+            },
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 }

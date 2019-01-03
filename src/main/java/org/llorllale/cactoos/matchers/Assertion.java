@@ -68,9 +68,6 @@ import org.hamcrest.StringDescription;
  *
  * @param <T> The type of the result returned by the operation under test
  * @since 1.0.0
- * @todo #18:30min Replace all uses of MatcherAssert.assertThat() with
- *  Assertion, and ban all overloads of the former in forbidden-apis.txt.
- *  We should also look into banning common matchers like Matchers.is(), etc.
  * @todo #18:30min Assertion relies on the operation under test to be idempotent
  *  in order to match "error matchers" such as `Throws` as expected. This may
  *  not be the case for all operations and could be a problem. Investigate if
