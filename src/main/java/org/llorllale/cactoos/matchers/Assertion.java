@@ -71,25 +71,19 @@ import org.hamcrest.StringDescription;
  * @todo #18:30min Replace all uses of MatcherAssert.assertThat() with
  *  Assertion, and ban all overloads of the former in forbidden-apis.txt.
  *  We should also look into banning common matchers like Matchers.is(), etc.
- * @todo #18:30min Assertion relies on the operation under test to be idempotent
- *  in order to match "error matchers" such as `Throws` as expected. This may
- *  not be the case for all operations and could be a problem. Investigate if
- *  there's a way around/through this.
  */
 @SuppressWarnings("PMD.AvoidCatchingGenericException")
 public final class Assertion<T> {
+
     /**
-     * Reason for refuting this assertion.
+     * The results of the testing scenario.
      */
-    private final String reason;
+    private final Scalar<Boolean> failed;
+
     /**
-     * Behaviour to test.
+     * The description of the testing scenario.
      */
-    private final Scalar<T> test;
-    /**
-     * Matcher against which the behaviour will be tested.
-     */
-    private final Matcher<T> matcher;
+    private final Scalar<Description> scenario;
 
     /**
      * Ctor.
@@ -100,9 +94,36 @@ public final class Assertion<T> {
     public Assertion(
         final String reason, final Scalar<T> test, final Matcher<T> matcher
     ) {
-        this.reason = reason;
-        this.test = test;
-        this.matcher = matcher;
+        this(
+            () -> !matcher.matches(test.value()),
+            new Scenario(reason, test, matcher)
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param reason Reason for refuting this assertion
+     * @param test The behaviour to test
+     * @param matcher Matcher to test behaviour
+     */
+    @SuppressWarnings("unchecked")
+    public Assertion(
+        final String reason, final Scalar<T> test, final Throws<T> matcher
+    ) {
+        this(
+            () -> !matcher.matches(test),
+            new Scenario(reason, test, (Matcher<T>) matcher)
+        );
+    }
+
+    /**
+     * Ctor.
+     * @param failed The failed status of testing
+     * @param scenario The description of testing scenario
+     */
+    private Assertion(final Scalar<Boolean> failed, final Scenario scenario) {
+        this.failed = failed;
+        this.scenario = scenario;
     }
 
     /**
@@ -111,33 +132,62 @@ public final class Assertion<T> {
      */
     public void affirm() throws AssertionError {
         try {
-            if (!this.matcher.matches(this.test.value())) {
-                throw new AssertionError(
-                    this.description().toString()
-                );
+            if (this.failed.value()) {
+                throw new AssertionError(this.scenario.value().toString());
             }
             // @checkstyle IllegalCatchCheck (1 line)
         } catch (final Exception ex) {
-            if (!this.matcher.matches(this.test)) {
-                throw new AssertionError("Unexpected error during test", ex);
-            }
+            throw new AssertionError("Unexpected error during test", ex);
         }
     }
 
     /**
-     * Description of this assertion's refutation.
-     * @return Refutation
+     * The description of the testing scenario.
      */
-    private Description description() {
-        final Description description = new StringDescription();
-        description.appendText(this.reason)
-            .appendText(String.format("%nExpected: "))
-            .appendDescriptionOf(this.matcher)
-            .appendText(String.format("%n but was: "));
-        this.matcher.describeMismatch(
-            new UncheckedScalar<>(this.test).value(),
-            description
-        );
-        return description;
+    private static final class Scenario implements Scalar<Description> {
+
+        /**
+         * Reason for refuting this assertion.
+         */
+        private final String reason;
+
+        /**
+         * Behaviour to test.
+         */
+        private final Scalar<?> test;
+
+        /**
+         * Matcher against which the behaviour will be tested.
+         */
+        private final Matcher<?> matcher;
+
+        /**
+         * Ctor.
+         * @param reason Reason for refuting this assertion
+         * @param test The behaviour to test
+         * @param matcher Matcher to test behaviour
+         * @param <T> The type of matcher.
+         */
+        <T> Scenario(
+            final String reason, final Scalar<T> test, final Matcher<T> matcher
+        ) {
+            this.reason = reason;
+            this.matcher = matcher;
+            this.test = test;
+        }
+
+        @Override
+        public Description value() {
+            final Description description = new StringDescription();
+            description.appendText(this.reason)
+                .appendText(String.format("%nExpected: "))
+                .appendDescriptionOf(this.matcher)
+                .appendText(String.format("%n but was: "));
+            this.matcher.describeMismatch(
+                new UncheckedScalar<>(this.test).value(),
+                description
+            );
+            return description;
+        }
     }
 }

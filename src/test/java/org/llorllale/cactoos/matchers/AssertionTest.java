@@ -26,6 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.Text;
 import org.cactoos.text.TextOf;
 import org.junit.Test;
 
@@ -83,7 +84,7 @@ public final class AssertionTest {
      */
     @Test
     public void affirmIfErrorMatches() {
-        new Assertion<>(
+        new Assertion<Text>(
             "must affirm the assertion if the test throws the expected error",
             () -> {
                 throw new IllegalStateException("this is a test");
