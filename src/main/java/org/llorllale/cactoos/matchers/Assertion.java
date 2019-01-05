@@ -26,8 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.Proc;
 import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.func.UncheckedProc;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -76,7 +77,7 @@ import org.hamcrest.StringDescription;
 public final class Assertion<T> {
 
     /**
-     * The results of the testing scenario.
+     * Matcher result.
      */
     private final Scalar<Boolean> failed;
 
@@ -87,32 +88,33 @@ public final class Assertion<T> {
 
     /**
      * Ctor.
-     * @param reason Reason for refuting this assertion
+     * @param rsn Reason for refuting this assertion
      * @param test The behaviour to test
-     * @param matcher Matcher to test behaviour
+     * @param mtr Matcher to test behaviour
      */
     public Assertion(
-        final String reason, final Scalar<T> test, final Matcher<T> matcher
+        final String rsn, final Scalar<T> test, final Matcher<T> mtr
     ) {
         this(
-            () -> !matcher.matches(test.value()),
-            new Scenario(reason, test, matcher)
+            () -> !mtr.matches(test.value()),
+            new Scenario(
+                rsn, mtr, desc -> mtr.describeMismatch(test.value(), desc)
+            )
         );
     }
 
     /**
      * Ctor.
-     * @param reason Reason for refuting this assertion
+     * @param rsn Reason for refuting this assertion
      * @param test The behaviour to test
-     * @param matcher Matcher to test behaviour
+     * @param mtr Matcher to test behaviour
      */
-    @SuppressWarnings("unchecked")
     public Assertion(
-        final String reason, final Scalar<T> test, final Throws<T> matcher
+        final String rsn, final Scalar<T> test, final Throws<T> mtr
     ) {
         this(
-            () -> !matcher.matches(test),
-            new Scenario(reason, test, (Matcher<T>) matcher)
+            () -> !mtr.matches(test),
+            new Scenario(rsn, mtr, desc -> mtr.describeMismatch(test, desc))
         );
     }
 
@@ -121,7 +123,9 @@ public final class Assertion<T> {
      * @param failed The failed status of testing
      * @param scenario The description of testing scenario
      */
-    private Assertion(final Scalar<Boolean> failed, final Scenario scenario) {
+    private Assertion(
+        final Scalar<Boolean> failed, final Scalar<Description> scenario
+    ) {
         this.failed = failed;
         this.scenario = scenario;
     }
@@ -152,28 +156,29 @@ public final class Assertion<T> {
         private final String reason;
 
         /**
-         * Behaviour to test.
-         */
-        private final Scalar<?> test;
-
-        /**
          * Matcher against which the behaviour will be tested.
          */
         private final Matcher<?> matcher;
 
         /**
+         * Matcher description.
+         */
+        private final Proc<Description> mismatch;
+
+        /**
          * Ctor.
          * @param reason Reason for refuting this assertion
-         * @param test The behaviour to test
          * @param matcher Matcher to test behaviour
+         * @param mismatch Matcher mismatch.
          * @param <T> The type of matcher.
          */
         <T> Scenario(
-            final String reason, final Scalar<T> test, final Matcher<T> matcher
+            final String reason, final Matcher<T> matcher,
+            final Proc<Description> mismatch
         ) {
             this.reason = reason;
             this.matcher = matcher;
-            this.test = test;
+            this.mismatch = mismatch;
         }
 
         @Override
@@ -183,10 +188,7 @@ public final class Assertion<T> {
                 .appendText(String.format("%nExpected: "))
                 .appendDescriptionOf(this.matcher)
                 .appendText(String.format("%n but was: "));
-            this.matcher.describeMismatch(
-                new UncheckedScalar<>(this.test).value(),
-                description
-            );
+            new UncheckedProc<>(this.mismatch).exec(description);
             return description;
         }
     }

@@ -26,8 +26,10 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import org.cactoos.Text;
 import org.cactoos.text.TextOf;
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
@@ -90,6 +92,27 @@ public final class AssertionTest {
                 throw new IllegalStateException("this is a test");
             },
             new Throws<>("this is a test", IllegalStateException.class)
+        ).affirm();
+    }
+
+    /**
+     * The scalar within Assertion executed is only once.
+     */
+    @Test
+    public void scalarIsExecutingOnce() {
+        final AtomicInteger quantity = new AtomicInteger(0);
+        new Assertion<Text>(
+            "scalar throws the exception",
+            () -> {
+                quantity.incrementAndGet();
+                throw new IllegalStateException("this is a test");
+            },
+            new Throws<>("this is a test", IllegalStateException.class)
+        ).affirm();
+        new Assertion<>(
+            "scalar is executing once",
+            quantity::get,
+            new IsEqual<>(1)
         ).affirm();
     }
 }
