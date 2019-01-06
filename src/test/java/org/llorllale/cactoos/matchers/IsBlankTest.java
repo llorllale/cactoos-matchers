@@ -59,6 +59,7 @@ public final class IsBlankTest {
     @Test
     public void notBlank() {
         this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(new StringContains("\"-.$%\""));
         new Assertion<>(
             "must not match a non-empty string",
             () -> "-.$%",
@@ -69,7 +70,7 @@ public final class IsBlankTest {
     @Test
     public void nonBlankMessage() {
         this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(new StringContains("\"text\""));
+        this.exception.expectMessage(new StringContains("but was: \"text\""));
         new Assertion<>(
             "must describe itself in terms of the text being matched against",
             () -> "text",
