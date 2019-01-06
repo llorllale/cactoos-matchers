@@ -27,10 +27,10 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.StringContains;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link IsBlank}.
@@ -41,10 +41,16 @@ import org.junit.Test;
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class IsBlankTest {
 
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Test
     public void blank() {
         new Assertion<>(
-        "must match an empty string",
+            "must match an empty string",
             () -> "",
             new IsBlank()
         ).affirm();
@@ -52,21 +58,22 @@ public final class IsBlankTest {
 
     @Test
     public void notBlank() {
+        this.exception.expect(AssertionError.class);
         new Assertion<>(
-        "must not match a non-empty string",
+            "must not match a non-empty string",
             () -> "-.$%",
             new IsBlank()
-        );
+        ).affirm();
     }
 
     @Test
     public void nonBlankMessage() {
-        final Description desc = new StringDescription();
-        new IsBlank().matchesSafely("text", desc);
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(new StringContains("\"text\""));
         new Assertion<>(
-        "must describe itself in terms of the text being matched against",
-            desc::toString,
-            new IsEqual<>("\"text\"")
-        );
+            "must describe itself in terms of the text being matched against",
+            () -> "text",
+            new IsBlank()
+        ).affirm();
     }
 }
