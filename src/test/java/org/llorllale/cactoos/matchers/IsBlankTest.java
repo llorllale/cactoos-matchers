@@ -34,33 +34,33 @@ import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
- * Test case for {@link NotBlank}.
+ * Test case for {@link IsBlank}.
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class NotBlankTest {
+public final class IsBlankTest {
 
     @Test
     public void blank() {
         MatcherAssert.assertThat(
-            "must not match an empty string",
-            new NotBlank().matchesSafely(
+            "must match an empty string",
+            new IsBlank().matchesSafely(
                 "", new Description.NullDescription()
             ),
-            new IsEqual<>(false)
+            new IsEqual<>(true)
         );
     }
 
     @Test
     public void notBlank() {
         MatcherAssert.assertThat(
-            "must match a non-empty string",
-            new NotBlank().matchesSafely(
+            "must not match a non-empty string",
+            new IsBlank().matchesSafely(
                 "-.$%", new Description.NullDescription()
             ),
-            new IsEqual<>(true)
+            new IsEqual<>(false)
         );
     }
 
@@ -68,9 +68,9 @@ public final class NotBlankTest {
     public void nonBlankMessage() {
         final Description desc = new StringDescription();
         MatcherAssert.assertThat(
-            "must match a non-empty string",
-            new NotBlank().matchesSafely("text", desc),
-            new IsEqual<>(true)
+            "must not match a non-empty string",
+            new IsBlank().matchesSafely("text", desc),
+            new IsEqual<>(false)
         );
         MatcherAssert.assertThat(
             "must describe itself in terms of the text being matched against",
