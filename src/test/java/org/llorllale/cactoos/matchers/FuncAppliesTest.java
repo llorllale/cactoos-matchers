@@ -40,11 +40,7 @@ public final class FuncAppliesTest {
     public void matchFuncs() {
         new Assertion<>(
             "Can't match equaled values",
-            () -> {
-                final FuncApplies<Integer, Integer> matcher =
-                    new FuncApplies<>(1, 1);
-                return matcher.matchesSafely(x -> x);
-            },
+            () -> new FuncApplies<>(1, 1).matchesSafely(x -> x),
             new IsEqual<>(true)
         ).affirm();
     }

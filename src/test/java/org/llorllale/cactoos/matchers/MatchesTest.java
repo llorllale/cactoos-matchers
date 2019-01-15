@@ -75,13 +75,13 @@ public final class MatchesTest {
         new Assertion<>(
             "The matcher print the value which came for testing",
             () -> {
-                final Description msg = new StringDescription();
+                final Description description = new StringDescription();
                 new Matches<Text>(
                     new TextOf("expected")
                 ).matchesSafely(
-                    new TextIs("actual"), msg
+                    new TextIs("actual"), description
                 );
-                return msg.toString();
+                return description.toString();
             },
             new IsEqual<>("Text with value \"actual\"")
         ).affirm();
@@ -95,9 +95,11 @@ public final class MatchesTest {
         new Assertion<>(
             "The matcher print the value which is expected to be present",
             () -> {
-                final Description msg = new StringDescription();
-                new Matches<Text>(new TextOf("expected")).describeTo(msg);
-                return msg.toString();
+                final Description description = new StringDescription();
+                new Matches<Text>(
+                    new TextOf("expected")
+                ).describeTo(description);
+                return description.toString();
             },
             new IsEqual<>("<expected>")
         ).affirm();

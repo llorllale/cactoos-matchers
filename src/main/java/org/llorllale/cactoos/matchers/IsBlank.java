@@ -24,57 +24,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Test case for {@link NotBlank}.
+ * The matcher to check that text is not empty.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class NotBlankTest {
+public final class IsBlank extends TypeSafeDiagnosingMatcher<String> {
 
-    @Test
-    public void blank() {
-        new Assertion<>(
-            "must not match an empty string",
-            () -> new NotBlank().matchesSafely(
-                "", new Description.NullDescription()
-            ),
-            new IsEqual<>(false)
-        ).affirm();
+    @Override
+    public void describeTo(final Description desc) {
+        desc.appendText("is blank");
     }
 
-    @Test
-    public void notBlank() {
-        new Assertion<>(
-            "must match a non-empty string",
-            () -> new NotBlank().matchesSafely(
-                "-.$%", new Description.NullDescription()
-            ),
-            new IsEqual<>(true)
-        ).affirm();
-    }
-
-    @Test
-    public void nonBlankMessage() {
-        final Description desc = new StringDescription();
-        new Assertion<>(
-            "must match a non-empty string",
-            () -> new NotBlank().matchesSafely("text", desc),
-            new IsEqual<>(true)
-        ).affirm();
-        new Assertion<>(
-            "must describe itself in terms of the text being matched against",
-            desc::toString,
-            new IsEqual<>("\"text\"")
-        ).affirm();
+    @Override
+    protected boolean matchesSafely(final String text,
+        final Description desc) {
+        desc.appendValue(text);
+        return text.trim().isEmpty();
     }
 }

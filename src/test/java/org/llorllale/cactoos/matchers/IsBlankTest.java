@@ -24,31 +24,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.core.StringContains;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
- * The matcher to check that text is not empty.
+ * Test case for {@link IsBlank}.
  *
  * @since 1.0.0
- * @todo #58:30min NotBlank should be changed to `IsBlank`. Users should
- *  be able to negate it by simply decorating it with `IsNot`. Update the
- *  README once done.
- * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class NotBlank extends TypeSafeDiagnosingMatcher<String> {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class IsBlankTest {
 
-    @Override
-    public void describeTo(final Description desc) {
-        desc.appendText("not blank");
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
+    @Test
+    public void blank() {
+        new Assertion<>(
+            "must match an empty string",
+            () -> "",
+            new IsBlank()
+        ).affirm();
     }
 
-    @Override
-    protected boolean matchesSafely(final String text,
-        final Description desc) {
-        desc.appendValue(text);
-        return !text.trim().isEmpty();
+    @Test
+    public void notBlank() {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(new StringContains("\"-.$%\""));
+        new Assertion<>(
+            "must not match a non-empty string",
+            () -> "-.$%",
+            new IsBlank()
+        ).affirm();
+    }
+
+    @Test
+    public void nonBlankMessage() {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(new StringContains("but was: \"text\""));
+        new Assertion<>(
+            "must describe itself in terms of the text being matched against",
+            () -> "text",
+            new IsBlank()
+        ).affirm();
     }
 }
