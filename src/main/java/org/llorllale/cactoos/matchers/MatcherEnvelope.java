@@ -37,12 +37,12 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * The Envelope for {@link TypeSafeMatcher}.
+ * A MatcherEnvelope for {@link TypeSafeMatcher}.
  * @param <T> The type of the Matcher.
  *
  * @since 1.0.0
  */
-public abstract class Envelope<T> extends TypeSafeMatcher<T> {
+public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
 
     /**
      * The matcher to test.
@@ -51,12 +51,12 @@ public abstract class Envelope<T> extends TypeSafeMatcher<T> {
 
     /**
      * Ctor.
-     * @param matching Matching Func.
+     * @param match Matching Func.
      * @param description Description Proc.
      * @param mismatch Mismatch BiProc.
      */
-    public Envelope(
-        final Func<T, Boolean> matching,
+    public MatcherEnvelope(
+        final Func<T, Boolean> match,
         final Proc<Description> description,
         final BiProc<T, Description> mismatch
     ) {
@@ -75,7 +75,7 @@ public abstract class Envelope<T> extends TypeSafeMatcher<T> {
 
             @Override
             protected boolean matchesSafely(final T item) {
-                return new UncheckedFunc<>(matching).apply(item);
+                return new UncheckedFunc<>(match).apply(item);
             }
         });
     }
@@ -84,7 +84,7 @@ public abstract class Envelope<T> extends TypeSafeMatcher<T> {
      * Ctor.
      * @param origin Encapsulated matcher.
      */
-    public Envelope(final Matcher<T> origin) {
+    public MatcherEnvelope(final Matcher<T> origin) {
         super();
         this.origin = origin;
     }
