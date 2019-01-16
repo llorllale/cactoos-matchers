@@ -29,7 +29,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -46,9 +45,9 @@ public final class StartsWithTest {
      */
     @Test
     public void matchPositive() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives positive result for the valid arguments",
-            new TextOf("I'm simple and I know it."),
+            () -> new TextOf("I'm simple and I know it."),
             new StartsWith("I'm simple")
         );
     }
@@ -58,9 +57,9 @@ public final class StartsWithTest {
      */
     @Test
     public void matchNegative() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives negative result for the invalid arguments",
-            new StartsWith("!").matchesSafely(
+            () -> new StartsWith("!").matchesSafely(
                 () -> "The sentence.",
                 new StringDescription()
             ),
@@ -75,13 +74,15 @@ public final class StartsWithTest {
      */
     @Test
     public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new StartsWith("").matchesSafely(new TextOf("ABC"), desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new StartsWith("").matchesSafely(new TextOf("ABC"), desc);
+                return desc.toString();
+            },
             new IsEqual<>("Text is \"ABC\"")
-        );
+        ).affirm();
     }
 
     /**
@@ -90,13 +91,15 @@ public final class StartsWithTest {
      */
     @Test
     public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new StartsWith("!").describeTo(desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the description of the scenario",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new StartsWith("!").describeTo(desc);
+                return desc.toString();
+            },
             new IsEqual<>("Text starting with \"!\"")
-        );
+        ).affirm();
     }
 
 }
