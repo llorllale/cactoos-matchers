@@ -48,10 +48,10 @@ public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
 
     /**
      * Ctor.
-     * @param text The text to match against
+     * @param value The value to match against
      */
-    public ScalarHasValue(final T text) {
-        this(new IsEqual<>(text));
+    public ScalarHasValue(final T value) {
+        this(new IsEqual<>(value));
     }
 
     /**
