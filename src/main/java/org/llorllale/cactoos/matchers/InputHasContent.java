@@ -33,7 +33,6 @@ import org.hamcrest.Matcher;
 
 /**
  * Matcher for the input.
- *
  * @since 0.11
  * @checkstyle IndentationCheck (500 lines)
  * @todo #7:30min All the matchers should implement describeMismatchSafely and
@@ -43,7 +42,7 @@ import org.hamcrest.Matcher;
  *  See ScalarHasValueTest for an example of a satisfactory result.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class InputHasContent extends Envelope<Input> {
+public final class InputHasContent extends MatcherEnvelope<Input> {
 
     /**
      * Ctor.
