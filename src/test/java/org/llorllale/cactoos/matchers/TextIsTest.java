@@ -26,36 +26,32 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
+import org.cactoos.text.TextOf;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
  * Tests for {@link TextIs}.
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @todo #52:30min Replace all uses of MatcherAssert.assertThat() with
- *  Assertion. Ensure that the tests behavior wasn't changed during this
- *  refactoring. Each test should have single Assertion statement.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TextIsTest {
     @Test
     public void match() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match identical text",
-            new TextIs("abcde").matches((Text) () -> "abcde"),
-            new IsEqual<>(true)
-        );
+            () -> new TextOf("abcde"),
+            new TextIs("abcde")
+        ).affirm();
     }
 
     @Test
     public void noMatch() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must not match text that is not identical",
-            new TextIs("xyz").matches((Text) () -> "abcde"),
-            new IsEqual<>(false)
-        );
+            () -> new TextOf("abcde"),
+            new IsNot<>(new TextIs("xyz"))
+        ).affirm();
     }
 }
