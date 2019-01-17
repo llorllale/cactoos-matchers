@@ -35,11 +35,8 @@ import org.hamcrest.Matcher;
  * Matcher for the input.
  * @since 0.11
  * @checkstyle IndentationCheck (500 lines)
- * @todo #7:30min All the matchers should implement describeMismatchSafely and
- *  their tests must verify that the implementation of the descriptions
- *  are satisfactory. The matchers should not expose publicly the xxxSafely
- *  method and the tests should rely on actual real use with assertThat.
- *  See ScalarHasValueTest for an example of a satisfactory result.
+ * @todo #7:30min Remove checkstyle suppression when qulice will fix this issue
+ *  See https://github.com/teamed/qulice/issues/985
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class InputHasContent extends MatcherEnvelope<Input> {
