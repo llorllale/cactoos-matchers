@@ -35,8 +35,9 @@ import org.hamcrest.Matcher;
  * Matcher for the input.
  * @since 0.11
  * @checkstyle IndentationCheck (500 lines)
- * @todo #7:30min Remove checkstyle suppression when qulice will fix this issue
- *  See https://github.com/teamed/qulice/issues/985
+ * @todo #7:30min Remove checkstyle suppression when qulice will fix this issue.
+ *  See https://github.com/teamed/qulice/issues/985.
+ *  When new version will be released, update qulice and remove this puzzle.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class InputHasContent extends MatcherEnvelope<Input> {
