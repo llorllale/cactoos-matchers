@@ -38,6 +38,10 @@ import org.hamcrest.core.IsEqual;
  *
  * @param <T> Type of result
  * @since 0.2
+ * @todo #7:30min All the matchers should extend MatcherEnvelope and
+ *  their tests must verify that the implementation of the descriptions
+ *  are satisfactory.
+ *  See ScalarHasValueTest for an example of a satisfactory result.
  */
 public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
 

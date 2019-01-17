@@ -39,7 +39,6 @@ import org.hamcrest.TypeSafeMatcher;
 /**
  * A MatcherEnvelope for {@link TypeSafeMatcher}.
  * @param <T> The type of the Matcher.
- *
  * @since 1.0.0
  */
 public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
