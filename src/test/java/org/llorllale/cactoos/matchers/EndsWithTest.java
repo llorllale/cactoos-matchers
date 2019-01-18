@@ -29,7 +29,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -38,6 +37,9 @@ import org.junit.Test;
  * Test case for {@link EndsWith}.
  *
  * @since 1.0.0
+ * @todo #52:30min Ban all overloads of the former in forbidden-apis.txt.
+ *  We should also look into banning common static matchers like Matchers.is(),
+ *  etc.
  */
 public final class EndsWithTest {
 
@@ -46,11 +48,11 @@ public final class EndsWithTest {
      */
     @Test
     public void matchPositive() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives positive result for the valid arguments",
-            new TextOf("I'm simple and I know it."),
+            () -> new TextOf("I'm simple and I know it."),
             new EndsWith("know it.")
-        );
+        ).affirm();
     }
 
     /**
@@ -58,14 +60,14 @@ public final class EndsWithTest {
      */
     @Test
     public void matchNegative() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives negative result for the invalid arguments",
-            new EndsWith("!").matchesSafely(
+            () -> new EndsWith("!").matchesSafely(
                 () -> "The sentence.",
                 new StringDescription()
             ),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     /**
@@ -75,13 +77,15 @@ public final class EndsWithTest {
      */
     @Test
     public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new EndsWith("").matchesSafely(new TextOf("ABC"), desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new EndsWith("").matchesSafely(new TextOf("ABC"), desc);
+                return desc.toString();
+            },
             new IsEqual<>("Text is \"ABC\"")
-        );
+        ).affirm();
     }
 
     /**
@@ -90,13 +94,14 @@ public final class EndsWithTest {
      */
     @Test
     public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new EndsWith("!").describeTo(desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the description of the scenario",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new EndsWith("!").describeTo(desc);
+                return desc.toString();
+            },
             new IsEqual<>("Text ending with \"!\"")
-        );
+        ).affirm();
     }
-
 }

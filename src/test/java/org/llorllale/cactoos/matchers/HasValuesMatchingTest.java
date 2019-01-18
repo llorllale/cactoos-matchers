@@ -29,7 +29,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.list.ListOf;
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -48,11 +47,11 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void matches() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher give the positive result for the valid arguments",
-            new ListOf<>(1, 2, 3),
+            () -> new ListOf<>(1, 2, 3),
             new HasValuesMatching<>(value -> value > 1 || value == 3)
-        );
+        ).affirm();
     }
 
     /**
@@ -60,35 +59,37 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void matchSafely() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher give the negative result for the invalid arguments",
-            new HasValuesMatching<String>(
+            () -> new HasValuesMatching<String>(
                 text -> text.contains("simple")
             ).matchesSafely(
                 new ListOf<>("I'm", "short", "sentence"),
                 new StringDescription()
             ),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     /**
      * Matcher prints the actual value(s) properly in case of errors.
      * The actual/expected section are using only when testing is failed and
      *  we need to explain what exactly went wrong.
-    */
+     */
     @Test
     public void describeActualValues() {
-        final Description description = new StringDescription();
-        new HasValuesMatching<Integer>(value -> value > 5)
-            .matchesSafely(new ListOf<>(1, 2, 3), description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            description.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new HasValuesMatching<Integer>(value -> value > 5)
+                    .matchesSafely(new ListOf<>(1, 2, 3), description);
+                return description.toString();
+            },
             new IsEqual<>(
                 "No any elements from [1, 2, 3] matches by the function"
             )
-        );
+        ).affirm();
     }
 
     /**
@@ -97,13 +98,15 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void describeExpectedValues() {
-        final Description description = new StringDescription();
-        new HasValuesMatching<Integer>(value -> value > 5)
-            .describeTo(description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the optional description of the scenario",
-            description.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new HasValuesMatching<Integer>(value -> value > 5)
+                    .describeTo(description);
+                return description.toString();
+            },
             new IsEqual<>("The function matches at least 1 element.")
-        );
+        ).affirm();
     }
 }
