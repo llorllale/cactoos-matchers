@@ -34,7 +34,6 @@ import org.hamcrest.Matcher;
 /**
  * Matcher for the input.
  * @since 0.11
- * @checkstyle IndentationCheck (500 lines)
  * @todo #7:30min Remove checkstyle suppression when qulice will fix this issue.
  *  See https://github.com/teamed/qulice/issues/985.
  *  When new version will be released, update qulice and remove this puzzle.
@@ -64,11 +63,14 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      */
     public InputHasContent(final Matcher<String> mtr) {
         super(
+            // @checkstyle IndentationCheck (1 line)
             input -> mtr.matches(
                 new TextOf(input).asString()
             ),
+            // @checkstyle IndentationCheck (1 line)
             desc -> desc.appendText("Input with ")
                 .appendDescriptionOf(mtr),
+            // @checkstyle IndentationCheck (1 line)
             (input, desc) -> desc.appendText("Input with ")
                 .appendValue(
                     new TextOf(input).asString()
