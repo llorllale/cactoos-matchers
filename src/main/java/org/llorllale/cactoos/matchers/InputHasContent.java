@@ -34,7 +34,7 @@ import org.hamcrest.Matcher;
 /**
  * Matcher for the input.
  * @since 0.11
- * @todo #75:30min Remove checkstyle suppression when qulice will fix this issue.
+ * @todo #75:30min Remove checkstyle suppression when qulice will fix this issue
  *  See https://github.com/teamed/qulice/issues/985.
  *  When new version will be released, update qulice and remove this puzzle.
  */
