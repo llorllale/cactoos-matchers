@@ -60,13 +60,14 @@ public final class ThrowsTest {
      */
     @Test
     public void matchNegative() {
+        final String msg = "No object(s) found.";
         new Assertion<>(
             "The exception wasn't thrown.",
             () -> new Throws<>(
-                "No object(s) found.",
+                msg,
                 IllegalArgumentException.class
             ).matchesSafely(
-                () -> "No object(s) found.", new StringDescription()
+                () -> msg, new StringDescription()
             ),
             new IsEqual<>(false)
         ).affirm();

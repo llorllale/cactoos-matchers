@@ -35,14 +35,15 @@ import org.junit.Test;
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TextIsTest {
+
     @Test
     public void match() {
+        final String input = "abcde";
         new Assertion<>(
             "must match identical text",
-            () -> new TextOf("abcde"),
-            new TextIs("abcde")
+            () -> new TextOf(input),
+            new TextIs(input)
         ).affirm();
     }
 
@@ -50,7 +51,7 @@ public final class TextIsTest {
     public void noMatch() {
         new Assertion<>(
             "must not match text that is not identical",
-            () -> new TextOf("abcde"),
+            () -> new TextOf("abcd"),
             new IsNot<>(new TextIs("xyz"))
         ).affirm();
     }
