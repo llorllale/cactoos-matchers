@@ -61,7 +61,7 @@ public final class RunsInThreadsTest {
         ).affirm();
         new Assertion<>(
             "counter must be incremented by all threads",
-            () -> counter.get(),
+            counter::get,
             new IsEqual<>(threads * attempts)
         ).affirm();
     }
@@ -86,7 +86,7 @@ public final class RunsInThreadsTest {
         ).affirm();
         new Assertion<>(
             "counter must not be incremented by all threads",
-            () -> counter.get(),
+            counter::get,
             new IsNot<>(new IsEqual<>(threads * attempts))
         ).affirm();
     }
