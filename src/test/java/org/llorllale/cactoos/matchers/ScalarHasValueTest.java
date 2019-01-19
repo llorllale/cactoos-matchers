@@ -40,7 +40,7 @@ import org.junit.rules.ExpectedException;
  * Test case for {@link ScalarHasValue}.
  *
  * @since 1.0
- * @todo #52:30min Replace all uses of MatcherAssert.assertThat() with
+ * @todo #81:30min Replace all uses of MatcherAssert.assertThat() with
  *  Assertion. Ensure that the tests behavior wasn't changed during this
  *  refactoring. Each test should have single Assertion statement.
  * @checkstyle JavadocMethodCheck (500 lines)
