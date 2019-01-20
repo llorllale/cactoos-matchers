@@ -89,6 +89,15 @@ public void csvLineHasCorrectFormat() throws Exception {
     new MatchesRegex(fields)
   ).affirm();
 }
+
+@Test
+public void textIsBlank() {
+  new Assertion<>(
+    "must be blank",
+    () -> new TextOf(new File("records.txt")),
+    new IsBlank()
+  ).affirm();
+}
 ```
 
 ### Concurrency

@@ -26,9 +26,8 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsEqual;
+import org.cactoos.text.TextOf;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -36,23 +35,24 @@ import org.junit.Test;
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TextIsTest {
+
     @Test
     public void match() {
-        MatcherAssert.assertThat(
+        final String input = "abcde";
+        new Assertion<>(
             "must match identical text",
-            new TextIs("abcde").matches((Text) () -> "abcde"),
-            new IsEqual<>(true)
-        );
+            () -> new TextOf(input),
+            new TextIs(input)
+        ).affirm();
     }
 
     @Test
     public void noMatch() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must not match text that is not identical",
-            new TextIs("xyz").matches((Text) () -> "abcde"),
-            new IsEqual<>(false)
-        );
+            () -> new TextOf("abcd"),
+            new IsNot<>(new TextIs("xyz"))
+        ).affirm();
     }
 }

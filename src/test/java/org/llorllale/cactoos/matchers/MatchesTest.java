@@ -30,7 +30,6 @@ package org.llorllale.cactoos.matchers;
 import org.cactoos.Text;
 import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -49,11 +48,11 @@ public final class MatchesTest {
      */
     @Test
     public void matches() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher TextIs(abc) gives positive result for Text(abc)",
-            new TextIs("abc"),
+            () -> new TextIs("abc"),
             new Matches<>(new TextOf("abc"))
-        );
+        ).affirm();
     }
 
     /**
@@ -61,11 +60,11 @@ public final class MatchesTest {
      */
     @Test
     public void matchStatus() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher TextIs(abc) gives negative result for Text(def)",
-            new Matches<Text>(() -> "def").matches(new TextIs("abc")),
+            () -> new Matches<Text>(() -> "def").matches(new TextIs("abc")),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     /**
@@ -73,17 +72,19 @@ public final class MatchesTest {
      */
     @Test
     public void describeActual() {
-        final Description msg = new StringDescription();
-        new Matches<Text>(
-            new TextOf("expected")
-        ).matchesSafely(
-            new TextIs("actual"), msg
-        );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            msg.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new Matches<Text>(
+                    new TextOf("expected")
+                ).matchesSafely(
+                    new TextIs("actual"), description
+                );
+                return description.toString();
+            },
             new IsEqual<>("Text with value \"actual\"")
-        );
+        ).affirm();
     }
 
     /**
@@ -91,12 +92,16 @@ public final class MatchesTest {
      */
     @Test
     public void describeExpected() {
-        final Description msg = new StringDescription();
-        new Matches<Text>(new TextOf("expected")).describeTo(msg);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which is expected to be present",
-            msg.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new Matches<Text>(
+                    new TextOf("expected")
+                ).describeTo(description);
+                return description.toString();
+            },
             new IsEqual<>("<expected>")
-        );
+        ).affirm();
     }
 }

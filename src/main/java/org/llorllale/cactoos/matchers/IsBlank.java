@@ -33,22 +33,19 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * The matcher to check that text is not empty.
  *
  * @since 1.0.0
- * @todo #58:30min NotBlank should be changed to `IsBlank`. Users should
- *  be able to negate it by simply decorating it with `IsNot`. Update the
- *  README once done.
  * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
-public final class NotBlank extends TypeSafeDiagnosingMatcher<String> {
+public final class IsBlank extends TypeSafeDiagnosingMatcher<String> {
 
     @Override
     public void describeTo(final Description desc) {
-        desc.appendText("not blank");
+        desc.appendText("is blank");
     }
 
     @Override
     protected boolean matchesSafely(final String text,
         final Description desc) {
         desc.appendValue(text);
-        return !text.trim().isEmpty();
+        return text.trim().isEmpty();
     }
 }

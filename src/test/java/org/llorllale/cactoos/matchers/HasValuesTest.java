@@ -29,7 +29,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.list.ListOf;
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -50,11 +49,11 @@ public final class HasValuesTest {
      */
     @Test
     public void matches() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher check that [1,2,3] contains [2]",
-            new ListOf<>(1, 2, 3),
+            () -> new ListOf<>(1, 2, 3),
             new HasValues<>(2)
-        );
+        ).affirm();
     }
 
     /**
@@ -62,14 +61,14 @@ public final class HasValuesTest {
      */
     @Test
     public void matchSafely() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher check that [a,b,c,e] contains [a,b]",
-            new HasValues<>("a", "b").matchesSafely(
+            () -> new HasValues<>("a", "b").matchesSafely(
                 new ListOf<>("a", "b", "c", "e"),
                 new StringDescription()
             ),
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 
     /**
@@ -96,13 +95,17 @@ public final class HasValuesTest {
      */
     @Test
     public void describeActualValues() {
-        final Description description = new StringDescription();
-        new HasValues<>(5).matchesSafely(new ListOf<>(1, 2, 3), description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            description.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new HasValues<>(5).matchesSafely(
+                    new ListOf<>(1, 2, 3), description
+                );
+                return description.toString();
+            },
             new IsEqual<>("<1, 2, 3>")
-        );
+        ).affirm();
     }
 
     /**
@@ -110,13 +113,15 @@ public final class HasValuesTest {
      */
     @Test
     public void describeExpectedValues() {
-        final Description description = new StringDescription();
-        new HasValues<>(3, 4).describeTo(description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which should be present in the "
                 + "target iterable",
-            description.toString(),
+            () -> {
+                final Description description = new StringDescription();
+                new HasValues<>(3, 4).describeTo(description);
+                return description.toString();
+            },
             new IsEqual<>("<3, 4>")
-        );
+        ).affirm();
     }
 }

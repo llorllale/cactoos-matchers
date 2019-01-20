@@ -27,55 +27,54 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.StringContains;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
- * Test case for {@link NotBlank}.
+ * Test case for {@link IsBlank}.
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class NotBlankTest {
+public final class IsBlankTest {
+
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void blank() {
-        MatcherAssert.assertThat(
-            "must not match an empty string",
-            new NotBlank().matchesSafely(
-                "", new Description.NullDescription()
-            ),
-            new IsEqual<>(false)
-        );
+        new Assertion<>(
+            "must match an empty string",
+            () -> "",
+            new IsBlank()
+        ).affirm();
     }
 
     @Test
     public void notBlank() {
-        MatcherAssert.assertThat(
-            "must match a non-empty string",
-            new NotBlank().matchesSafely(
-                "-.$%", new Description.NullDescription()
-            ),
-            new IsEqual<>(true)
-        );
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(new StringContains("\"-.$%\""));
+        new Assertion<>(
+            "must not match a non-empty string",
+            () -> "-.$%",
+            new IsBlank()
+        ).affirm();
     }
 
     @Test
     public void nonBlankMessage() {
-        final Description desc = new StringDescription();
-        MatcherAssert.assertThat(
-            "must match a non-empty string",
-            new NotBlank().matchesSafely("text", desc),
-            new IsEqual<>(true)
-        );
-        MatcherAssert.assertThat(
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(new StringContains("but was: \"text\""));
+        new Assertion<>(
             "must describe itself in terms of the text being matched against",
-            desc.toString(),
-            new IsEqual<>("\"text\"")
-        );
+            () -> "text",
+            new IsBlank()
+        ).affirm();
     }
 }

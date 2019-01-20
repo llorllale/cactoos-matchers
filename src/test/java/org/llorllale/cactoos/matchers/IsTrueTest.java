@@ -28,7 +28,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -45,10 +44,10 @@ public final class IsTrueTest {
      */
     @Test
     public void matchPositive() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives positive result for valid argument.",
-            true, new IsTrue()
-        );
+            () -> true, new IsTrue()
+        ).affirm();
     }
 
     /**
@@ -56,11 +55,11 @@ public final class IsTrueTest {
      */
     @Test
     public void matchNegative() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher gives negative result for invalid argument.",
-            new IsTrue().matchesSafely(false, new StringDescription()),
+            () -> new IsTrue().matchesSafely(false, new StringDescription()),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     /**
@@ -70,13 +69,15 @@ public final class IsTrueTest {
      */
     @Test
     public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new IsTrue().matchesSafely(false, desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the value which came for testing",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new IsTrue().matchesSafely(false, desc);
+                return desc.toString();
+            },
             new IsEqual<>("<false>")
-        );
+        ).affirm();
     }
 
     /**
@@ -85,12 +86,14 @@ public final class IsTrueTest {
      */
     @Test
     public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new IsTrue().describeTo(desc);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "The matcher print the details about expected value",
-            desc.toString(),
+            () -> {
+                final Description desc = new StringDescription();
+                new IsTrue().describeTo(desc);
+                return desc.toString();
+            },
             new IsEqual<>("<true>")
-        );
+        ).affirm();
     }
 }
