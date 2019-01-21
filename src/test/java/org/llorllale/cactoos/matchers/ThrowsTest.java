@@ -46,7 +46,7 @@ public final class ThrowsTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion<>(
+        new Assertion<String>(
             "The thrown exception is not valid.",
             () -> {
                 throw new IllegalArgumentException("No object(s) found.");
