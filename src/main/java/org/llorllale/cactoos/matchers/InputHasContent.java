@@ -54,7 +54,9 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      * @param text The text to match against
      */
     public InputHasContent(final Text text) {
-        this(new MatcherOf<>((String input) -> text.asString().equals(input)));
+        this(new MatcherOf<>(
+            (String input) -> text.asString().equals(input), text
+        ));
     }
 
     /**
@@ -67,9 +69,9 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
             input -> mtr.matches(
                 new TextOf(input).asString()
             ),
-            desc -> desc.appendText("Input with ")
+            desc -> desc.appendText("has content ")
                 .appendDescriptionOf(mtr),
-            (input, desc) -> desc.appendText("Input with ")
+            (input, desc) -> desc.appendText("has content ")
                 .appendValue(
                     new TextOf(input).asString()
                 )

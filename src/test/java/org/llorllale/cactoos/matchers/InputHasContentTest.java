@@ -37,7 +37,9 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class InputHasContentTest {
 
     @Test
@@ -61,7 +63,21 @@ public final class InputHasContentTest {
                 );
                 return description.toString();
             },
-            new IsEqual<>("Input with \"hello\"")
+            new IsEqual<>("has content \"hello\"")
+        ).affirm();
+    }
+
+    @Test
+    public void describesExpectedValues() {
+        new Assertion<>(
+            "The matcher print the value which should be present in the "
+                + "target iterable",
+            () -> {
+                final Description description = new StringDescription();
+                new InputHasContent("world").describeTo(description);
+                return description.toString();
+            },
+            new IsEqual<>("has content \"world\"")
         ).affirm();
     }
 
