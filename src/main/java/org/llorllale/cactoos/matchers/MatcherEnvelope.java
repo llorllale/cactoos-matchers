@@ -37,7 +37,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * A MatcherEnvelope for {@link TypeSafeMatcher}.
+ * A wrapper class for {@link TypeSafeMatcher}.
  * @param <T> The type of the Matcher.
  * @since 1.0.0
  */
@@ -50,33 +50,38 @@ public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
 
     /**
      * Ctor.
-     * @param match Matching Func.
-     * @param description Description Proc.
-     * @param mismatch Mismatch BiProc.
+     * @param match Function matches an actual object with expected one
+     * @param description Procedure generates a description of the object
+     * @param mismatch BiProcedure generates a description for situation when an
+     *  actual object does not match to the expected one
      */
     public MatcherEnvelope(
         final Func<T, Boolean> match,
         final Proc<Description> description,
         final BiProc<T, Description> mismatch
     ) {
-        this(new TypeSafeMatcher<T>() {
+        this(
+            new TypeSafeMatcher<T>() {
 
-            @Override
-            public void describeTo(final Description desc) {
-                new UncheckedProc<>(description).exec(desc);
-            }
+                @Override
+                public void describeTo(final Description desc) {
+                    new UncheckedProc<>(description).exec(desc);
+                }
 
-            @Override
-            protected void describeMismatchSafely(final T item,
-                final Description desc) {
-                new UncheckedBiProc<>(mismatch).exec(item, desc);
-            }
+                @Override
+                protected void describeMismatchSafely(
+                    final T item,
+                    final Description desc
+                ) {
+                    new UncheckedBiProc<>(mismatch).exec(item, desc);
+                }
 
-            @Override
-            protected boolean matchesSafely(final T item) {
-                return new UncheckedFunc<>(match).apply(item);
+                @Override
+                protected boolean matchesSafely(final T item) {
+                    return new UncheckedFunc<>(match).apply(item);
+                }
             }
-        });
+        );
     }
 
     /**

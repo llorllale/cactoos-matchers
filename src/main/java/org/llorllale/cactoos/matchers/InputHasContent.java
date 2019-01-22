@@ -63,14 +63,12 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      */
     public InputHasContent(final Matcher<String> mtr) {
         super(
-            // @checkstyle IndentationCheck (1 line)
+            // @checkstyle IndentationCheck (6 line)
             input -> mtr.matches(
                 new TextOf(input).asString()
             ),
-            // @checkstyle IndentationCheck (1 line)
             desc -> desc.appendText("Input with ")
                 .appendDescriptionOf(mtr),
-            // @checkstyle IndentationCheck (1 line)
             (input, desc) -> desc.appendText("Input with ")
                 .appendValue(
                     new TextOf(input).asString()
