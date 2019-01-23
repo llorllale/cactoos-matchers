@@ -27,6 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -36,12 +37,22 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class FuncAppliesTest {
+
     @Test
     public void matchFuncs() {
         new Assertion<>(
             "Can't match equaled values",
             () -> new FuncApplies<>(1, 1).matchesSafely(x -> x),
             new IsEqual<>(true)
+        ).affirm();
+    }
+
+    @Test
+    public void failsIfMismatch() {
+        new Assertion<>(
+            "Matched unequal values",
+            () -> x -> 2 * x,
+            new IsNot<>(new FuncApplies<>(1, 1))
         ).affirm();
     }
 }
