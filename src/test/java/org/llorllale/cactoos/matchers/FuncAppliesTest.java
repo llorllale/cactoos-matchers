@@ -26,6 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.text.TextOf;
+import org.hamcrest.Description;
+import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
@@ -53,6 +56,17 @@ public final class FuncAppliesTest {
             "Matched unequal values",
             () -> x -> 2 * x,
             new IsNot<>(new FuncApplies<>(1, 1))
+        ).affirm();
+    }
+
+    @Test
+    public void describesItself() {
+        final Description description = new StringDescription();
+        new FuncApplies<>(true, new IsEqual<>(true)).describeTo(description);
+        new Assertion<>(
+            "Can not describe itself",
+            () -> new TextOf(description.toString()),
+            new TextIs("Func with <true>")
         ).affirm();
     }
 }

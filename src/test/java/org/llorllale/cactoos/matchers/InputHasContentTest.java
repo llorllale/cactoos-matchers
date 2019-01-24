@@ -27,6 +27,10 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.io.InputOf;
+import org.cactoos.text.TextOf;
+import org.hamcrest.Description;
+import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
@@ -35,6 +39,7 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCoupling (2 lines)
  */
 public final class InputHasContentTest {
 
@@ -54,6 +59,17 @@ public final class InputHasContentTest {
             "Matcher matches values that are not equal",
             () -> new InputOf("hello"),
             new IsNot<>(new InputHasContent("world"))
+        ).affirm();
+    }
+
+    @Test
+    public void describesItself() {
+        final Description description = new StringDescription();
+        new InputHasContent(new IsEqual<>("value")).describeTo(description);
+        new Assertion<>(
+        "Can't describe itself",
+            () -> new TextOf(description.toString()),
+            new TextIs("Input with \"value\"")
         ).affirm();
     }
 }
