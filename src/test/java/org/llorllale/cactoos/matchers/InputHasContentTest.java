@@ -41,6 +41,7 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCoupling (2 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class InputHasContentTest {
 
     @Test
@@ -70,6 +71,20 @@ public final class InputHasContentTest {
         "Can't describe itself",
             () -> new TextOf(description.toString()),
             new TextIs("Input with \"value\"")
+        ).affirm();
+    }
+
+    @Test
+    public void describesMismatch() {
+        final Description description = new StringDescription();
+        new InputHasContent("world").describeMismatchSafely(
+            new InputOf("input"),
+            description
+        );
+        new Assertion<>(
+            "Can't describe a mismatch",
+            () -> new TextOf(description.toString()),
+            new TextIs("Input with \"input\"")
         ).affirm();
     }
 }
