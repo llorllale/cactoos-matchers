@@ -37,9 +37,12 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
 /**
- * A wrapper class for {@link TypeSafeMatcher}.
+ * Matcher Envelope.
  * @param <T> The type of the Matcher.
  * @since 1.0.0
+ * @todo #75:30min Refactor other matchers to extend MatcherEnvelope.
+ *  If you do not know how to do it please refer to InputHasContent
+ *  class as the example.
  */
 public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
 
