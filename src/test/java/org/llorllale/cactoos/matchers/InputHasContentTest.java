@@ -27,9 +27,10 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.io.InputOf;
+import org.cactoos.text.JoinedText;
+import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
@@ -61,23 +62,28 @@ public final class InputHasContentTest {
                 new InputHasContent("world").describeMismatchSafely(
                     new InputOf("hello"), description
                 );
-                return description.toString();
+                return new UncheckedText(description.toString());
             },
-            new IsEqual<>("has content \"hello\"")
+            new TextIs("has content \"hello\"")
         ).affirm();
     }
 
     @Test
     public void describesExpectedValues() {
         new Assertion<>(
-            "The matcher print the value which should be present in the "
-                + "target iterable",
+            new UncheckedText(
+                new JoinedText(
+                    " ",
+                    "The matcher print the value which should be present",
+                    "in the target iterable"
+                )
+            ).asString(),
             () -> {
                 final Description description = new StringDescription();
                 new InputHasContent("world").describeTo(description);
-                return description.toString();
+                return new UncheckedText(description.toString());
             },
-            new IsEqual<>("has content \"world\"")
+            new TextIs("has content \"world\"")
         ).affirm();
     }
 

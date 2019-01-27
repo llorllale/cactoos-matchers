@@ -54,9 +54,11 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      * @param text The text to match against
      */
     public InputHasContent(final Text text) {
-        this(new MatcherOf<>(
-            (String input) -> text.asString().equals(input), text
-        ));
+        this(
+            new MatcherOf<>(
+                (String input) -> text.asString().equals(input), text
+            )
+        );
     }
 
     /**
@@ -65,7 +67,7 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      */
     public InputHasContent(final Matcher<String> mtr) {
         super(
-            // @checkstyle IndentationCheck (6 line)
+            // @checkstyle IndentationCheck (9 line)
             input -> mtr.matches(
                 new TextOf(input).asString()
             ),

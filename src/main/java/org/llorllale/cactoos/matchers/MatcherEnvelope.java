@@ -62,7 +62,6 @@ public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
     ) {
         this(
             new TypeSafeMatcher<T>() {
-
                 @Override
                 public void describeTo(final Description desc) {
                     new UncheckedProc<>(description).exec(desc);
