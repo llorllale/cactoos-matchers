@@ -27,7 +27,10 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.io.InputOf;
-import org.hamcrest.core.IsNot;
+import org.cactoos.text.JoinedText;
+import org.cactoos.text.UncheckedText;
+import org.hamcrest.Description;
+import org.hamcrest.StringDescription;
 import org.junit.Test;
 
 /**
@@ -35,7 +38,9 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class InputHasContentTest {
 
     @Test
@@ -52,8 +57,34 @@ public final class InputHasContentTest {
     public void failsIfContentDoesNotMatch() {
         new Assertion<>(
             "Matcher matches values that are not equal",
-            () -> new InputOf("hello"),
-            new IsNot<>(new InputHasContent("world"))
+            () -> {
+                final Description description = new StringDescription();
+                new InputHasContent("world").describeMismatchSafely(
+                    new InputOf("hello"), description
+                );
+                return new UncheckedText(description.toString());
+            },
+            new TextIs("has content \"hello\"")
         ).affirm();
     }
+
+    @Test
+    public void describesExpectedValues() {
+        new Assertion<>(
+            new UncheckedText(
+                new JoinedText(
+                    " ",
+                    "The matcher print the value which should be present",
+                    "in the target iterable"
+                )
+            ).asString(),
+            () -> {
+                final Description description = new StringDescription();
+                new InputHasContent("world").describeTo(description);
+                return new UncheckedText(description.toString());
+            },
+            new TextIs("has content \"world\"")
+        ).affirm();
+    }
+
 }

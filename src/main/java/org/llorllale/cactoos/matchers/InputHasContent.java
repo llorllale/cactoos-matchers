@@ -29,27 +29,17 @@ package org.llorllale.cactoos.matchers;
 import org.cactoos.Input;
 import org.cactoos.Text;
 import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Matcher for the input.
- *
  * @since 0.11
- * @todo #7:30min All the matchers should implement describeMismatchSafely and
- *  their tests must verify that the implementation of the descriptions
- *  are satisfactory. The matchers should not expose publicly the xxxSafely
- *  method and the tests should rely on actual real use with assertThat.
- *  See ScalarHasValueTest for an example of a satisfactory result.
+ * @todo #75:30min Remove checkstyle suppression when qulice will fix this issue
+ *  See https://github.com/teamed/qulice/issues/985.
+ *  When new version will be released, update qulice and remove this puzzle.
  */
-public final class InputHasContent extends TypeSafeMatcher<Input> {
-
-    /**
-     * Matcher of the value.
-     */
-    private final Matcher<String> matcher;
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class InputHasContent extends MatcherEnvelope<Input> {
 
     /**
      * Ctor.
@@ -64,7 +54,11 @@ public final class InputHasContent extends TypeSafeMatcher<Input> {
      * @param text The text to match against
      */
     public InputHasContent(final Text text) {
-        this(new MatcherOf<>((String input) -> text.asString().equals(input)));
+        this(
+            new MatcherOf<>(
+                (String input) -> text.asString().equals(input), text
+            )
+        );
     }
 
     /**
@@ -72,22 +66,17 @@ public final class InputHasContent extends TypeSafeMatcher<Input> {
      * @param mtr Matcher of the text
      */
     public InputHasContent(final Matcher<String> mtr) {
-        super();
-        this.matcher = mtr;
-    }
-
-    @Override
-    public boolean matchesSafely(final Input item) {
-        return this.matcher.matches(
-            new UncheckedText(
-                new TextOf(item)
-            ).asString()
+        super(
+            // @checkstyle IndentationCheck (9 line)
+            input -> mtr.matches(
+                new TextOf(input).asString()
+            ),
+            desc -> desc.appendText("has content ")
+                .appendDescriptionOf(mtr),
+            (input, desc) -> desc.appendText("has content ")
+                .appendValue(
+                    new TextOf(input).asString()
+                )
         );
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText("Input with ");
-        description.appendDescriptionOf(this.matcher);
     }
 }
