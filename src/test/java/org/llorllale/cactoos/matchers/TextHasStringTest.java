@@ -31,7 +31,6 @@ import org.cactoos.io.InputOf;
 import org.cactoos.io.Md5DigestOf;
 import org.cactoos.text.HexOf;
 import org.hamcrest.Description;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.StringContains;
@@ -42,6 +41,7 @@ import org.junit.Test;
  *
  * @since 0.29
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TextHasStringTest {
@@ -58,37 +58,37 @@ public final class TextHasStringTest {
             "ed076287532e86365e841e92bfc50d8c6"
         );
         matcher.matchesSafely(hex, description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Description is not clear ",
-            description.toString(),
+            description::toString,
             new StringContains("Text is \"ed076287532e86365e841e92bfc50d8c\"")
-        );
+        ).affirm();
     }
 
     @Test
     public void matchesPrefix() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match text prefix",
-            new TextHasString("123").matches((Text) () -> "12345"),
+            () -> new TextHasString("123").matches((Text) () -> "12345"),
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 
     @Test
     public void matchesSuffix() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match text suffix",
-            new TextHasString("345").matches((Text) () -> "12345"),
+            () -> new TextHasString("345").matches((Text) () -> "12345"),
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 
     @Test
     public void matchesInTheMiddle() {
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "must match random substring in the middle of the text",
-            new TextHasString("234").matches((Text) () -> "12345"),
+            () -> new TextHasString("234").matches((Text) () -> "12345"),
             new IsEqual<>(true)
-        );
+        ).affirm();
     }
 }
