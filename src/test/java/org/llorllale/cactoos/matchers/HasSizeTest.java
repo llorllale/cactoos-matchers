@@ -26,9 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import java.util.ArrayList;
 import org.cactoos.iterable.IterableOfBooleans;
 import org.cactoos.iterable.IterableOfInts;
+import org.cactoos.list.ListOf;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
@@ -62,7 +62,7 @@ public final class HasSizeTest {
     public void matchesEmptyCollection() {
         new Assertion<>(
             "Expected size is not 0",
-            ArrayList::new,
+            ListOf<Integer>::new,
             new HasSize(0)
         ).affirm();
     }
