@@ -39,9 +39,6 @@ import org.junit.rules.ExpectedException;
  * Test case for {@link ScalarHasValue}.
  *
  * @since 1.0
- * @todo #81:30min Replace all uses of MatcherAssert.assertThat() with
- *  Assertion. Ensure that the tests behavior wasn't changed during this
- *  refactoring. Each test should have single Assertion statement.
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class ScalarHasValueTest {
@@ -53,10 +50,10 @@ public final class ScalarHasValueTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void matchesAsExpectedWithString() {
+    public void matchesWithExpectedString() {
         final String expected = "some text";
         new Assertion<>(
-            "must match with expected string",
+            "Must match with expected string",
             () -> new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(expected)
         ).affirm();
@@ -66,7 +63,7 @@ public final class ScalarHasValueTest {
     public void matchesAsExpectedWithMatcher() {
         final String expected = "text";
         new Assertion<>(
-            "must match a Matcher",
+            "Must match a Matcher",
             () -> new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(new IsEqual<>(expected))
         ).affirm();
@@ -79,7 +76,7 @@ public final class ScalarHasValueTest {
             new StringContains("Expected: Scalar with \"something\"")
         );
         new Assertion<>(
-            "missing matcher description",
+            "Missing matcher description",
             () -> new Constant<>("something else"),
             new ScalarHasValue<>(new IsEqual<>("something"))
         ).affirm();
@@ -89,10 +86,10 @@ public final class ScalarHasValueTest {
     public void hasMismatchDescriptionForFailedTest() {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
-            new StringContains("but was: was \"actual\"")
+            new StringContains("but was: \"actual\"")
         );
         new Assertion<>(
-            "missing mismatch description",
+            "Missing mismatch description",
             () -> new Constant<>("actual"),
             new ScalarHasValue<>(new IsEqual<>("expected"))
         ).affirm();
