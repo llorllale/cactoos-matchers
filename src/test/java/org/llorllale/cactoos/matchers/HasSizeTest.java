@@ -26,7 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.ArrayList;
 import org.cactoos.iterable.IterableOfBooleans;
+import org.cactoos.iterable.IterableOfInts;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
@@ -39,20 +41,29 @@ import org.junit.Test;
 public final class HasSizeTest {
 
     @Test
-    public void matches() {
+    public void matchesIterableSize() {
         new Assertion<>(
-            "Sizes are not equal",
+            "Expected size doesn't match",
             () -> new IterableOfBooleans(true, false),
             new HasSize(2)
         ).affirm();
     }
 
     @Test
-    public void doesNotMatch() {
+    public void doesNotMatchIterableSize() {
         new Assertion<>(
-            "Sizes should not be equal",
-            () -> new IterableOfBooleans(true),
+            "Expected size should not match",
+            () -> new IterableOfInts(1),
             new IsNot<>(new HasSize(2))
+        ).affirm();
+    }
+
+    @Test
+    public void matchesEmptyCollection() {
+        new Assertion<>(
+            "Expected size is not 0",
+            ArrayList::new,
+            new HasSize(0)
         ).affirm();
     }
 }
