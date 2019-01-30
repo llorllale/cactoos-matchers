@@ -34,6 +34,11 @@ import org.hamcrest.Matcher;
 /**
  * Matcher for the input.
  * @since 0.11
+ * @todo #7:30min All the matchers should implement describeMismatchSafely and
+ *  their tests must verify that the implementation of the descriptions
+ *  are satisfactory. The matchers should not expose publicly the xxxSafely
+ *  method and the tests should rely on actual real use with assertThat.
+ *  See ScalarHasValueTest for an example of a satisfactory result.
  * @todo #75:30min Remove checkstyle suppression when qulice will fix this issue
  *  See https://github.com/teamed/qulice/issues/985.
  *  When new version will be released, update qulice and remove this puzzle.
