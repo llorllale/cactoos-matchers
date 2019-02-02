@@ -44,8 +44,8 @@ public final class HasSizeTest {
     public void matchesIterableSize() {
         new Assertion<>(
             "Expected size doesn't match",
-            () -> new IterableOfBooleans(true, false),
-            new HasSize(2)
+            () -> new HasSize(2),
+            new Matches<>(new IterableOfBooleans(true, false))
         ).affirm();
     }
 
@@ -53,8 +53,8 @@ public final class HasSizeTest {
     public void doesNotMatchIterableSize() {
         new Assertion<>(
             "Expected size should not match",
-            () -> new IterableOfInts(1),
-            new IsNot<>(new HasSize(2))
+            () ->  new IsNot<>(new HasSize(2)),
+            new Matches<>(new IterableOfInts(1))
         ).affirm();
     }
 
@@ -62,8 +62,8 @@ public final class HasSizeTest {
     public void matchesEmptyCollection() {
         new Assertion<>(
             "Expected size is not 0",
-            ListOf<Integer>::new,
-            new HasSize(0)
+            () -> new HasSize(0),
+            new Matches<>(new ListOf<>())
         ).affirm();
     }
 }
