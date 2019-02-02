@@ -29,7 +29,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.scalar.Constant;
 import org.cactoos.scalar.UncheckedScalar;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.StringContains;
 import org.junit.Rule;
@@ -40,9 +39,6 @@ import org.junit.rules.ExpectedException;
  * Test case for {@link ScalarHasValue}.
  *
  * @since 1.0
- * @todo #81:30min Replace all uses of MatcherAssert.assertThat() with
- *  Assertion. Ensure that the tests behavior wasn't changed during this
- *  refactoring. Each test should have single Assertion statement.
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class ScalarHasValueTest {
@@ -54,48 +50,48 @@ public final class ScalarHasValueTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void matchesAsExpectedWithString() {
+    public void matchesWithExpectedString() {
         final String expected = "some text";
-        MatcherAssert.assertThat(
-            "doesn't match a String",
-            new UncheckedScalar<>(() -> expected),
+        new Assertion<>(
+            "Must match with expected string",
+            () -> new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(expected)
-        );
+        ).affirm();
     }
 
     @Test
     public void matchesAsExpectedWithMatcher() {
         final String expected = "text";
-        MatcherAssert.assertThat(
-            "doesn't match a Matcher",
-            new UncheckedScalar<>(() -> expected),
+        new Assertion<>(
+            "Must match a Matcher",
+            () -> new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(new IsEqual<>(expected))
-        );
+        ).affirm();
     }
 
     @Test
-    public void hasMatcherDescriptionForFailedTest() throws Exception {
+    public void hasMatcherDescriptionForFailedTest() {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
             new StringContains("Expected: Scalar with \"something\"")
         );
-        MatcherAssert.assertThat(
-            "missing matcher description",
-            new Constant<>("something else"),
+        new Assertion<>(
+            "Missing matcher description",
+            () -> new Constant<>("something else"),
             new ScalarHasValue<>(new IsEqual<>("something"))
-        );
+        ).affirm();
     }
 
     @Test
-    public void hasMismatchDescriptionForFailedTest() throws Exception {
+    public void hasMismatchDescriptionForFailedTest() {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
-            new StringContains("but: was \"actual\"")
+            new StringContains("but was: \"actual\"")
         );
-        MatcherAssert.assertThat(
-            "missing mismatch description",
-            new Constant<>("actual"),
+        new Assertion<>(
+            "Missing mismatch description",
+            () -> new Constant<>("actual"),
             new ScalarHasValue<>(new IsEqual<>("expected"))
-        );
+        ).affirm();
     }
 }

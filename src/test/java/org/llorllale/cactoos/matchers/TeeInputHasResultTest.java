@@ -30,7 +30,6 @@ import java.io.ByteArrayOutputStream;
 import org.cactoos.io.OutputTo;
 import org.cactoos.io.TeeInput;
 import org.cactoos.text.TextOf;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.junit.Test;
@@ -40,6 +39,7 @@ import org.junit.Test;
  *
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class TeeInputHasResultTest {
 
@@ -54,11 +54,11 @@ public final class TeeInputHasResultTest {
             expected,
             new TextOf(expected)
         );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher does not compare input and expected values",
-            matcher.matchesSafely(matchable),
+            () -> matcher.matchesSafely(matchable),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     @Test
@@ -74,13 +74,13 @@ public final class TeeInputHasResultTest {
         final StringDescription description = new StringDescription();
         matcher.matchesSafely(matchable);
         matcher.describeMismatchSafely(matchable, description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Description of mismatch of input and expected incorrect",
-            description.toString(),
+            description::toString,
             new IsEqual<>(
                 "TeeInput with result \"e\" and copied value \"e\""
             )
-        );
+        ).affirm();
     }
 
     @Test
@@ -94,11 +94,11 @@ public final class TeeInputHasResultTest {
             expected,
             new TextOf("incorrect")
         );
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Matcher does not compare copied and expected values",
-            matcher.matchesSafely(matchable),
+            () -> matcher.matchesSafely(matchable),
             new IsEqual<>(false)
-        );
+        ).affirm();
     }
 
     @Test
@@ -114,12 +114,12 @@ public final class TeeInputHasResultTest {
         final StringDescription description = new StringDescription();
         matcher.matchesSafely(matchable);
         matcher.describeMismatchSafely(matchable, description);
-        MatcherAssert.assertThat(
+        new Assertion<>(
             "Description of mismatch of copied and expected incorrect",
-            description.toString(),
+            description::toString,
             new IsEqual<>(
                 "TeeInput with result \"i\" and copied value \"i\""
             )
-        );
+        ).affirm();
     }
 }
