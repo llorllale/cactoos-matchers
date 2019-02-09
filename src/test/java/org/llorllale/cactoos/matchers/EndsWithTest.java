@@ -37,9 +37,6 @@ import org.junit.Test;
  * Test case for {@link EndsWith}.
  *
  * @since 1.0.0
- * @todo #80:30min We should also look into banning common static matchers
- *  like Matchers.is(), etc. Those static matchers should be added to the
- *  forbidden-apis.txt file.
  */
 public final class EndsWithTest {
 
