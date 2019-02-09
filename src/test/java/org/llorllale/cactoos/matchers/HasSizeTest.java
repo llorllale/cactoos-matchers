@@ -29,6 +29,11 @@ package org.llorllale.cactoos.matchers;
 import org.cactoos.iterable.IterableOfBooleans;
 import org.cactoos.iterable.IterableOfInts;
 import org.cactoos.list.ListOf;
+import org.cactoos.text.FormattedText;
+import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
+import org.hamcrest.Description;
+import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
@@ -37,6 +42,7 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCoupling (2 lines)
  */
 public final class HasSizeTest {
 
@@ -64,6 +70,21 @@ public final class HasSizeTest {
             "Expected size is not 0",
             () -> new HasSize(0),
             new Matches<>(new ListOf<>())
+        ).affirm();
+    }
+
+    @Test
+    public void describesMismatch() {
+        final Description description = new StringDescription();
+        new HasSize(2).describeMismatchSafely(new ListOf<>(), description);
+        new Assertion<>(
+            "Can't describe a mismatch",
+            () -> new TextOf(description.toString()),
+            new TextIs(
+                new UncheckedText(
+                    new FormattedText("has size <%d>", 0)
+                ).asString()
+            )
         ).affirm();
     }
 }
