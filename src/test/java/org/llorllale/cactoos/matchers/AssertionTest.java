@@ -26,19 +26,31 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.cactoos.Text;
+import org.cactoos.list.ListOf;
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsEqual;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Tests for {@link Assertion}.
  *
  * @since 1.0.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class AssertionTest {
+
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     /**
      * Assertion can be affirmed if the operation being tested matches.
      */
@@ -112,6 +124,36 @@ public final class AssertionTest {
         new Assertion<>(
             "scalar is executing once",
             quantity::get,
+            new IsEqual<>(1)
+        ).affirm();
+    }
+
+    @Test
+    public void testIsExecutedOnlyOnce() {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage("but was: was <1>");
+        final Iterator<Integer> iter = new ListOf<>(1, 2).iterator();
+        new Assertion<>(
+            "Exception should say expected <2> but was: <1>",
+            iter::next,
+            new IsEqual<>(2)
+        ).affirm();
+    }
+
+    @Test
+    public void testWithThrowsIsExecutedOnlyOnce() {
+        final AtomicInteger count = new AtomicInteger(0);
+        new Assertion<Text>(
+            "must affirm the assertion if the test throws the expected error",
+            () -> {
+                count.incrementAndGet();
+                throw new IllegalStateException("this is a test");
+            },
+            new Throws<>("this is a test", IllegalStateException.class)
+        ).affirm();
+        new Assertion<>(
+            "must have executed test only once",
+            count::get,
             new IsEqual<>(1)
         ).affirm();
     }

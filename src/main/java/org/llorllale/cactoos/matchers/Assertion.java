@@ -29,6 +29,7 @@ package org.llorllale.cactoos.matchers;
 import org.cactoos.Proc;
 import org.cactoos.Scalar;
 import org.cactoos.func.UncheckedProc;
+import org.cactoos.scalar.StickyScalar;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -95,6 +96,18 @@ public final class Assertion<T> {
     public Assertion(
         final String rsn, final Scalar<T> test, final Matcher<T> mtr
     ) {
+        this(rsn, new StickyScalar<>(test), mtr);
+    }
+
+    /**
+     * Ctor.
+     * @param rsn Reason for refuting this assertion
+     * @param test The behaviour to test
+     * @param mtr Matcher to test behaviour
+     */
+    private Assertion(
+        final String rsn, final StickyScalar<T> test, final Matcher<T> mtr
+    ) {
         this(
             () -> !mtr.matches(test.value()),
             new Scenario(
@@ -116,6 +129,18 @@ public final class Assertion<T> {
      */
     public Assertion(
         final String rsn, final Scalar<T> test, final Throws<T> mtr
+    ) {
+        this(rsn, new StickyScalar<>(test), mtr);
+    }
+
+    /**
+     * Ctor.
+     * @param rsn Reason for refuting this assertion
+     * @param test The behaviour to test
+     * @param mtr Matcher to test behaviour
+     */
+    private Assertion(
+        final String rsn, final StickyScalar<T> test, final Throws<T> mtr
     ) {
         this(
             () -> !mtr.matches(test),
