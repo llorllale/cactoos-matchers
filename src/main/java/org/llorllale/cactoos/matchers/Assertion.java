@@ -121,11 +121,6 @@ public final class Assertion<T> {
      * @param rsn Reason for refuting this assertion
      * @param test The behaviour to test
      * @param mtr Matcher to test behaviour
-     * @todo #53:30min Avoid the overloading ctor to accept subtype.
-     *  Throws is a Matcher and thus there should be no need to give it a
-     *  special treatment. The fact that we're currently being forced to do so
-     *  smells, and might mean we may end up having to rethink these
-     *  abstractions.
      */
     public Assertion(
         final String rsn, final Scalar<T> test, final Throws<T> mtr

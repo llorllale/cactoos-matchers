@@ -45,9 +45,9 @@ public final class EndsWithTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion<>(
+        new Assertion2<>(
             "The matcher gives positive result for the valid arguments",
-            () -> new TextOf("I'm simple and I know it."),
+            new TextOf("I'm simple and I know it."),
             new EndsWith("know it.")
         ).affirm();
     }
@@ -57,9 +57,9 @@ public final class EndsWithTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion<>(
+        new Assertion2<>(
             "The matcher gives negative result for the invalid arguments",
-            () -> new EndsWith("!").matchesSafely(
+            new EndsWith("!").matchesSafely(
                 () -> "The sentence.",
                 new StringDescription()
             ),
@@ -74,13 +74,11 @@ public final class EndsWithTest {
      */
     @Test
     public void describeActualValues() {
-        new Assertion<>(
+        final Description desc = new StringDescription();
+        new EndsWith("").matchesSafely(new TextOf("ABC"), desc);
+        new Assertion2<>(
             "The matcher print the value which came for testing",
-            () -> {
-                final Description desc = new StringDescription();
-                new EndsWith("").matchesSafely(new TextOf("ABC"), desc);
-                return desc.toString();
-            },
+            desc.toString(),
             new IsEqual<>("Text is \"ABC\"")
         ).affirm();
     }
@@ -91,13 +89,11 @@ public final class EndsWithTest {
      */
     @Test
     public void describeExpectedValues() {
-        new Assertion<>(
+        final Description desc = new StringDescription();
+        new EndsWith("!").describeTo(desc);
+        new Assertion2<>(
             "The matcher print the description of the scenario",
-            () -> {
-                final Description desc = new StringDescription();
-                new EndsWith("!").describeTo(desc);
-                return desc.toString();
-            },
+            desc.toString(),
             new IsEqual<>("Text ending with \"!\"")
         ).affirm();
     }
