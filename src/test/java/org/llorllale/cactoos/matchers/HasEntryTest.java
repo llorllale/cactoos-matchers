@@ -35,6 +35,10 @@ import org.junit.Test;
  * Test case for {@link HasEntry}.
  *
  * @since 1.0.0
+ * @todo #65:30min Add two more tests for the mismatch message,
+ *  testing both the case when a key is absent and a value is incorrect,
+ *  if possible using the Mismatches Matcher introduced by
+ *  https://github.com/llorllale/cactoos-matchers/issues/106.
  * @checkstyle JavadocMethodCheck (200 lines)
  */
 @SuppressWarnings("unchecked")
