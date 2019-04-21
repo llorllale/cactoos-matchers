@@ -39,7 +39,6 @@ import org.junit.Test;
  * @since 1.0.0
  * @checkstyle MagicNumberCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasValuesMatchingTest {
 
     /**
@@ -47,10 +46,10 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void matches() {
-        new Assertion<>(
-            "The matcher give the positive result for the valid arguments",
-            () -> new ListOf<>(1, 2, 3),
-            new HasValuesMatching<>(value -> value > 1 || value == 3)
+        new Assertion2<>(
+            "matches iterable with any elements that satisfy predicate",
+            new HasValuesMatching<>(value -> value == 3),
+            new Matches<>(new ListOf<>(1, 2, 3))
         ).affirm();
     }
 
@@ -59,9 +58,9 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void matchSafely() {
-        new Assertion<>(
-            "The matcher give the negative result for the invalid arguments",
-            () -> new HasValuesMatching<String>(
+        new Assertion2<>(
+            "does not match iterable with no elements that satisfy predicate",
+            new HasValuesMatching<String>(
                 text -> text.contains("simple")
             ).matchesSafely(
                 new ListOf<>("I'm", "short", "sentence"),
@@ -78,14 +77,12 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void describeActualValues() {
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            () -> {
-                final Description description = new StringDescription();
-                new HasValuesMatching<Integer>(value -> value > 5)
-                    .matchesSafely(new ListOf<>(1, 2, 3), description);
-                return description.toString();
-            },
+        final Description description = new StringDescription();
+        new HasValuesMatching<Integer>(value -> value > 5)
+            .matchesSafely(new ListOf<>(1, 2, 3), description);
+        new Assertion2<>(
+            "includes the iterable's elements in description of mismatch",
+            description.toString(),
             new IsEqual<>(
                 "No any elements from [1, 2, 3] matches by the function"
             )
@@ -98,14 +95,12 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void describeExpectedValues() {
-        new Assertion<>(
-            "The matcher print the optional description of the scenario",
-            () -> {
-                final Description description = new StringDescription();
-                new HasValuesMatching<Integer>(value -> value > 5)
-                    .describeTo(description);
-                return description.toString();
-            },
+        final Description description = new StringDescription();
+        new HasValuesMatching<Integer>(value -> value > 5)
+            .describeTo(description);
+        new Assertion2<>(
+            "prints the optional description of the scenario upon a match",
+            description.toString(),
             new IsEqual<>("The function matches at least 1 element.")
         ).affirm();
     }

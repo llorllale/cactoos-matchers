@@ -27,7 +27,6 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.core.StringContains;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -38,7 +37,6 @@ import org.junit.rules.ExpectedException;
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class IsBlankTest {
 
     /**
@@ -49,20 +47,22 @@ public final class IsBlankTest {
 
     @Test
     public void blank() {
-        new Assertion<>(
-            "must match an empty string",
-            () -> "",
-            new IsBlank()
+        new Assertion2<>(
+            "matches empty string",
+            new IsBlank(),
+            new Matches<>("")
         ).affirm();
     }
 
     @Test
     public void notBlank() {
         this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(new StringContains("\"-.$%\""));
-        new Assertion<>(
-            "must not match a non-empty string",
-            () -> "-.$%",
+        this.exception.expectMessage(
+            String.format("Expected: is blank%n but was: \"-.$%%\"")
+        );
+        new Assertion2<>(
+            "does not match non-empty string",
+            "-.$%",
             new IsBlank()
         ).affirm();
     }
@@ -70,10 +70,12 @@ public final class IsBlankTest {
     @Test
     public void nonBlankMessage() {
         this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(new StringContains("but was: \"text\""));
-        new Assertion<>(
-            "must describe itself in terms of the text being matched against",
-            () -> "text",
+        this.exception.expectMessage(
+            String.format("Expected: is blank%n but was: \"text\"")
+        );
+        new Assertion2<>(
+            "describes itself in terms of the text being matched against",
+            "text",
             new IsBlank()
         ).affirm();
     }

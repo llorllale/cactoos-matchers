@@ -48,27 +48,27 @@ public final class HasSizeTest {
 
     @Test
     public void matchesIterableSize() {
-        new Assertion<>(
-            "Expected size doesn't match",
-            () -> new HasSize(2),
+        new Assertion2<>(
+            "matches iterable with given size",
+            new HasSize(2),
             new Matches<>(new IterableOfBooleans(true, false))
         ).affirm();
     }
 
     @Test
     public void doesNotMatchIterableSize() {
-        new Assertion<>(
-            "Expected size should not match",
-            () ->  new IsNot<>(new HasSize(2)),
+        new Assertion2<>(
+            "does not match an iterable with a different size",
+            new IsNot<>(new HasSize(2)),
             new Matches<>(new IterableOfInts(1))
         ).affirm();
     }
 
     @Test
     public void matchesEmptyCollection() {
-        new Assertion<>(
-            "Expected size is not 0",
-            () -> new HasSize(0),
+        new Assertion2<>(
+            "matches empty iterable if given size arg is 0",
+            new HasSize(0),
             new Matches<>(new ListOf<>())
         ).affirm();
     }
@@ -77,9 +77,9 @@ public final class HasSizeTest {
     public void describesMismatch() {
         final Description description = new StringDescription();
         new HasSize(2).describeMismatchSafely(new ListOf<>(), description);
-        new Assertion<>(
-            "Can't describe a mismatch",
-            () -> new TextOf(description.toString()),
+        new Assertion2<>(
+            "describes mismatch",
+            new TextOf(description.toString()),
             new TextIs(
                 new UncheckedText(
                     new FormattedText("has size <%d>", 0)

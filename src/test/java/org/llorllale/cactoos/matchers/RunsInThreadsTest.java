@@ -52,16 +52,14 @@ public final class RunsInThreadsTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final int threads = 20;
         final int attempts = 100;
-        new Assertion<>(
-            "must match thread-safe Func",
-            () -> new RunsInThreads<>(counter, threads),
-            new Matches<>(
-                new RepeatedFunc<>(new Safe(), attempts)
-            )
+        new Assertion2<>(
+            "matches the thread-safe Func",
+            new RunsInThreads<>(counter, threads),
+            new Matches<>(new RepeatedFunc<>(new Safe(), attempts))
         ).affirm();
-        new Assertion<>(
+        new Assertion2<>(
             "counter must be incremented by all threads",
-            counter::get,
+            counter.get(),
             new IsEqual<>(threads * attempts)
         ).affirm();
     }
@@ -75,18 +73,18 @@ public final class RunsInThreadsTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final int threads = 20;
         final int attempts = 100;
-        new Assertion<>(
-            "must not match Func that is not thread-safe",
-            () -> new RunsInThreads<>(counter, threads),
+        new Assertion2<>(
+            "does not match Func that is not thread-safe",
+            new RunsInThreads<>(counter, threads),
             new IsNot<>(
                 new Matches<>(
                     new RepeatedFunc<>(new Unsafe(), attempts)
                 )
             )
         ).affirm();
-        new Assertion<>(
+        new Assertion2<>(
             "counter must not be incremented by all threads",
-            counter::get,
+            counter.get(),
             new IsNot<>(new IsEqual<>(threads * attempts))
         ).affirm();
     }
@@ -96,7 +94,7 @@ public final class RunsInThreadsTest {
      */
     private static class Safe implements Func<AtomicInteger, Boolean> {
         @Override
-        public Boolean apply(final AtomicInteger input) throws Exception {
+        public Boolean apply(final AtomicInteger input) {
             input.incrementAndGet();
             return true;
         }
@@ -119,7 +117,7 @@ public final class RunsInThreadsTest {
         );
 
         @Override
-        public Boolean apply(final AtomicInteger input) throws Exception {
+        public Boolean apply(final AtomicInteger input) {
             this.thread.compareAndSet(
                 Unsafe.NO_THREAD,
                 Thread.currentThread().getName()

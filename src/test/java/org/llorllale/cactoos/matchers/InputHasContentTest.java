@@ -27,10 +27,10 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.io.InputOf;
-import org.cactoos.text.JoinedText;
-import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -46,44 +46,43 @@ public final class InputHasContentTest {
     @Test
     public void matchesInputContent() {
         final String text = "Hello World!";
-        new Assertion<>(
-            "Matcher does not match equal values",
-            () -> new InputOf(text),
-            new InputHasContent(text)
+        new Assertion2<>(
+            "matches input with equal contents",
+            new InputHasContent(text),
+            new Matches<>(new InputOf(text))
         ).affirm();
     }
 
     @Test
-    public void failsIfContentDoesNotMatch() {
-        new Assertion<>(
-            "Matcher matches values that are not equal",
-            () -> {
-                final Description description = new StringDescription();
-                new InputHasContent("world").describeMismatchSafely(
-                    new InputOf("hello"), description
-                );
-                return new UncheckedText(description.toString());
-            },
-            new TextIs("has content \"hello\"")
+    public void mismatchInputContent() {
+        new Assertion2<>(
+            "does not match input with different contents",
+            new InputHasContent("hello"),
+            new IsNot<>(new Matches<>(new InputOf("world")))
+        ).affirm();
+    }
+
+    @Test
+    public void describesMismatch() {
+        final Description description = new StringDescription();
+        new InputHasContent("world").describeMismatchSafely(
+            new InputOf("hello"), description
+        );
+        new Assertion2<>(
+            "includes the specified contents when describing a mismatch",
+            description.toString(),
+            new IsEqual<>("has content \"hello\"")
         ).affirm();
     }
 
     @Test
     public void describesExpectedValues() {
-        new Assertion<>(
-            new UncheckedText(
-                new JoinedText(
-                    " ",
-                    "The matcher print the value which should be present",
-                    "in the target iterable"
-                )
-            ).asString(),
-            () -> {
-                final Description description = new StringDescription();
-                new InputHasContent("world").describeTo(description);
-                return new UncheckedText(description.toString());
-            },
-            new TextIs("has content \"world\"")
+        final Description description = new StringDescription();
+        new InputHasContent("world").describeTo(description);
+        new Assertion2<>(
+            "includes the specified contents when describing itself",
+            description.toString(),
+            new IsEqual<>("has content \"world\"")
         ).affirm();
     }
 

@@ -46,10 +46,10 @@ public final class MatchesRegexTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion<>(
-            "The matcher gives positive result for the valid arguments",
-            () -> new TextOf("I'm simple and I know it."),
-            new MatchesRegex("^.*know\\sit\\.$")
+        new Assertion2<>(
+            "matches text that satisfies regex",
+            new MatchesRegex("^.*know\\sit\\.$"),
+            new Matches<>(new TextOf("I'm simple and I know it."))
         ).affirm();
     }
 
@@ -58,9 +58,9 @@ public final class MatchesRegexTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion<>(
-            "The matcher gives negative result for the invalid arguments",
-            () -> new MatchesRegex("^.*!$"),
+        new Assertion2<>(
+            "does not match text that does not conform to the regex",
+            new MatchesRegex("^.*!$"),
             new IsNot<>(new Matches<>(() -> "The sentence."))
         ).affirm();
     }
@@ -72,13 +72,11 @@ public final class MatchesRegexTest {
      */
     @Test
     public void describeActualValues() {
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            () -> {
-                final Description desc = new StringDescription();
-                new MatchesRegex("").matchesSafely(new TextOf("ABC"), desc);
-                return desc.toString();
-            },
+        final Description desc = new StringDescription();
+        new MatchesRegex("").matchesSafely(new TextOf("ABC"), desc);
+        new Assertion2<>(
+            "includes the test object in the description",
+            desc.toString(),
             new IsEqual<>("Text is \"ABC\"")
         ).affirm();
     }
@@ -89,13 +87,11 @@ public final class MatchesRegexTest {
      */
     @Test
     public void describeExpectedValues() {
-        new Assertion<>(
-            "The matcher print the description of the scenario",
-            () -> {
-                final Description desc = new StringDescription();
-                new MatchesRegex("^.*\\.$").describeTo(desc);
-                return desc.toString();
-            },
+        final Description desc = new StringDescription();
+        new MatchesRegex("^.*\\.$").describeTo(desc);
+        new Assertion2<>(
+            "describes the scenario",
+            desc.toString(),
             new IsEqual<>("Text matches \"^.*\\.$\"")
         ).affirm();
     }

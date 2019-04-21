@@ -64,9 +64,9 @@ import org.hamcrest.StringDescription;
  *
  * @param <T> The type of the result returned by the operation under test
  * @since 1.0.0
- * @todo #88:30min Phase out the original Assertion class and replace with
- *  Assertion2 instead. When done, delete the original Assertion and rename
- *  Assertion2 to 'Assertion'.
+ * @todo #110:30min Continue phasing out the original Assertion class and
+ *  replacing with Assertion2 instead. When done, delete the original
+ *  Assertion and rename Assertion2 to 'Assertion'.
  */
 public final class Assertion2<T> {
     /**

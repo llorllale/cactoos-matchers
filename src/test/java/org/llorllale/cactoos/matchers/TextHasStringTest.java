@@ -26,15 +26,11 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
-import org.cactoos.io.InputOf;
-import org.cactoos.io.Md5DigestOf;
-import org.cactoos.text.HexOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.StringContains;
+import org.cactoos.text.TextOf;
+import org.hamcrest.core.IsNot;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link TextHasString}.
@@ -45,50 +41,60 @@ import org.junit.Test;
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TextHasStringTest {
-
-    @Test
-    public void hasClearDescriptionForFailedTest() throws Exception {
-        final HexOf hex = new HexOf(
-            new Md5DigestOf(
-                new InputOf("Hello World!")
-            )
-        );
-        final Description description = new StringDescription();
-        final TextHasString matcher = new TextHasString(
-            "ed076287532e86365e841e92bfc50d8c6"
-        );
-        matcher.matchesSafely(hex, description);
-        new Assertion<>(
-            "Description is not clear ",
-            description::toString,
-            new StringContains("Text is \"ed076287532e86365e841e92bfc50d8c\"")
-        ).affirm();
-    }
+    /**
+     * Rule for handling expected exceptions.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void matchesPrefix() {
-        new Assertion<>(
-            "must match text prefix",
-            () -> new TextHasString("123").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
+        new Assertion2<>(
+            "matches prefix",
+            new TextHasString("123"),
+            new Matches<>(() -> "12345")
         ).affirm();
     }
 
     @Test
     public void matchesSuffix() {
-        new Assertion<>(
-            "must match text suffix",
-            () -> new TextHasString("345").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
+        new Assertion2<>(
+            "matches suffix",
+            new TextHasString("345"),
+            new Matches<>(() -> "12345")
         ).affirm();
     }
 
     @Test
     public void matchesInTheMiddle() {
-        new Assertion<>(
-            "must match random substring in the middle of the text",
-            () -> new TextHasString("234").matches((Text) () -> "12345"),
-            new IsEqual<>(true)
+        new Assertion2<>(
+            "matches substring",
+            new TextHasString("234"),
+            new Matches<>(() -> "12345")
+        ).affirm();
+    }
+
+    @Test
+    public void mismatch() {
+        new Assertion2<>(
+            "does not match text not containing the given string",
+            new TextHasString("xyz"),
+            new IsNot<>(new Matches<>(new TextOf("abc")))
+        ).affirm();
+    }
+
+    @Test
+    public void describesMismatch() {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(
+            String.format(
+                "Expected: Text with \"xyz456\"%n but was: Text is \"abc123\""
+            )
+        );
+        new Assertion2<>(
+            "describes mismatch correctly",
+            new TextOf("abc123"),
+            new TextHasString("xyz456")
         ).affirm();
     }
 }

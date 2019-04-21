@@ -26,11 +26,11 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
- * Test case for {@link org.llorllale.cactoos.matchers.FuncApplies}.
+ * Test case for {@link FuncApplies}.
  *
  * @since 1.0
  * @checkstyle JavadocMethodCheck (500 lines)
@@ -38,10 +38,21 @@ import org.junit.Test;
 public final class FuncAppliesTest {
     @Test
     public void matchFuncs() {
-        new Assertion<>(
-            "Can't match equaled values",
-            () -> new FuncApplies<>(1, 1).matchesSafely(x -> x),
-            new IsEqual<>(true)
+        new Assertion2<>(
+            "matches function that produces same output from the given input",
+            new FuncApplies<>(1, 1),
+            new Matches<>(x -> x)
+        ).affirm();
+    }
+
+    @Test
+    public void mismatchFuncs() {
+        new Assertion2<>(
+            // @checkstyle LineLength (1 line)
+            "does not match function that produces different output from the given input",
+            new FuncApplies<>(1, 1),
+            // @checkstyle MagicNumber (1 line)
+            new IsNot<>(new Matches<>(x -> 3 * x))
         ).affirm();
     }
 }

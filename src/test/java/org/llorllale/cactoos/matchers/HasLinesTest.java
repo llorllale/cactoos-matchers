@@ -36,7 +36,6 @@ import org.junit.rules.ExpectedException;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasLinesTest {
 
     /**
@@ -50,10 +49,10 @@ public final class HasLinesTest {
      */
     @Test
     public void matches() {
-        new Assertion<>(
-            "The matcher gives positive result for valid input arguments",
-            () -> String.format("A%nB%nC%n"),
-            new HasLines("A", "C")
+        new Assertion2<>(
+            "matches lines containing the given strings",
+            new HasLines("A", "C"),
+            new Matches<>(String.format("A%nB%nC%n"))
         ).affirm();
     }
 
@@ -65,11 +64,14 @@ public final class HasLinesTest {
     @Test
     public void failed() {
         this.exception.expect(AssertionError.class);
-        this.exception.expectMessage("Expected: Lines are <[Tom, Mike]>");
-        this.exception.expectMessage(" but was: <[Tom, John]>");
-        new Assertion<>(
-            "The matcher gives negative results for invalid input arguments",
-            () -> String.format("Tom%nJohn%n"),
+        this.exception.expectMessage(
+            String.format(
+                "Expected: Lines are <[Tom, Mike]>%n but was: <[Tom, John]>"
+            )
+        );
+        new Assertion2<>(
+            "does not match lines that do not contain the given strings",
+            String.format("Tom%nJohn%n"),
             new HasLines("Tom", "Mike")
         ).affirm();
     }
