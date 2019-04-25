@@ -38,7 +38,6 @@ import org.junit.Test;
  * Test case for {@link Matches}.
  *
  * @since 1.0.0
- * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class MatchesTest {
@@ -48,9 +47,9 @@ public final class MatchesTest {
      */
     @Test
     public void matches() {
-        new Assertion<>(
+        new Assertion2<>(
             "Matcher TextIs(abc) gives positive result for Text(abc)",
-            () -> new TextIs("abc"),
+            new TextIs("abc"),
             new Matches<>(new TextOf("abc"))
         ).affirm();
     }
@@ -60,9 +59,9 @@ public final class MatchesTest {
      */
     @Test
     public void matchStatus() {
-        new Assertion<>(
+        new Assertion2<>(
             "Matcher TextIs(abc) gives negative result for Text(def)",
-            () -> new Matches<Text>(() -> "def").matches(new TextIs("abc")),
+            new Matches<Text>(() -> "def").matches(new TextIs("abc")),
             new IsEqual<>(false)
         ).affirm();
     }
@@ -72,17 +71,13 @@ public final class MatchesTest {
      */
     @Test
     public void describeActual() {
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            () -> {
-                final Description description = new StringDescription();
-                new Matches<Text>(
-                    new TextOf("expected")
-                ).matchesSafely(
-                    new TextIs("actual"), description
-                );
-                return description.toString();
-            },
+        final Description description = new StringDescription();
+        new Matches<Text>(new TextOf("expected")).matchesSafely(
+            new TextIs("actual"), description
+        );
+        new Assertion2<>(
+            "describes the matcher",
+            description.toString(),
             new IsEqual<>("Text with value \"actual\"")
         ).affirm();
     }
@@ -92,15 +87,11 @@ public final class MatchesTest {
      */
     @Test
     public void describeExpected() {
-        new Assertion<>(
-            "The matcher print the value which is expected to be present",
-            () -> {
-                final Description description = new StringDescription();
-                new Matches<Text>(
-                    new TextOf("expected")
-                ).describeTo(description);
-                return description.toString();
-            },
+        final Description description = new StringDescription();
+        new Matches<Text>(new TextOf("expected")).describeTo(description);
+        new Assertion2<>(
+            "describes the expected value",
+            description.toString(),
             new IsEqual<>("<expected>")
         ).affirm();
     }

@@ -49,10 +49,10 @@ public final class HasValuesTest {
      */
     @Test
     public void matches() {
-        new Assertion<>(
-            "The matcher check that [1,2,3] contains [2]",
-            () -> new ListOf<>(1, 2, 3),
-            new HasValues<>(2)
+        new Assertion2<>(
+            "matches iterable containing the given element",
+            new HasValues<>(2),
+            new Matches<>(new ListOf<>(1, 2, 3))
         ).affirm();
     }
 
@@ -61,49 +61,25 @@ public final class HasValuesTest {
      */
     @Test
     public void matchSafely() {
-        new Assertion<>(
-            "The matcher check that [a,b,c,e] contains [a,b]",
-            () -> new HasValues<>("a", "b").matchesSafely(
-                new ListOf<>("a", "b", "c", "e"),
-                new StringDescription()
-            ),
-            new IsEqual<>(true)
+        new Assertion2<>(
+            "matches iterable containing the given tuple",
+            new HasValues<>("a", "b"),
+            new Matches<>(new ListOf<>("a", "b", "c", "e"))
         ).affirm();
     }
 
     /**
      * Matcher prints the actual value(s) properly.
-     *
-     * Once test is failed the hamcrest throw the {@link AssertionError}.
-     * The error has a message with expected/actual results.
-     *
-     * This test is required to check that the result hamcrest message
-     * has proper "actual section". For example the test
-     * <pre>{@code
-     * MatcherAssert.assertThat(
-     *    new ListOf<>(1, 2, 3),
-     *    new HasValues<>(5)
-     * );
-     * }</pre> will fail with the following message
-     * <pre>{@code
-     * java.lang.AssertionError:
-     *   Expected: <5>
-     *   but: <1, 2, 3>
-     * }</pre>, where
-     *  - the "actual section" is "<1, 2, 3>"
-     *  - the "expected section" is "<5>".
      */
     @Test
     public void describeActualValues() {
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            () -> {
-                final Description description = new StringDescription();
-                new HasValues<>(5).matchesSafely(
-                    new ListOf<>(1, 2, 3), description
-                );
-                return description.toString();
-            },
+        final Description description = new StringDescription();
+        new HasValues<>(5).matchesSafely(
+            new ListOf<>(1, 2, 3), description
+        );
+        new Assertion2<>(
+            "describes the test args",
+            description.toString(),
             new IsEqual<>("<1, 2, 3>")
         ).affirm();
     }
@@ -113,14 +89,11 @@ public final class HasValuesTest {
      */
     @Test
     public void describeExpectedValues() {
-        new Assertion<>(
-            "The matcher print the value which should be present in the "
-                + "target iterable",
-            () -> {
-                final Description description = new StringDescription();
-                new HasValues<>(3, 4).describeTo(description);
-                return description.toString();
-            },
+        final Description description = new StringDescription();
+        new HasValues<>(3, 4).describeTo(description);
+        new Assertion2<>(
+            "describes the expected values",
+            description.toString(),
             new IsEqual<>("<3, 4>")
         ).affirm();
     }

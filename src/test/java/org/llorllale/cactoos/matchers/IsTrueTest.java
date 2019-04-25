@@ -30,6 +30,7 @@ package org.llorllale.cactoos.matchers;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -44,9 +45,10 @@ public final class IsTrueTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion<>(
-            "The matcher gives positive result for valid argument.",
-            () -> true, new IsTrue()
+        new Assertion2<>(
+            "matches 'true'",
+            new IsTrue(),
+            new Matches<>(true)
         ).affirm();
     }
 
@@ -55,10 +57,10 @@ public final class IsTrueTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion<>(
-            "The matcher gives negative result for invalid argument.",
-            () -> new IsTrue().matchesSafely(false, new StringDescription()),
-            new IsEqual<>(false)
+        new Assertion2<>(
+            "mismatches 'false'",
+            new IsTrue(),
+            new IsNot<>(new Matches<>(false))
         ).affirm();
     }
 
@@ -69,13 +71,11 @@ public final class IsTrueTest {
      */
     @Test
     public void describeActualValues() {
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            () -> {
-                final Description desc = new StringDescription();
-                new IsTrue().matchesSafely(false, desc);
-                return desc.toString();
-            },
+        final Description desc = new StringDescription();
+        new IsTrue().matchesSafely(false, desc);
+        new Assertion2<>(
+            "describes the test arg",
+            desc.toString(),
             new IsEqual<>("<false>")
         ).affirm();
     }
@@ -86,13 +86,11 @@ public final class IsTrueTest {
      */
     @Test
     public void describeExpectedValues() {
-        new Assertion<>(
-            "The matcher print the details about expected value",
-            () -> {
-                final Description desc = new StringDescription();
-                new IsTrue().describeTo(desc);
-                return desc.toString();
-            },
+        final Description desc = new StringDescription();
+        new IsTrue().describeTo(desc);
+        new Assertion2<>(
+            "describes the expected value",
+            desc.toString(),
             new IsEqual<>("<true>")
         ).affirm();
     }

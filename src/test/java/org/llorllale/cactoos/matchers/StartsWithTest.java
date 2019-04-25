@@ -31,6 +31,7 @@ import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -45,11 +46,11 @@ public final class StartsWithTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion<>(
-            "The matcher gives positive result for the valid arguments",
-            () -> new TextOf("I'm simple and I know it."),
-            new StartsWith("I'm simple")
-        );
+        new Assertion2<>(
+            "matches text with prefix",
+            new StartsWith("I'm simple"),
+            new Matches<>(new TextOf("I'm simple and I know it."))
+        ).affirm();
     }
 
     /**
@@ -57,14 +58,11 @@ public final class StartsWithTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion<>(
-            "The matcher gives negative result for the invalid arguments",
-            () -> new StartsWith("!").matchesSafely(
-                () -> "The sentence.",
-                new StringDescription()
-            ),
-            new IsEqual<>(false)
-        );
+        new Assertion2<>(
+            "mismatches text without the prefix",
+            new StartsWith("!"),
+            new IsNot<>(new Matches<>(new TextOf("The sentence.")))
+        ).affirm();
     }
 
     /**
@@ -74,13 +72,11 @@ public final class StartsWithTest {
      */
     @Test
     public void describeActualValues() {
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            () -> {
-                final Description desc = new StringDescription();
-                new StartsWith("").matchesSafely(new TextOf("ABC"), desc);
-                return desc.toString();
-            },
+        final Description desc = new StringDescription();
+        new StartsWith("").matchesSafely(new TextOf("ABC"), desc);
+        new Assertion2<>(
+            "describes the test arg",
+            desc.toString(),
             new IsEqual<>("Text is \"ABC\"")
         ).affirm();
     }
@@ -91,13 +87,11 @@ public final class StartsWithTest {
      */
     @Test
     public void describeExpectedValues() {
-        new Assertion<>(
-            "The matcher print the description of the scenario",
-            () -> {
-                final Description desc = new StringDescription();
-                new StartsWith("!").describeTo(desc);
-                return desc.toString();
-            },
+        final Description desc = new StringDescription();
+        new StartsWith("!").describeTo(desc);
+        new Assertion2<>(
+            "describes the expected prefix",
+            desc.toString(),
             new IsEqual<>("Text starting with \"!\"")
         ).affirm();
     }

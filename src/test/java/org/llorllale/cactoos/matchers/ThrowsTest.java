@@ -27,9 +27,12 @@
 
 package org.llorllale.cactoos.matchers;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -37,6 +40,7 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle StringLiteralsConcatenationCheck (200 lines)
+ * @checkstyle JavadocMethodCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class ThrowsTest {
@@ -46,38 +50,55 @@ public final class ThrowsTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion<String>(
-            "The thrown exception is not valid.",
-            () -> {
-                throw new IllegalArgumentException("No object(s) found.");
-            },
-            new Throws<>("No object(s) found.", IllegalArgumentException.class)
+        new Assertion2<>(
+            "matches scalar that throws the expected exception",
+            new Throws<>("No object(s) found.", IllegalArgumentException.class),
+            new Matches<>(
+                () -> {
+                    throw new IllegalArgumentException("No object(s) found.");
+                }
+            )
         ).affirm();
     }
 
-    /**
-     * Give the negative testing result for the invalid arguments.
-     */
     @Test
     public void matchNegative() {
-        final String msg = "No object(s) found.";
-        new Assertion<>(
-            "The exception wasn't thrown.",
-            () -> new Throws<>(
-                msg,
-                IllegalArgumentException.class
-            ).matchesSafely(
-                () -> msg, new StringDescription()
-            ),
-            new IsEqual<>(false)
+        new Assertion2<>(
+            "mismatches scalar that doesn't throw any exception",
+            new Throws<>("illegal arg", IllegalArgumentException.class),
+            new IsNot<>(new Matches<>(() -> "no exception"))
         ).affirm();
     }
 
-    /**
-     * Matcher prints the actual value(s) properly in case of errors.
-     * The actual/expected section are using only when testing is failed and
-     *  we need to explain what exactly went wrong.
-     */
+    @Test
+    public void matchesSubtype() {
+        new Assertion2<>(
+            "matches scalar that throws a subtype of the expected exception",
+            new Throws<>("", IOException.class),
+            new Matches<>(
+                () -> {
+                    throw new FileNotFoundException("");
+                }
+            )
+        ).affirm();
+    }
+
+    @Test
+    public void mismatchException() {
+        new Assertion2<>(
+            // @checkstyle LineLength (1 line)
+            "mismatches if exception thrown is not subtype of expected exception",
+            new Throws<>("", IOException.class),
+            new IsNot<>(
+                new Matches<>(
+                    () -> {
+                        throw new IllegalArgumentException("");
+                    }
+                )
+            )
+        ).affirm();
+    }
+
     @Test
     public void describeActualValues() {
         final Description description = new StringDescription();
@@ -87,9 +108,9 @@ public final class ThrowsTest {
             },
             description
         );
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            description::toString,
+        new Assertion2<>(
+            "describes the actual exception",
+            description.toString(),
             new IsEqual<>(
                 "Exception has type 'java.lang.IllegalArgumentException'"
                     + " and message 'No object(s) found.'"
@@ -97,17 +118,13 @@ public final class ThrowsTest {
         ).affirm();
     }
 
-    /**
-     * Matcher prints the expected value(s) properly.
-     * The user has the ability to specify the description for the function.
-     */
     @Test
     public void describeExpectedValues() {
         final Description description = new StringDescription();
         new Throws<>("NPE", NullPointerException.class).describeTo(description);
-        new Assertion<>(
-            "The matcher print the details about expected exception",
-            description::toString,
+        new Assertion2<>(
+            "describes the expected exception",
+            description.toString(),
             new IsEqual<>(
                 "Exception has type 'java.lang.NullPointerException'"
                     + " and message 'NPE'"

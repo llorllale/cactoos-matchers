@@ -26,6 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -33,15 +34,25 @@ import org.junit.Test;
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 lines)
  */
 public final class MatcherOfTest {
 
     @Test
-    public void createsMatcherFromFunc() {
-        new Assertion<>(
-            "Funcs doesn't return the same results",
-            () -> new MatcherOf<>(x -> !x),
-            new Matches<>(false)
+    public void matchesFunc() {
+        new Assertion2<>(
+            "matches when arg satisfies the predicate",
+            new MatcherOf<>(x -> x > 5),
+            new Matches<>(10)
+        ).affirm();
+    }
+
+    @Test
+    public void mismatchesFunc() {
+        new Assertion2<>(
+            "mismatches when arg does not satisfy the predicate",
+            new MatcherOf<>(x -> x > 5),
+            new IsNot<>(new Matches<>(1))
         ).affirm();
     }
 }

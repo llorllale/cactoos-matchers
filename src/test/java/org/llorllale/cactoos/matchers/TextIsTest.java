@@ -40,19 +40,19 @@ public final class TextIsTest {
     @Test
     public void match() {
         final String input = "abcde";
-        new Assertion<>(
+        new Assertion2<>(
             "must match identical text",
-            () -> new TextOf(input),
-            new TextIs(input)
+            new TextIs(input),
+            new Matches<>(new TextOf(input))
         ).affirm();
     }
 
     @Test
     public void noMatch() {
-        new Assertion<>(
+        new Assertion2<>(
             "must not match text that is not identical",
-            () -> new TextOf("abcd"),
-            new IsNot<>(new TextIs("xyz"))
+            new TextIs("xyz"),
+            new IsNot<>(new Matches<>(new TextOf("abcd")))
         ).affirm();
     }
 }
