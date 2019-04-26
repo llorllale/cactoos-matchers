@@ -50,7 +50,7 @@ public final class ThrowsTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches scalar that throws the expected exception",
             new Throws<>("No object(s) found.", IllegalArgumentException.class),
             new Matches<>(
@@ -63,7 +63,7 @@ public final class ThrowsTest {
 
     @Test
     public void matchNegative() {
-        new Assertion2<>(
+        new Assertion<>(
             "mismatches scalar that doesn't throw any exception",
             new Throws<>("illegal arg", IllegalArgumentException.class),
             new IsNot<>(new Matches<>(() -> "no exception"))
@@ -72,7 +72,7 @@ public final class ThrowsTest {
 
     @Test
     public void matchesSubtype() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches scalar that throws a subtype of the expected exception",
             new Throws<>("", IOException.class),
             new Matches<>(
@@ -85,7 +85,7 @@ public final class ThrowsTest {
 
     @Test
     public void mismatchException() {
-        new Assertion2<>(
+        new Assertion<>(
             // @checkstyle LineLength (1 line)
             "mismatches if exception thrown is not subtype of expected exception",
             new Throws<>("", IOException.class),
@@ -108,7 +108,7 @@ public final class ThrowsTest {
             },
             description
         );
-        new Assertion2<>(
+        new Assertion<>(
             "describes the actual exception",
             description.toString(),
             new IsEqual<>(
@@ -122,7 +122,7 @@ public final class ThrowsTest {
     public void describeExpectedValues() {
         final Description description = new StringDescription();
         new Throws<>("NPE", NullPointerException.class).describeTo(description);
-        new Assertion2<>(
+        new Assertion<>(
             "describes the expected exception",
             description.toString(),
             new IsEqual<>(

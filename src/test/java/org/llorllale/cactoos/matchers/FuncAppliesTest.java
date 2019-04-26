@@ -38,7 +38,7 @@ import org.junit.Test;
 public final class FuncAppliesTest {
     @Test
     public void matchFuncs() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches function that produces same output from the given input",
             new FuncApplies<>(1, 1),
             new Matches<>(x -> x)
@@ -47,7 +47,7 @@ public final class FuncAppliesTest {
 
     @Test
     public void mismatchFuncs() {
-        new Assertion2<>(
+        new Assertion<>(
             // @checkstyle LineLength (1 line)
             "does not match function that produces different output from the given input",
             new FuncApplies<>(1, 1),

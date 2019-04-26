@@ -46,7 +46,7 @@ public final class MatchesRegexTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches text that satisfies regex",
             new MatchesRegex("^.*know\\sit\\.$"),
             new Matches<>(new TextOf("I'm simple and I know it."))
@@ -58,7 +58,7 @@ public final class MatchesRegexTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion2<>(
+        new Assertion<>(
             "does not match text that does not conform to the regex",
             new MatchesRegex("^.*!$"),
             new IsNot<>(new Matches<>(() -> "The sentence."))
@@ -74,7 +74,7 @@ public final class MatchesRegexTest {
     public void describeActualValues() {
         final Description desc = new StringDescription();
         new MatchesRegex("").matchesSafely(new TextOf("ABC"), desc);
-        new Assertion2<>(
+        new Assertion<>(
             "includes the test object in the description",
             desc.toString(),
             new IsEqual<>("Text is \"ABC\"")
@@ -89,7 +89,7 @@ public final class MatchesRegexTest {
     public void describeExpectedValues() {
         final Description desc = new StringDescription();
         new MatchesRegex("^.*\\.$").describeTo(desc);
-        new Assertion2<>(
+        new Assertion<>(
             "describes the scenario",
             desc.toString(),
             new IsEqual<>("Text matches \"^.*\\.$\"")

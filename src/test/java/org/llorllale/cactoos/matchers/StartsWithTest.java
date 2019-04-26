@@ -46,7 +46,7 @@ public final class StartsWithTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches text with prefix",
             new StartsWith("I'm simple"),
             new Matches<>(new TextOf("I'm simple and I know it."))
@@ -58,7 +58,7 @@ public final class StartsWithTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion2<>(
+        new Assertion<>(
             "mismatches text without the prefix",
             new StartsWith("!"),
             new IsNot<>(new Matches<>(new TextOf("The sentence.")))
@@ -74,7 +74,7 @@ public final class StartsWithTest {
     public void describeActualValues() {
         final Description desc = new StringDescription();
         new StartsWith("").matchesSafely(new TextOf("ABC"), desc);
-        new Assertion2<>(
+        new Assertion<>(
             "describes the test arg",
             desc.toString(),
             new IsEqual<>("Text is \"ABC\"")
@@ -89,7 +89,7 @@ public final class StartsWithTest {
     public void describeExpectedValues() {
         final Description desc = new StringDescription();
         new StartsWith("!").describeTo(desc);
-        new Assertion2<>(
+        new Assertion<>(
             "describes the expected prefix",
             desc.toString(),
             new IsEqual<>("Text starting with \"!\"")

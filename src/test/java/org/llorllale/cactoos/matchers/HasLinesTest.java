@@ -49,7 +49,7 @@ public final class HasLinesTest {
      */
     @Test
     public void matches() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches lines containing the given strings",
             new HasLines("A", "C"),
             new Matches<>(String.format("A%nB%nC%n"))
@@ -69,7 +69,7 @@ public final class HasLinesTest {
                 "Expected: Lines are <[Tom, Mike]>%n but was: <[Tom, John]>"
             )
         );
-        new Assertion2<>(
+        new Assertion<>(
             "does not match lines that do not contain the given strings",
             String.format("Tom%nJohn%n"),
             new HasLines("Tom", "Mike")

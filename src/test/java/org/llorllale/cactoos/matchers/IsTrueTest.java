@@ -45,7 +45,7 @@ public final class IsTrueTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches 'true'",
             new IsTrue(),
             new Matches<>(true)
@@ -57,7 +57,7 @@ public final class IsTrueTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion2<>(
+        new Assertion<>(
             "mismatches 'false'",
             new IsTrue(),
             new IsNot<>(new Matches<>(false))
@@ -73,7 +73,7 @@ public final class IsTrueTest {
     public void describeActualValues() {
         final Description desc = new StringDescription();
         new IsTrue().matchesSafely(false, desc);
-        new Assertion2<>(
+        new Assertion<>(
             "describes the test arg",
             desc.toString(),
             new IsEqual<>("<false>")
@@ -88,7 +88,7 @@ public final class IsTrueTest {
     public void describeExpectedValues() {
         final Description desc = new StringDescription();
         new IsTrue().describeTo(desc);
-        new Assertion2<>(
+        new Assertion<>(
             "describes the expected value",
             desc.toString(),
             new IsEqual<>("<true>")

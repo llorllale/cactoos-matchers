@@ -49,7 +49,7 @@ public final class HasEntryTest {
      */
     @Test
     public void matches() {
-        new Assertion2<>(
+        new Assertion<>(
             "must match an entry in the map",
             new HasEntry<>("a", 1),
             new Matches<>(
@@ -63,7 +63,7 @@ public final class HasEntryTest {
 
     @Test(expected = AssertionError.class)
     public void doesNotMatchAMissingEntry() {
-        new Assertion2<>(
+        new Assertion<>(
             "must not match a missing entry in the map",
             new MapOf<>(
                 new MapEntry<>("a", 1),
@@ -75,7 +75,7 @@ public final class HasEntryTest {
 
     @Test(expected = AssertionError.class)
     public void doesNotMatchAnIncorrectEntry() {
-        new Assertion2<>(
+        new Assertion<>(
             "must not match an existing entry in the map",
             new MapOf<>(
                 new MapEntry<>("a", 1),

@@ -51,7 +51,7 @@ public final class ScalarHasValueTest {
     @Test
     public void matchesWithExpectedString() {
         final String expected = "some text";
-        new Assertion2<>(
+        new Assertion<>(
             "Must match with expected string",
             new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(expected)
@@ -61,7 +61,7 @@ public final class ScalarHasValueTest {
     @Test
     public void matchesAsExpectedWithMatcher() {
         final String expected = "text";
-        new Assertion2<>(
+        new Assertion<>(
             "Must match a with the given Matcher",
             new UncheckedScalar<>(() -> expected),
             new ScalarHasValue<>(new IsEqual<>(expected))
@@ -77,7 +77,7 @@ public final class ScalarHasValueTest {
                 "Expected: Scalar with \"something\"%n but was: \"something else\""
             )
         );
-        new Assertion2<>(
+        new Assertion<>(
             "correctly describes a mismatch",
             new Constant<>("something else"),
             new ScalarHasValue<>(new IsEqual<>("something"))

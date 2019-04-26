@@ -52,12 +52,12 @@ public final class RunsInThreadsTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final int threads = 20;
         final int attempts = 100;
-        new Assertion2<>(
+        new Assertion<>(
             "matches the thread-safe Func",
             new RunsInThreads<>(counter, threads),
             new Matches<>(new RepeatedFunc<>(new Safe(), attempts))
         ).affirm();
-        new Assertion2<>(
+        new Assertion<>(
             "counter must be incremented by all threads",
             counter.get(),
             new IsEqual<>(threads * attempts)
@@ -73,7 +73,7 @@ public final class RunsInThreadsTest {
         final AtomicInteger counter = new AtomicInteger(0);
         final int threads = 20;
         final int attempts = 100;
-        new Assertion2<>(
+        new Assertion<>(
             "does not match Func that is not thread-safe",
             new RunsInThreads<>(counter, threads),
             new IsNot<>(
@@ -82,7 +82,7 @@ public final class RunsInThreadsTest {
                 )
             )
         ).affirm();
-        new Assertion2<>(
+        new Assertion<>(
             "counter must not be incremented by all threads",
             counter.get(),
             new IsNot<>(new IsEqual<>(threads * attempts))

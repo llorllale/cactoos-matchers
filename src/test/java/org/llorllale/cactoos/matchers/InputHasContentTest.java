@@ -34,11 +34,10 @@ import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
- * Test case for {@link org.llorllale.cactoos.matchers.InputHasContent}.
+ * Test case for {@link InputHasContent}.
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class InputHasContentTest {
@@ -46,7 +45,7 @@ public final class InputHasContentTest {
     @Test
     public void matchesInputContent() {
         final String text = "Hello World!";
-        new Assertion2<>(
+        new Assertion<>(
             "matches input with equal contents",
             new InputHasContent(text),
             new Matches<>(new InputOf(text))
@@ -55,7 +54,7 @@ public final class InputHasContentTest {
 
     @Test
     public void mismatchInputContent() {
-        new Assertion2<>(
+        new Assertion<>(
             "does not match input with different contents",
             new InputHasContent("hello"),
             new IsNot<>(new Matches<>(new InputOf("world")))
@@ -68,7 +67,7 @@ public final class InputHasContentTest {
         new InputHasContent("world").describeMismatchSafely(
             new InputOf("hello"), description
         );
-        new Assertion2<>(
+        new Assertion<>(
             "includes the specified contents when describing a mismatch",
             description.toString(),
             new IsEqual<>("has content \"hello\"")
@@ -79,7 +78,7 @@ public final class InputHasContentTest {
     public void describesExpectedValues() {
         final Description description = new StringDescription();
         new InputHasContent("world").describeTo(description);
-        new Assertion2<>(
+        new Assertion<>(
             "includes the specified contents when describing itself",
             description.toString(),
             new IsEqual<>("has content \"world\"")

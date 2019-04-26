@@ -26,10 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Proc;
-import org.cactoos.Scalar;
-import org.cactoos.func.UncheckedProc;
-import org.cactoos.scalar.StickyScalar;
+import org.cactoos.scalar.UncheckedScalar;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -37,18 +34,15 @@ import org.hamcrest.StringDescription;
 /**
  * An assertion that can be affirmed in tests.
  * <p>
- * Assertions are always performed on <em>operations</em>, as opposed to actual
- * values, in order to also enable asserting on errors thrown by the former.
- * <p>
  * <strong>Examples:</strong>
  * <p>
  * Testing a value:
  * <pre>
  * {@code
  *     public void test() {
- *         new Assertion(
+ *         new Assertion<>(
  *             "must match the string",
- *             () -> new TextOf("string"),
+ *             new TextOf("string"),
  *             new TextIs("string")
  *         ).affirm();    // value is affirmed
  *     }
@@ -59,8 +53,8 @@ import org.hamcrest.StringDescription;
  * <pre>
  * {@code
  *     public void test() {
- *         new Assertion(
- *             "must match the string",
+ *         new Assertion<>(
+ *             "must match the error",
  *             () -> { throw new IllegalArgumentException("error msg"); },
  *             new Throws("error msg", IllegalArgumentException.class)
  *         ).affirm();    // error is affirmed
@@ -74,85 +68,37 @@ import org.hamcrest.StringDescription;
  *  Assertion, and ban all overloads of the former in forbidden-apis.txt.
  *  We should also look into banning common matchers like Matchers.is(), etc.
  */
-@SuppressWarnings("PMD.AvoidCatchingGenericException")
 public final class Assertion<T> {
-
     /**
-     * Matcher result.
+     * Whether this assertion is refuted.
      */
-    private final Scalar<Boolean> failed;
-
+    private final UncheckedScalar<Boolean> refuted;
     /**
-     * The description of the testing scenario.
+     * Refutation error.
      */
-    private final Scalar<Description> scenario;
+    private final UncheckedScalar<AssertionError> error;
 
     /**
      * Ctor.
-     * @param rsn Reason for refuting this assertion
-     * @param test The behaviour to test
-     * @param mtr Matcher to test behaviour
+     * @param msg Assertive statement.
+     * @param test Object under test.
+     * @param matcher Tester.
      */
     public Assertion(
-        final String rsn, final Scalar<T> test, final Matcher<T> mtr
+        final String msg, final T test, final Matcher<T> matcher
     ) {
-        this(rsn, new StickyScalar<>(test), mtr);
-    }
-
-    /**
-     * Ctor.
-     * @param rsn Reason for refuting this assertion
-     * @param test The behaviour to test
-     * @param mtr Matcher to test behaviour
-     */
-    private Assertion(
-        final String rsn, final StickyScalar<T> test, final Matcher<T> mtr
-    ) {
-        this(
-            () -> !mtr.matches(test.value()),
-            new Scenario(
-                rsn, mtr, desc -> mtr.describeMismatch(test.value(), desc)
-            )
+        this.refuted = new UncheckedScalar<>(() -> !matcher.matches(test));
+        this.error = new UncheckedScalar<>(
+            () -> {
+                final Description text = new StringDescription();
+                text.appendText(msg)
+                    .appendText(String.format("%nExpected: "))
+                    .appendDescriptionOf(matcher)
+                    .appendText(String.format("%n but was: "));
+                matcher.describeMismatch(test, text);
+                return new AssertionError(text.toString());
+            }
         );
-    }
-
-    /**
-     * Ctor.
-     * @param rsn Reason for refuting this assertion
-     * @param test The behaviour to test
-     * @param mtr Matcher to test behaviour
-     */
-    public Assertion(
-        final String rsn, final Scalar<T> test, final Throws<T> mtr
-    ) {
-        this(rsn, new StickyScalar<>(test), mtr);
-    }
-
-    /**
-     * Ctor.
-     * @param rsn Reason for refuting this assertion
-     * @param test The behaviour to test
-     * @param mtr Matcher to test behaviour
-     */
-    private Assertion(
-        final String rsn, final StickyScalar<T> test, final Throws<T> mtr
-    ) {
-        this(
-            () -> !mtr.matches(test),
-            new Scenario(rsn, mtr, desc -> mtr.describeMismatch(test, desc))
-        );
-    }
-
-    /**
-     * Ctor.
-     * @param failed The failed status of testing
-     * @param scenario The description of testing scenario
-     */
-    private Assertion(
-        final Scalar<Boolean> failed, final Scalar<Description> scenario
-    ) {
-        this.failed = failed;
-        this.scenario = scenario;
     }
 
     /**
@@ -160,61 +106,8 @@ public final class Assertion<T> {
      * @throws AssertionError if this assertion is refuted
      */
     public void affirm() throws AssertionError {
-        try {
-            if (this.failed.value()) {
-                throw new AssertionError(this.scenario.value().toString());
-            }
-            // @checkstyle IllegalCatchCheck (1 line)
-        } catch (final Exception ex) {
-            throw new AssertionError("Unexpected error during test", ex);
-        }
-    }
-
-    /**
-     * The description of the testing scenario.
-     */
-    private static final class Scenario implements Scalar<Description> {
-
-        /**
-         * Reason for refuting this assertion.
-         */
-        private final String reason;
-
-        /**
-         * Matcher against which the behaviour will be tested.
-         */
-        private final Matcher<?> matcher;
-
-        /**
-         * Matcher description.
-         */
-        private final Proc<Description> mismatch;
-
-        /**
-         * Ctor.
-         * @param reason Reason for refuting this assertion
-         * @param matcher Matcher to test behaviour
-         * @param mismatch Matcher mismatch.
-         * @param <T> The type of matcher.
-         */
-        <T> Scenario(
-            final String reason, final Matcher<T> matcher,
-            final Proc<Description> mismatch
-        ) {
-            this.reason = reason;
-            this.matcher = matcher;
-            this.mismatch = mismatch;
-        }
-
-        @Override
-        public Description value() {
-            final Description description = new StringDescription();
-            description.appendText(this.reason)
-                .appendText(String.format("%nExpected: "))
-                .appendDescriptionOf(this.matcher)
-                .appendText(String.format("%n but was: "));
-            new UncheckedProc<>(this.mismatch).exec(description);
-            return description;
+        if (this.refuted.value()) {
+            throw this.error.value();
         }
     }
 }

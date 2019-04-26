@@ -49,7 +49,7 @@ public final class TextHasStringTest {
 
     @Test
     public void matchesPrefix() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches prefix",
             new TextHasString("123"),
             new Matches<>(() -> "12345")
@@ -58,7 +58,7 @@ public final class TextHasStringTest {
 
     @Test
     public void matchesSuffix() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches suffix",
             new TextHasString("345"),
             new Matches<>(() -> "12345")
@@ -67,7 +67,7 @@ public final class TextHasStringTest {
 
     @Test
     public void matchesInTheMiddle() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches substring",
             new TextHasString("234"),
             new Matches<>(() -> "12345")
@@ -76,7 +76,7 @@ public final class TextHasStringTest {
 
     @Test
     public void mismatch() {
-        new Assertion2<>(
+        new Assertion<>(
             "does not match text not containing the given string",
             new TextHasString("xyz"),
             new IsNot<>(new Matches<>(new TextOf("abc")))
@@ -91,7 +91,7 @@ public final class TextHasStringTest {
                 "Expected: Text with \"xyz456\"%n but was: Text is \"abc123\""
             )
         );
-        new Assertion2<>(
+        new Assertion<>(
             "describes mismatch correctly",
             new TextOf("abc123"),
             new TextHasString("xyz456")

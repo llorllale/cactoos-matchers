@@ -49,7 +49,7 @@ public final class HasValuesTest {
      */
     @Test
     public void matches() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches iterable containing the given element",
             new HasValues<>(2),
             new Matches<>(new ListOf<>(1, 2, 3))
@@ -61,7 +61,7 @@ public final class HasValuesTest {
      */
     @Test
     public void matchSafely() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches iterable containing the given tuple",
             new HasValues<>("a", "b"),
             new Matches<>(new ListOf<>("a", "b", "c", "e"))
@@ -77,7 +77,7 @@ public final class HasValuesTest {
         new HasValues<>(5).matchesSafely(
             new ListOf<>(1, 2, 3), description
         );
-        new Assertion2<>(
+        new Assertion<>(
             "describes the test args",
             description.toString(),
             new IsEqual<>("<1, 2, 3>")
@@ -91,7 +91,7 @@ public final class HasValuesTest {
     public void describeExpectedValues() {
         final Description description = new StringDescription();
         new HasValues<>(3, 4).describeTo(description);
-        new Assertion2<>(
+        new Assertion<>(
             "describes the expected values",
             description.toString(),
             new IsEqual<>("<3, 4>")

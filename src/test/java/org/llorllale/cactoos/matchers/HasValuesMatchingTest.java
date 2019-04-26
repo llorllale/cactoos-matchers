@@ -46,7 +46,7 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void matches() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches iterable with any elements that satisfy predicate",
             new HasValuesMatching<>(value -> value == 3),
             new Matches<>(new ListOf<>(1, 2, 3))
@@ -58,7 +58,7 @@ public final class HasValuesMatchingTest {
      */
     @Test
     public void matchSafely() {
-        new Assertion2<>(
+        new Assertion<>(
             "does not match iterable with no elements that satisfy predicate",
             new HasValuesMatching<String>(
                 text -> text.contains("simple")
@@ -80,7 +80,7 @@ public final class HasValuesMatchingTest {
         final Description description = new StringDescription();
         new HasValuesMatching<Integer>(value -> value > 5)
             .matchesSafely(new ListOf<>(1, 2, 3), description);
-        new Assertion2<>(
+        new Assertion<>(
             "includes the iterable's elements in description of mismatch",
             description.toString(),
             new IsEqual<>(
@@ -98,7 +98,7 @@ public final class HasValuesMatchingTest {
         final Description description = new StringDescription();
         new HasValuesMatching<Integer>(value -> value > 5)
             .describeTo(description);
-        new Assertion2<>(
+        new Assertion<>(
             "prints the optional description of the scenario upon a match",
             description.toString(),
             new IsEqual<>("The function matches at least 1 element.")

@@ -40,7 +40,7 @@ public final class MatcherOfTest {
 
     @Test
     public void matchesFunc() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches when arg satisfies the predicate",
             new MatcherOf<>(x -> x > 5),
             new Matches<>(10)
@@ -49,7 +49,7 @@ public final class MatcherOfTest {
 
     @Test
     public void mismatchesFunc() {
-        new Assertion2<>(
+        new Assertion<>(
             "mismatches when arg does not satisfy the predicate",
             new MatcherOf<>(x -> x > 5),
             new IsNot<>(new Matches<>(1))

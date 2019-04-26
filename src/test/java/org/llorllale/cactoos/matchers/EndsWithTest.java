@@ -45,7 +45,7 @@ public final class EndsWithTest {
      */
     @Test
     public void matchPositive() {
-        new Assertion2<>(
+        new Assertion<>(
             "The matcher gives positive result for the valid arguments",
             new TextOf("I'm simple and I know it."),
             new EndsWith("know it.")
@@ -57,7 +57,7 @@ public final class EndsWithTest {
      */
     @Test
     public void matchNegative() {
-        new Assertion2<>(
+        new Assertion<>(
             "The matcher gives negative result for the invalid arguments",
             new EndsWith("!").matchesSafely(
                 () -> "The sentence.",
@@ -76,7 +76,7 @@ public final class EndsWithTest {
     public void describeActualValues() {
         final Description desc = new StringDescription();
         new EndsWith("").matchesSafely(new TextOf("ABC"), desc);
-        new Assertion2<>(
+        new Assertion<>(
             "The matcher print the value which came for testing",
             desc.toString(),
             new IsEqual<>("Text is \"ABC\"")
@@ -91,7 +91,7 @@ public final class EndsWithTest {
     public void describeExpectedValues() {
         final Description desc = new StringDescription();
         new EndsWith("!").describeTo(desc);
-        new Assertion2<>(
+        new Assertion<>(
             "The matcher print the description of the scenario",
             desc.toString(),
             new IsEqual<>("Text ending with \"!\"")

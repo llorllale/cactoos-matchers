@@ -40,7 +40,7 @@ public final class TextIsTest {
     @Test
     public void match() {
         final String input = "abcde";
-        new Assertion2<>(
+        new Assertion<>(
             "must match identical text",
             new TextIs(input),
             new Matches<>(new TextOf(input))
@@ -49,7 +49,7 @@ public final class TextIsTest {
 
     @Test
     public void noMatch() {
-        new Assertion2<>(
+        new Assertion<>(
             "must not match text that is not identical",
             new TextIs("xyz"),
             new IsNot<>(new Matches<>(new TextOf("abcd")))

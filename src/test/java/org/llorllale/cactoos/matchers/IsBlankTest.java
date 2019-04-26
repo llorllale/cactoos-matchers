@@ -47,7 +47,7 @@ public final class IsBlankTest {
 
     @Test
     public void blank() {
-        new Assertion2<>(
+        new Assertion<>(
             "matches empty string",
             new IsBlank(),
             new Matches<>("")
@@ -60,7 +60,7 @@ public final class IsBlankTest {
         this.exception.expectMessage(
             String.format("Expected: is blank%n but was: \"-.$%%\"")
         );
-        new Assertion2<>(
+        new Assertion<>(
             "does not match non-empty string",
             "-.$%",
             new IsBlank()
@@ -73,7 +73,7 @@ public final class IsBlankTest {
         this.exception.expectMessage(
             String.format("Expected: is blank%n but was: \"text\"")
         );
-        new Assertion2<>(
+        new Assertion<>(
             "describes itself in terms of the text being matched against",
             "text",
             new IsBlank()
