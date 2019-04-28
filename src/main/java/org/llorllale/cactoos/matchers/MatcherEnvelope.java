@@ -40,9 +40,14 @@ import org.hamcrest.TypeSafeMatcher;
  * Matcher Envelope.
  * @param <T> The type of the Matcher.
  * @since 1.0.0
- * @todo #75:30min Refactor other matchers to extend MatcherEnvelope.
+ * @todo #94:30min Refactor other matchers to extend MatcherEnvelope.
  *  If you do not know how to do it please refer to InputHasContent
  *  class as the example.
+ *
+ * @todo #94:30min Write unit tests for MatcherEnvelope.
+ *  Create MatcherEnvelopeTest class and write tests to cover the whole
+ *  functionality. Since MatcherEnvelope is abstract, create a private
+ *  nested child class and use it for tests.
  */
 public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
 
@@ -58,7 +63,7 @@ public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
      * @param mismatch BiProcedure generates a description for situation when an
      *  actual object does not match to the expected one
      */
-    public MatcherEnvelope(
+    protected MatcherEnvelope(
         final Func<T, Boolean> match,
         final Proc<Description> description,
         final BiProc<T, Description> mismatch
@@ -90,7 +95,7 @@ public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
      * Ctor.
      * @param origin Encapsulated matcher.
      */
-    public MatcherEnvelope(final Matcher<T> origin) {
+    protected MatcherEnvelope(final Matcher<T> origin) {
         super();
         this.origin = origin;
     }

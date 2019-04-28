@@ -27,7 +27,9 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.core.IsNot;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link FuncApplies}.
@@ -36,6 +38,13 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class FuncAppliesTest {
+
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
+
     @Test
     public void matchFuncs() {
         new Assertion<>(
@@ -53,6 +62,22 @@ public final class FuncAppliesTest {
             new FuncApplies<>(1, 1),
             // @checkstyle MagicNumber (1 line)
             new IsNot<>(new Matches<>(x -> 3 * x))
+        ).affirm();
+    }
+
+    @Test
+    public void describesMismatch() {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(
+            String.format(
+                "Expected: Func with <1>%n but was: Func with <3>"
+            )
+        );
+        new Assertion<>(
+            "describes mismatch",
+            // @checkstyle MagicNumber (1 line)
+            x -> 3 * x,
+            new FuncApplies<>(1, 1)
         ).affirm();
     }
 }

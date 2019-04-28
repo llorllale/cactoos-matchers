@@ -28,9 +28,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Func;
 import org.cactoos.func.UncheckedFunc;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsEqual;
 
 /**
@@ -40,17 +38,8 @@ import org.hamcrest.core.IsEqual;
  * @param <Y> Type of output
  * @since 0.2
  */
-public final class FuncApplies<X, Y> extends TypeSafeMatcher<Func<X, Y>> {
-
-    /**
-     * Input of the function.
-     */
-    private final X input;
-
-    /**
-     * Matcher of the result.
-     */
-    private final Matcher<Y> matcher;
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+public final class FuncApplies<X, Y> extends MatcherEnvelope<Func<X, Y>> {
 
     /**
      * Ctor.
@@ -63,25 +52,19 @@ public final class FuncApplies<X, Y> extends TypeSafeMatcher<Func<X, Y>> {
 
     /**
      * Ctor.
-     * @param inpt Input for the function
+     * @param input Input for the function
      * @param mtr Matcher of the text
      */
-    public FuncApplies(final X inpt, final Matcher<Y> mtr) {
-        super();
-        this.input = inpt;
-        this.matcher = mtr;
-    }
-
-    @Override
-    public boolean matchesSafely(final Func<X, Y> func) {
-        return this.matcher.matches(
-            new UncheckedFunc<>(func).apply(this.input)
+    public FuncApplies(final X input, final Matcher<Y> mtr) {
+        super(
+            // @checkstyle IndentationCheck (7 line)
+            func -> mtr.matches(
+                new UncheckedFunc<>(func).apply(input)
+            ),
+            desc -> desc.appendText("Func with ")
+                .appendDescriptionOf(mtr),
+            (func, desc) -> desc.appendText("Func with ")
+                .appendValue(func.apply(input))
         );
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText("Func with ");
-        description.appendDescriptionOf(this.matcher);
     }
 }

@@ -28,16 +28,14 @@ package org.llorllale.cactoos.matchers;
 
 import java.util.Collection;
 import org.cactoos.BiFunc;
+import org.cactoos.Func;
 import org.cactoos.Scalar;
 import org.cactoos.Text;
 import org.cactoos.collection.CollectionOf;
 import org.cactoos.collection.Mapped;
-import org.cactoos.func.UncheckedBiFunc;
-import org.cactoos.func.UncheckedFunc;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
+import org.cactoos.scalar.UncheckedScalar;
 
 /**
  * Allows to check that text has lines considering platform-dependent line
@@ -46,22 +44,7 @@ import org.hamcrest.TypeSafeMatcher;
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HasLines extends TypeSafeMatcher<String> {
-
-    /**
-     * The function to split the text which came for testing.
-     */
-    private final UncheckedFunc<String, Collection<String>> split;
-
-    /**
-     * The expected lines.
-     */
-    private final Collection<String> expected;
-
-    /**
-     * The function to match the actual/expected lines.
-     */
-    private final BiFunc<Collection<String>, Collection<String>, Boolean> fnc;
+public final class HasLines extends MatcherEnvelope<String> {
 
     /**
      * Ctor.
@@ -98,30 +81,36 @@ public final class HasLines extends TypeSafeMatcher<String> {
         final Scalar<String> sep,
         final Collection<String> lns
     ) {
-        super();
-        this.fnc = fnc;
-        this.expected = lns;
-        this.split = new UncheckedFunc<>(
-            text -> new CollectionOf<>(text.split(sep.value()))
+        this(
+            fnc,
+            lns,
+            text -> new CollectionOf<>(
+                text.split(
+                    new UncheckedScalar<>(sep).value()
+                )
+            )
         );
     }
 
-    @Override
-    public void describeTo(final Description desc) {
-        desc.appendText("Lines are ").appendValue(this.expected);
-    }
-
-    @Override
-    protected boolean matchesSafely(final String text) {
-        return new UncheckedBiFunc<>(this.fnc).apply(
-            this.split.apply(text), this.expected
-        );
-    }
-
-    @Override
-    protected void describeMismatchSafely(
-        final String text, final Description description
+    /**
+     * Ctor.
+     * @param match The function to match the actual/expected lines.
+     * @param expected The expected lines to be present.
+     * @param split The function to split the text which came for testing.
+     */
+    private HasLines(
+        final BiFunc<Collection<String>, Collection<String>, Boolean> match,
+        final Collection<String> expected,
+        final Func<String, Collection<String>> split
     ) {
-        description.appendValue(this.split.apply(text));
+        super(
+            // @checkstyle IndentationCheck (5 line)
+            actual -> match.apply(
+                split.apply(actual), expected
+            ),
+            desc -> desc.appendText("Lines are ").appendValue(expected),
+            (actual, desc) -> desc.appendValue(split.apply(actual))
+        );
     }
+
 }

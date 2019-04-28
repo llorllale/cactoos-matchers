@@ -26,7 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.cactoos.text.JoinedText;
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
@@ -35,7 +37,6 @@ import org.junit.rules.ExpectedException;
 
 /**
  * Tests for {@link Assertion}.
- *
  * @since 1.0.0
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
@@ -62,12 +63,18 @@ public final class AssertionTest {
     /**
      * Assertion must be refuted if the operation being tested does not
      * match.
+     *
+     * @throws IOException if something goes wrong.
      */
     @Test
-    public void refuteIfResultDoesNotMatch() {
+    public void refuteIfResultDoesNotMatch() throws IOException {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
-            "Text with value \"no match\"\n but was: Text is \"test\""
+            new JoinedText(
+                System.lineSeparator(),
+                "Text with value \"no match\"",
+                " but was: Text is \"test\""
+            ).asString()
         );
         new Assertion<>(
             "must refute the assertion if the test's result is not as expected",

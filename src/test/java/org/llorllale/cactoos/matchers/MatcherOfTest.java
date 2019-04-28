@@ -26,8 +26,13 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.text.FormattedText;
+import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
 import org.hamcrest.core.IsNot;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link MatcherOf}.
@@ -37,6 +42,12 @@ import org.junit.Test;
  * @checkstyle MagicNumberCheck (500 lines)
  */
 public final class MatcherOfTest {
+
+    /**
+     * A rule for handling an exception.
+     */
+    @Rule
+    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void matchesFunc() {
@@ -53,6 +64,33 @@ public final class MatcherOfTest {
             "mismatches when arg does not satisfy the predicate",
             new MatcherOf<>(x -> x > 5),
             new IsNot<>(new Matches<>(1))
+        ).affirm();
+    }
+
+    @Test
+    public void describesMismatch() {
+        this.exception.expect(AssertionError.class);
+        this.exception.expectMessage(
+            new UncheckedText(
+                new FormattedText(
+                    // @checkstyle LineLength (1 line)
+                    "describes mismatch%nExpected: \"Must be > 5\"%n but was: <1>"
+                )
+            ).asString()
+        );
+        new Assertion<>(
+            "describes mismatch",
+            1,
+            new MatcherOf<>(x -> x > 5, new TextOf("Must be > 5"))
+        ).affirm();
+    }
+
+    @Test
+    public void matcherOfProcMatchesAnyArguments() {
+        new Assertion<>(
+            "matches any arguments when constructed from a Proc",
+            new MatcherOf<>(String::trim),
+            new Matches<>("a")
         ).affirm();
     }
 }

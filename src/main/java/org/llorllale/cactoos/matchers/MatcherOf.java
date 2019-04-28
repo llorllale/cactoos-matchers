@@ -30,11 +30,8 @@ import org.cactoos.Func;
 import org.cactoos.Proc;
 import org.cactoos.Text;
 import org.cactoos.func.FuncOf;
-import org.cactoos.func.UncheckedFunc;
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Func as Matcher.
@@ -44,17 +41,7 @@ import org.hamcrest.TypeSafeMatcher;
  * @param <T> Type of object to match
  * @since 0.12
  */
-public final class MatcherOf<T> extends TypeSafeMatcher<T> {
-
-    /**
-     * The func.
-     */
-    private final Func<T, Boolean> func;
-
-    /**
-     * Matcher description.
-     */
-    private final UncheckedText desc;
+public final class MatcherOf<T> extends MatcherEnvelope<T> {
 
     /**
      * Ctor.
@@ -78,20 +65,13 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
      * @param description The description
      */
     public MatcherOf(final Func<T, Boolean> fnc, final Text description) {
-        super();
-        this.func = fnc;
-        this.desc = new UncheckedText(
-            new FormattedText("\"%s\"", description)
+        super(
+            // @checkstyle IndentationCheck (5 line)
+            fnc,
+            desc -> desc.appendText(
+                new FormattedText("\"%s\"", description).asString()
+            ),
+            (actual, desc) -> desc.appendValue(actual)
         );
-    }
-
-    @Override
-    public boolean matchesSafely(final T item) {
-        return new UncheckedFunc<>(this.func).apply(item);
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText(this.desc.asString());
     }
 }
