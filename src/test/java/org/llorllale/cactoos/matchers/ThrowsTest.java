@@ -29,6 +29,7 @@ package org.llorllale.cactoos.matchers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Objects;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
@@ -128,6 +129,58 @@ public final class ThrowsTest {
             new IsEqual<>(
                 "Exception has type 'java.lang.NullPointerException'"
                     + " and message 'NPE'"
+            )
+        ).affirm();
+    }
+
+    @Test
+    public void matchesMessageExpectation() {
+        new Assertion<>(
+            "matches message expectation",
+            new Throws<>(
+                IllegalArgumentException.class,
+                msg -> msg.contains("some text")
+            ),
+            new Matches<>(
+                () -> {
+                    throw new IllegalArgumentException("some text and other");
+                }
+            )
+        ).affirm();
+    }
+
+    @Test
+    public void doesntMatchMessageExpectation() {
+        new Assertion<>(
+            "mismatches message expectation",
+            new Throws<>(
+                IllegalArgumentException.class,
+                msg -> msg.contains("some text")
+            ),
+            new IsNot<>(
+                new Matches<>(
+                    () -> {
+                        throw new IllegalArgumentException("different text");
+                    }
+                )
+            )
+        ).affirm();
+    }
+
+    @Test
+    public void describesMessageExpectation() {
+        final Description description = new StringDescription();
+        new Throws<>(
+            NullPointerException.class,
+            Objects::nonNull,
+            "message is whatever, just not null"
+        ).describeTo(description);
+        new Assertion<>(
+            "describes the message expectation",
+            description.toString(),
+            new IsEqual<>(
+                "Exception has type 'java.lang.NullPointerException'"
+                    + " and message is whatever, just not null"
             )
         ).affirm();
     }
