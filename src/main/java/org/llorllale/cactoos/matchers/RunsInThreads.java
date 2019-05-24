@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.cactoos.Func;
 import org.cactoos.scalar.And;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.scalar.Unchecked;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -99,7 +99,7 @@ public final class RunsInThreads<T> extends TypeSafeMatcher<Func<T, Boolean>> {
             futures.add(service.submit(task));
         }
         latch.countDown();
-        final boolean matches = new UncheckedScalar<>(
+        final boolean matches = new Unchecked<>(
             new And(
                 (Func<Future<Boolean>, Boolean>) Future::get,
                 futures

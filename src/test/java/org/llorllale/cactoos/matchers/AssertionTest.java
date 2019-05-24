@@ -28,9 +28,10 @@ package org.llorllale.cactoos.matchers;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.cactoos.text.JoinedText;
+import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsEqual;
+import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -70,7 +71,7 @@ public final class AssertionTest {
     public void refuteIfResultDoesNotMatch() throws IOException {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
-            new JoinedText(
+            new Joined(
                 System.lineSeparator(),
                 "Text with value \"no match\"",
                 " but was: Text is \"test\""
@@ -89,7 +90,9 @@ public final class AssertionTest {
      */
     @Test
     public void refuteIfErrorDoesNotMatch() {
-        this.exception.expect(IllegalStateException.class);
+        this.exception.expectCause(
+            IsInstanceOf.instanceOf(IllegalStateException.class)
+        );
         new Assertion<>(
             "must fail if the test throws an unexpected error",
             () -> {

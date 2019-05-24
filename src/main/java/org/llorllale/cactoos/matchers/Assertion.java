@@ -26,7 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.scalar.Unchecked;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -72,11 +72,11 @@ public final class Assertion<T> {
     /**
      * Whether this assertion is refuted.
      */
-    private final UncheckedScalar<Boolean> refuted;
+    private final Unchecked<Boolean> refuted;
     /**
      * Refutation error.
      */
-    private final UncheckedScalar<AssertionError> error;
+    private final Unchecked<AssertionError> error;
 
     /**
      * Ctor.
@@ -87,8 +87,8 @@ public final class Assertion<T> {
     public Assertion(
         final String msg, final T test, final Matcher<T> matcher
     ) {
-        this.refuted = new UncheckedScalar<>(() -> !matcher.matches(test));
-        this.error = new UncheckedScalar<>(
+        this.refuted = new Unchecked<>(() -> !matcher.matches(test));
+        this.error = new Unchecked<>(
             () -> {
                 final Description text = new StringDescription();
                 text.appendText(msg)

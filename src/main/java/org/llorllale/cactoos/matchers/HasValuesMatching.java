@@ -28,7 +28,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Func;
 import org.cactoos.scalar.Or;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.scalar.Unchecked;
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
@@ -84,6 +84,6 @@ public final class HasValuesMatching<X> extends
                 )
             ).asString()
         );
-        return new UncheckedScalar<>(new Or(this.fnc, actual)).value();
+        return new Unchecked<>(new Or(this.fnc, actual)).value();
     }
 }
