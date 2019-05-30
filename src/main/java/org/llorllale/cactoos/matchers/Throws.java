@@ -27,10 +27,11 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Scalar;
-import org.cactoos.text.FormattedText;
-import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.core.IsAnything;
+import org.hamcrest.core.IsEqual;
 
 /**
  * Matcher to check that scalar throw the expected exception.
@@ -49,12 +50,13 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
 
     /**
      * The expected exception message.
      */
-    private final String msg;
+    private final Matcher<String> msg;
 
     /**
      * The expected exception type.
@@ -63,10 +65,30 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
 
     /**
      * Ctor.
+     * @param type The expected exception type.
+     */
+    public Throws(final Class<? extends Exception> type) {
+        this(new IsAnything<>(), type);
+    }
+
+    /**
+     * Ctor.
      * @param msg The expected exception message.
      * @param type The expected exception type.
      */
     public Throws(final String msg, final Class<? extends Exception> type) {
+        this(new IsEqual<>(msg), type);
+    }
+
+    /**
+     * Ctor.
+     * @param msg The expected exception message.
+     * @param type The expected exception type.
+     */
+    public Throws(
+        final Matcher<String> msg,
+        final Class<? extends Exception> type
+    ) {
         super();
         this.msg = msg;
         this.type = type;
@@ -74,7 +96,11 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
 
     @Override
     public void describeTo(final Description dsc) {
-        describe(dsc, this.type, this.msg);
+        dsc
+            .appendText("Exception has type '")
+            .appendText(this.type.getName())
+            .appendText("' and message matches ")
+            .appendDescriptionOf(this.msg);
     }
 
     @Override
@@ -88,33 +114,19 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
             matches = false;
             dsc.appendText("The exception wasn't thrown.");
         } catch (final Exception cause) {
-            describe(dsc, cause.getClass(), cause.getMessage());
+            dsc
+                .appendText("Exception has type '")
+                .appendText(cause.getClass().getName())
+                .appendText("' and message '")
+                .appendText(cause.getMessage())
+                .appendText("'");
             if (this.type.isAssignableFrom(cause.getClass())
-                && this.msg.equals(cause.getMessage())) {
+                && this.msg.matches(cause.getMessage())) {
                 matches = true;
             } else {
                 matches = false;
             }
         }
         return matches;
-    }
-
-    /**
-     * Add information about the exception to the hamcrest result message.
-     *
-     * @param dsc The description of the object.
-     * @param type The exception type.
-     * @param msg The exception message.
-     */
-    private static void describe(final Description dsc, final Class<?> type,
-        final String msg) {
-        dsc.appendText(
-            new UncheckedText(
-                new FormattedText(
-                    "Exception has type '%s' and message '%s'",
-                    type.getName(), msg
-                )
-            ).asString()
-        );
     }
 }

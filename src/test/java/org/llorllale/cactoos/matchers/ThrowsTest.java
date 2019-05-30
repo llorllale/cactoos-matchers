@@ -127,7 +127,34 @@ public final class ThrowsTest {
             description.toString(),
             new IsEqual<>(
                 "Exception has type 'java.lang.NullPointerException'"
-                    + " and message 'NPE'"
+                    + " and message matches \"NPE\""
+            )
+        ).affirm();
+    }
+
+    @Test
+    public void noMessageMatchesException() {
+        new Assertion<>(
+            "must match if message is not present",
+            new Throws<>(IllegalArgumentException.class),
+            new Matches<>(
+                () -> {
+                    throw new IllegalArgumentException("No object(s) found.");
+                }
+            )
+        ).affirm();
+    }
+
+    @Test
+    public void describeExpectedValuesNoMessage() {
+        final Description description = new StringDescription();
+        new Throws<>(NullPointerException.class).describeTo(description);
+        new Assertion<>(
+            "describes the expected exception",
+            description.toString(),
+            new IsEqual<>(
+                "Exception has type 'java.lang.NullPointerException'"
+                    + " and message matches ANYTHING"
             )
         ).affirm();
     }
