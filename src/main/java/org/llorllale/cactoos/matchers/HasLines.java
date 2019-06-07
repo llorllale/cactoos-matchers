@@ -35,7 +35,7 @@ import org.cactoos.collection.CollectionOf;
 import org.cactoos.collection.Mapped;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.scalar.Unchecked;
 
 /**
  * Allows to check that text has lines considering platform-dependent line
@@ -86,7 +86,7 @@ public final class HasLines extends MatcherEnvelope<String> {
             lns,
             text -> new CollectionOf<>(
                 text.split(
-                    new UncheckedScalar<>(sep).value()
+                    new Unchecked<>(sep).value()
                 )
             )
         );

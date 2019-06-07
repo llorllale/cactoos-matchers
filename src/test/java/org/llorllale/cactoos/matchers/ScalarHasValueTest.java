@@ -28,7 +28,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.scalar.Constant;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.scalar.Unchecked;
 import org.hamcrest.core.IsEqual;
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,7 +53,7 @@ public final class ScalarHasValueTest {
         final String expected = "some text";
         new Assertion<>(
             "Must match with expected string",
-            new UncheckedScalar<>(() -> expected),
+            new Unchecked<>(() -> expected),
             new ScalarHasValue<>(expected)
         ).affirm();
     }
@@ -63,7 +63,7 @@ public final class ScalarHasValueTest {
         final String expected = "text";
         new Assertion<>(
             "Must match a with the given Matcher",
-            new UncheckedScalar<>(() -> expected),
+            new Unchecked<>(() -> expected),
             new ScalarHasValue<>(new IsEqual<>(expected))
         ).affirm();
     }

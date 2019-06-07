@@ -71,7 +71,7 @@
     <dependency>
       <groupId>org.cactoos</groupId>
       <artifactId>cactoos</artifactId>
-      <version>0.31</version>
+      <version>0.41</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

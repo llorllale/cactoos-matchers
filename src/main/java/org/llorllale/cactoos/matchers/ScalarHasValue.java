@@ -27,7 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Scalar;
-import org.cactoos.scalar.UncheckedScalar;
+import org.cactoos.scalar.Unchecked;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -73,7 +73,7 @@ public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
     @Override
     protected boolean matchesSafely(final Scalar<T> item) {
         return this.matcher.matches(
-            new UncheckedScalar<>(item).value()
+            new Unchecked<>(item).value()
         );
     }
 
@@ -82,6 +82,6 @@ public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
     protected void describeMismatchSafely(final Scalar<T> item,
         final Description description) {
         description
-            .appendValue(new UncheckedScalar<>(item).value());
+            .appendValue(new Unchecked<>(item).value());
     }
 }

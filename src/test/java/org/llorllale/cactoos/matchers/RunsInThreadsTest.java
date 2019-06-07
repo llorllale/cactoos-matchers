@@ -29,7 +29,7 @@ package org.llorllale.cactoos.matchers;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import org.cactoos.Func;
-import org.cactoos.func.RepeatedFunc;
+import org.cactoos.func.Repeated;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
@@ -55,7 +55,7 @@ public final class RunsInThreadsTest {
         new Assertion<>(
             "matches the thread-safe Func",
             new RunsInThreads<>(counter, threads),
-            new Matches<>(new RepeatedFunc<>(new Safe(), attempts))
+            new Matches<>(new Repeated<>(new Safe(), attempts))
         ).affirm();
         new Assertion<>(
             "counter must be incremented by all threads",
@@ -78,7 +78,7 @@ public final class RunsInThreadsTest {
             new RunsInThreads<>(counter, threads),
             new IsNot<>(
                 new Matches<>(
-                    new RepeatedFunc<>(new Unsafe(), attempts)
+                    new Repeated<>(new Unsafe(), attempts)
                 )
             )
         ).affirm();
