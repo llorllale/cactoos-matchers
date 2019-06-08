@@ -27,9 +27,8 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
+import java.io.IOException;
+import org.cactoos.text.Joined;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
@@ -37,6 +36,7 @@ import org.junit.Test;
  * Test case for {@link IsTrue}.
  *
  * @since 1.0.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class IsTrueTest {
 
@@ -64,34 +64,23 @@ public final class IsTrueTest {
         ).affirm();
     }
 
-    /**
-     * Matcher prints the actual value(s) properly in case of errors.
-     * The actual/expected section are using only when testing is failed and
-     *  we need to explain what exactly went wrong.
-     */
     @Test
-    public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new IsTrue().matchesSafely(false, desc);
+    public void describesCorrectly() throws IOException {
         new Assertion<>(
-            "describes the test arg",
-            desc.toString(),
-            new IsEqual<>("<false>")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the expected value(s) properly.
-     * The user has the ability to specify the description for the function.
-     */
-    @Test
-    public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new IsTrue().describeTo(desc);
-        new Assertion<>(
-            "describes the expected value",
-            desc.toString(),
-            new IsEqual<>("<true>")
+            "must throw an exception that describes the values",
+            () -> {
+                new Assertion<>("", false, new IsTrue()).affirm();
+                return true;
+            },
+            new Throws<>(
+                new Joined(
+                    "\n",
+                    "",
+                    "Expected: <true>",
+                    " but was: <false>"
+                ).asString(),
+                AssertionError.class
+            )
         ).affirm();
     }
 }

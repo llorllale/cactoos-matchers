@@ -61,13 +61,13 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
     /**
      * The expected exception type.
      */
-    private final Class<? extends Exception> type;
+    private final Class<? extends Throwable> type;
 
     /**
      * Ctor.
      * @param type The expected exception type.
      */
-    public Throws(final Class<? extends Exception> type) {
+    public Throws(final Class<? extends Throwable> type) {
         this(new IsAnything<>(), type);
     }
 
@@ -76,7 +76,7 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
      * @param msg The expected exception message.
      * @param type The expected exception type.
      */
-    public Throws(final String msg, final Class<? extends Exception> type) {
+    public Throws(final String msg, final Class<? extends Throwable> type) {
         this(new IsEqual<>(msg), type);
     }
 
@@ -87,7 +87,7 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
      */
     public Throws(
         final Matcher<String> msg,
-        final Class<? extends Exception> type
+        final Class<? extends Throwable> type
     ) {
         super();
         this.msg = msg;
@@ -104,7 +104,9 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
     }
 
     @Override
-    @SuppressWarnings("PMD.AvoidCatchingGenericException")
+    @SuppressWarnings(
+        { "PMD.AvoidCatchingGenericException", "PMD.AvoidCatchingThrowable" }
+    )
     protected boolean matchesSafely(final Scalar<T> obj,
         final Description dsc) {
         // @checkstyle IllegalCatchCheck (20 lines)
@@ -113,7 +115,7 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
             obj.value();
             matches = false;
             dsc.appendText("The exception wasn't thrown.");
-        } catch (final Exception cause) {
+        } catch (final Throwable cause) {
             dsc
                 .appendText("Exception has type '")
                 .appendText(cause.getClass().getName())

@@ -26,28 +26,21 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
-
 /**
  * Matches if a boolean is <em>true</em>.
  *
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
-public final class IsTrue extends TypeSafeDiagnosingMatcher<Boolean> {
-
-    @Override
-    public void describeTo(final Description desc) {
-        desc.appendValue(true);
+public final class IsTrue extends MatcherEnvelope<Boolean> {
+    /**
+     * Ctor.
+     */
+    public IsTrue() {
+        super(
+            // @checkstyle IndentationCheck (3 line)
+            bool -> bool,
+            desc -> desc.appendValue(true),
+            (bool, desc) -> desc.appendValue(bool)
+        );
     }
-
-    @Override
-    protected boolean matchesSafely(
-        final Boolean actual, final Description desc
-    ) {
-        desc.appendValue(actual);
-        return actual;
-    }
-
 }

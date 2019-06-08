@@ -27,10 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Scalar;
-import org.cactoos.scalar.Unchecked;
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsEqual;
 
 /**
@@ -39,12 +36,7 @@ import org.hamcrest.core.IsEqual;
  * @param <T> Type of result
  * @since 0.2
  */
-public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
-
-    /**
-     * Matcher of the value.
-     */
-    private final Matcher<T> matcher;
+public final class ScalarHasValue<T> extends MatcherEnvelope<Scalar<T>> {
 
     /**
      * Ctor.
@@ -56,32 +48,14 @@ public final class ScalarHasValue<T> extends TypeSafeMatcher<Scalar<T>> {
 
     /**
      * Ctor.
-     * @param mtr Matcher of the text
+     * @param mtr Matcher of the value
      */
     public ScalarHasValue(final Matcher<T> mtr) {
-        super();
-        this.matcher = mtr;
-    }
-
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText("Scalar with ");
-        description.appendDescriptionOf(this.matcher);
-    }
-
-    // @checkstyle ProtectedMethodInFinalClassCheck (1 line)
-    @Override
-    protected boolean matchesSafely(final Scalar<T> item) {
-        return this.matcher.matches(
-            new Unchecked<>(item).value()
+        super(
+            // @checkstyle IndentationCheck (3 line)
+            scalar -> mtr.matches(scalar.value()),
+            desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
+            (scalar, desc) -> desc.appendValue(scalar.value())
         );
-    }
-
-    // @checkstyle ProtectedMethodInFinalClassCheck (1 line)
-    @Override
-    protected void describeMismatchSafely(final Scalar<T> item,
-        final Description description) {
-        description
-            .appendValue(new Unchecked<>(item).value());
     }
 }

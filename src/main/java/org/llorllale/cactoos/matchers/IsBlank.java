@@ -26,26 +26,21 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
-
 /**
- * The matcher to check that text is not empty.
+ * The matcher to check that text is empty.
  *
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (100 lines)
  */
-public final class IsBlank extends TypeSafeDiagnosingMatcher<String> {
-
-    @Override
-    public void describeTo(final Description desc) {
-        desc.appendText("is blank");
-    }
-
-    @Override
-    protected boolean matchesSafely(final String text,
-        final Description desc) {
-        desc.appendValue(text);
-        return text.trim().isEmpty();
+public final class IsBlank extends MatcherEnvelope<String> {
+    /**
+     * Ctor.
+     */
+    public IsBlank() {
+        super(
+            // @checkstyle IndentationCheck (3 line)
+            text -> text.trim().isEmpty(),
+            desc -> desc.appendText("is blank"),
+            (text, desc) -> desc.appendValue(text)
+        );
     }
 }
