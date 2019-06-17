@@ -43,11 +43,6 @@ import org.hamcrest.TypeSafeMatcher;
  * @todo #120:30min Refactor other matchers to extend MatcherEnvelope.
  *  If you do not know how to do it please refer to InputHasContent
  *  class as the example.
- *
- * @todo #94:30min Write unit tests for MatcherEnvelope.
- *  Create MatcherEnvelopeTest class and write tests to cover the whole
- *  functionality. Since MatcherEnvelope is abstract, create a private
- *  nested child class and use it for tests.
  */
 public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
 
