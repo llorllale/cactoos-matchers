@@ -27,56 +27,43 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.text.Joined;
-import org.junit.Rule;
+import org.cactoos.text.TextOf;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
- * Test case for {@link HasLines}.
+ * Test case for {@link Mismatches}.
  *
  * @since 1.0.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class HasLinesTest {
+public final class MismatchesTest {
 
     /**
-     * A rule for handling an exception.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
-    /**
-     * Example of {@link HasLines} behavior for positive results.
+     * Example of {@link Mismatches} usage.
      */
     @Test
-    public void matches() {
+    public void mismatches() {
         new Assertion<>(
-            "matches lines containing the given strings",
-            new HasLines("A", "C"),
-            new Matches<>(String.format("A%nB%nC%n"))
-        ).affirm();
-    }
-
-    /**
-     * Example of {@link HasLines} behavior for negative results:
-     *  - The matcher should fail in the case of incorrect input arguments;
-     *  - The matcher should explain the mismatch between comparing objects.
-     */
-    @Test
-    public void failed() {
-        new Assertion<>(
-            "must not match lines that do not contain the given strings",
-            new HasLines("Tom", "Mike"),
+            "Must mismatch properly",
+            new TextIs("abc"),
             new Mismatches<>(
-                String.format("Tom%nJohn%n"),
-                new Joined(
-                    "\n",
-                    "",
-                    "Expected: Lines are <[Tom, Mike]>",
-                    " but was: <[Tom, John]>"
-                )
+                new TextOf("def"),
+                "Text with value \"abc\"",
+                "Text is \"def\""
             )
         ).affirm();
     }
 
+    @Test
+    public void matches() {
+        new Assertion<>(
+            "Must fail to mismatch",
+            new Mismatches<>(new TextOf("a"), new TextOf("expected")),
+            new Mismatches<>(
+                new TextIs("a"),
+                "Mismatches <a> with message <expected>",
+                ""
+           )
+        ).affirm();
+    }
 }
