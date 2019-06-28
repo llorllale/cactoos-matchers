@@ -33,9 +33,8 @@ import org.cactoos.Proc;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.Rule;
+import org.hamcrest.core.StringContains;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link MatcherEnvelope}.
@@ -53,12 +52,6 @@ public final class MatcherEnvelopeTest {
      * Test string to use in tests.
      */
     private static final String TEST_STRING = "TestString";
-
-    /**
-     * A rule for handling an exception.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     /**
      * Tests that MatcherEnvelope delegates matchesSafely to the encapsulated
@@ -79,14 +72,20 @@ public final class MatcherEnvelopeTest {
      */
     @Test
     public void decoratesDescribeTo() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            MatcherEnvelopeTest.TEST_INTEGER.toString()
-        );
         new Assertion<>(
-            "must delegate describeTo to encapsulated matcher",
-            MatcherEnvelopeTest.TEST_INTEGER + 1,
-            new MatcherEnvelopeChild<>(new EncapsulatedTestMatcher())
+            "must throw an AssertionError containing TEST_INTEGER",
+            () -> {
+                new Assertion<>(
+                    "must delegate describeTo to encapsulated matcher",
+                    MatcherEnvelopeTest.TEST_INTEGER + 1,
+                    new MatcherEnvelopeChild<>(new EncapsulatedTestMatcher())
+                ).affirm();
+                return true;
+            },
+            new Throws<>(
+                new StringContains(MatcherEnvelopeTest.TEST_INTEGER.toString()),
+                AssertionError.class
+            )
         ).affirm();
     }
 
@@ -97,20 +96,28 @@ public final class MatcherEnvelopeTest {
      */
     @Test
     public void decoratesDescribeMismatchSafely() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            MatcherEnvelopeTest.TEST_STRING
-        );
         new Assertion<>(
-            "must delegate describeMismatchSafely to encapsulated matcher",
-            MatcherEnvelopeTest.TEST_INTEGER,
-            new MatcherEnvelopeChild<>(
-                (item) -> false,
-                (description) -> { },
-                (item, description) -> description.appendText(
-                    MatcherEnvelopeTest.TEST_STRING
-                )
-            )).affirm();
+            "must throw an AssertionError containing TEST_STRING",
+            () -> {
+                new Assertion<>(
+                    // @checkstyle LineLength (1 line)
+                    "must delegate describeMismatchSafely to encapsulated matcher",
+                    MatcherEnvelopeTest.TEST_INTEGER,
+                    new MatcherEnvelopeChild<>(
+                        (item) -> false,
+                        (description) -> { },
+                        (item, description) -> description.appendText(
+                            MatcherEnvelopeTest.TEST_STRING
+                        )
+                    )
+                ).affirm();
+                return true;
+            },
+            new Throws<>(
+                new StringContains(MatcherEnvelopeTest.TEST_STRING),
+                AssertionError.class
+            )
+        ).affirm();
     }
 
     /**
