@@ -27,11 +27,9 @@
 
 package org.llorllale.cactoos.matchers;
 
-import java.util.Random;
 import org.cactoos.BiProc;
 import org.cactoos.Func;
 import org.cactoos.Proc;
-import org.cactoos.text.Randomized;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -47,20 +45,20 @@ import org.junit.rules.ExpectedException;
 public final class MatcherEnvelopeTest {
 
     /**
+     * Test integer to use in tests.
+     */
+    private static final Integer TEST_INTEGER = 42;
+
+    /**
+     * Test string to use in tests.
+     */
+    private static final String TEST_STRING = "TestString";
+
+    /**
      * A rule for handling an exception.
      */
     @Rule
     public final ExpectedException exception = ExpectedException.none();
-
-    /**
-     * Randomized test integer to use in tests.
-     */
-    private final Integer testinteger = new Random().nextInt();
-
-    /**
-     * Randomized test string to use in tests.
-     */
-    private final String teststring = new Randomized().asString();
 
     /**
      * Tests that MatcherEnvelope delegates matchesSafely to the encapsulated
@@ -70,7 +68,7 @@ public final class MatcherEnvelopeTest {
     public void decoratesMatchesSafely() {
         new Assertion<>(
             "must delegate match to encapsulated matcher",
-                this.testinteger,
+            MatcherEnvelopeTest.TEST_INTEGER,
             new MatcherEnvelopeChild<>(new EncapsulatedTestMatcher())
         ).affirm();
     }
@@ -83,11 +81,11 @@ public final class MatcherEnvelopeTest {
     public void decoratesDescribeTo() {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
-            this.testinteger.toString()
+            MatcherEnvelopeTest.TEST_INTEGER.toString()
         );
         new Assertion<>(
             "must delegate describeTo to encapsulated matcher",
-            this.testinteger + 1,
+            MatcherEnvelopeTest.TEST_INTEGER + 1,
             new MatcherEnvelopeChild<>(new EncapsulatedTestMatcher())
         ).affirm();
     }
@@ -101,15 +99,17 @@ public final class MatcherEnvelopeTest {
     public void decoratesDescribeMismatchSafely() {
         this.exception.expect(AssertionError.class);
         this.exception.expectMessage(
-            this.teststring
+            MatcherEnvelopeTest.TEST_STRING
         );
         new Assertion<>(
             "must delegate describeMismatchSafely to encapsulated matcher",
-            this.testinteger,
+            MatcherEnvelopeTest.TEST_INTEGER,
             new MatcherEnvelopeChild<>(
                 (item) -> false,
                 (description) -> { },
-                (item, description) -> description.appendText(this.teststring)
+                (item, description) -> description.appendText(
+                    MatcherEnvelopeTest.TEST_STRING
+                )
             )).affirm();
     }
 
@@ -149,12 +149,12 @@ public final class MatcherEnvelopeTest {
     private class EncapsulatedTestMatcher extends TypeSafeMatcher<Integer> {
         @Override
         public void describeTo(final Description description) {
-            description.appendValue(MatcherEnvelopeTest.this.testinteger);
+            description.appendValue(MatcherEnvelopeTest.TEST_INTEGER);
         }
 
         @Override
         protected boolean matchesSafely(final Integer integer) {
-            return integer.equals(MatcherEnvelopeTest.this.testinteger);
+            return integer.equals(MatcherEnvelopeTest.TEST_INTEGER);
         }
     }
 }
