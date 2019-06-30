@@ -28,12 +28,8 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Func;
 import org.cactoos.scalar.Or;
-import org.cactoos.scalar.Unchecked;
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
  * Matcher to check that {@link Iterable} has elements matched by particular
@@ -48,42 +44,24 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *
  * @param <X> Type of item.
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HasValuesMatching<X> extends
-    TypeSafeDiagnosingMatcher<Iterable<X>> {
-
-    /**
-     * The function to match at least one element within the {@link Iterable}.
-     */
-    private final Func<X, Boolean> fnc;
-
+public final class HasValuesMatching<X> extends MatcherEnvelope<Iterable<X>> {
     /**
      * Ctor.
      * @param fnc The function to match at least one element within the
      *  {@link Iterable}.
      */
     public HasValuesMatching(final Func<X, Boolean> fnc) {
-        super();
-        this.fnc = fnc;
-    }
-
-    @Override
-    public void describeTo(final Description dsc) {
-        dsc.appendText("The function matches at least 1 element.");
-    }
-
-    @Override
-    protected boolean matchesSafely(final Iterable<X> actual,
-        final Description dsc) {
-        dsc.appendText(
-            new UncheckedText(
+        super(
+            // @checkstyle IndentationCheck (7 line)
+            actual -> new Or(fnc, actual).value(),
+            desc -> desc.appendText("The function matches at least 1 element."),
+            (actual, desc) -> desc.appendText(
                 new FormattedText(
                     "No any elements from [%s] matches by the function",
                     new TextOf(actual)
-                )
-            ).asString()
+                ).asString()
+            )
         );
-        return new Unchecked<>(new Or(this.fnc, actual)).value();
     }
 }
