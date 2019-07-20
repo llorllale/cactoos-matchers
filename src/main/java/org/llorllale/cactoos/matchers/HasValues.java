@@ -29,8 +29,6 @@ package org.llorllale.cactoos.matchers;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
 import org.cactoos.text.TextOf;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
  * Matcher to check that {@link Iterable} has particular elements.
@@ -44,15 +42,8 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *
  * @param <X> Type of item.
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
-
-    /**
-     * The expected values within the collection.
-     */
-    private final Iterable<X> expected;
-
+public final class HasValues<X> extends MatcherEnvelope<Iterable<X>> {
     /**
      * Ctor.
      * @param expected The expected values within unit test.
@@ -67,19 +58,12 @@ public final class HasValues<X> extends TypeSafeDiagnosingMatcher<Iterable<X>> {
      * @param expected The expected values within unit test.
      */
     public HasValues(final Iterable<X> expected) {
-        super();
-        this.expected = expected;
-    }
-
-    @Override
-    public void describeTo(final Description dsc) {
-        dsc.appendValue(new TextOf(this.expected));
-    }
-
-    @Override
-    protected boolean matchesSafely(final Iterable<X> actual,
-        final Description dsc) {
-        dsc.appendValue(new TextOf(actual));
-        return new ListOf<>(actual).containsAll(new ListOf<>(this.expected));
+        super(
+            // @checkstyle IndentationCheck (4 line)
+            actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
+            desc -> desc.appendText("contains ")
+                .appendValue(new TextOf(expected)),
+            (actual, desc) -> desc.appendValue(new TextOf(actual))
+        );
     }
 }

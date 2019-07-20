@@ -27,19 +27,17 @@
 
 package org.llorllale.cactoos.matchers;
 
+import java.io.IOException;
 import org.cactoos.list.ListOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
+import org.cactoos.text.Joined;
 import org.junit.Test;
 
 /**
  * Test case for{@link HasValues}.
  *
  * @since 1.0.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
- * @checkstyle RegexpSinglelineCheck (500 lines)
- * @checkstyle StringLiteralsConcatenationCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasValuesTest {
@@ -68,33 +66,27 @@ public final class HasValuesTest {
         ).affirm();
     }
 
-    /**
-     * Matcher prints the actual value(s) properly.
-     */
     @Test
-    public void describeActualValues() {
-        final Description description = new StringDescription();
-        new HasValues<>(5).matchesSafely(
-            new ListOf<>(1, 2, 3), description
-        );
+    public void mismatches() throws IOException {
         new Assertion<>(
-            "describes the test args",
-            description.toString(),
-            new IsEqual<>("<1, 2, 3>")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the expected value(s) properly.
-     */
-    @Test
-    public void describeExpectedValues() {
-        final Description description = new StringDescription();
-        new HasValues<>(3, 4).describeTo(description);
-        new Assertion<>(
-            "describes the expected values",
-            description.toString(),
-            new IsEqual<>("<3, 4>")
+            "must throw an exception that describes the values",
+            () -> {
+                new Assertion<>(
+                    "",
+                    new ListOf<>(1, 2, 3),
+                    new HasValues<>(5)
+                ).affirm();
+                return true;
+            },
+            new Throws<>(
+                new Joined(
+                    "\n",
+                    "",
+                    "Expected: contains <5>",
+                    " but was: <1, 2, 3>"
+                ).asString(),
+                AssertionError.class
+            )
         ).affirm();
     }
 }
