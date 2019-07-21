@@ -35,10 +35,6 @@ import org.junit.Test;
  * Test case for {@link HasEntry}.
  *
  * @since 1.0.0
- * @todo #65:30min Add two more tests for the mismatch message,
- *  testing both the case when a key is absent and a value is incorrect,
- *  if possible using the Mismatches Matcher introduced by
- *  https://github.com/llorllale/cactoos-matchers/issues/106.
  * @checkstyle JavadocMethodCheck (200 lines)
  */
 @SuppressWarnings("unchecked")
@@ -61,27 +57,29 @@ public final class HasEntryTest {
         ).affirm();
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void doesNotMatchAMissingEntry() {
         new Assertion<>(
             "must not match a missing entry in the map",
-            new MapOf<>(
-                new MapEntry<>("a", 1),
-                new MapEntry<>("b", 2)
-            ),
-            new HasEntry<>("c", 1)
+            new HasEntry<>("c", 1),
+            new Mismatches<>(
+                new MapOf<>(new MapEntry<>("a", 1)),
+                "has entry \"c\"=<1>",
+                "has no entry for \"c\""
+            )
         ).affirm();
     }
 
-    @Test(expected = AssertionError.class)
+    @Test
     public void doesNotMatchAnIncorrectEntry() {
         new Assertion<>(
             "must not match an existing entry in the map",
-            new MapOf<>(
-                new MapEntry<>("a", 1),
-                new MapEntry<>("b", 2)
-            ),
-            new HasEntry<>("b", 1)
+            new HasEntry<>("b", 1),
+            new Mismatches<>(
+                new MapOf<>(new MapEntry<>("b", 2)),
+                "has entry \"b\"=<1>",
+                "has entry \"b\"=<2>"
+            )
         ).affirm();
     }
 }
