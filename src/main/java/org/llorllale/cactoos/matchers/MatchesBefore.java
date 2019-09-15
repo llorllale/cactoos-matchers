@@ -26,54 +26,43 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
+import org.cactoos.func.Timed;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * Matcher to test {@link org.hamcrest.Matcher} objects.
+ * Matcher to check that scalar finishes before some timeout.
  *
- * <p>Here is an example:</p>
- * <pre>{@code
- *  @Test
- *  public void matches() {
- *      MatcherAssert.assertThat(
- *          new TextIs("abc"),
- *          new Matches<>(new TextOf("abc"))
- *      );
- *  }
- * }</pre>
+ * This is a {@link Matcher} alternative to JUnit's {@link Test#timeout}.
  *
- * @param <X> Type of item.
- * @param <M> Type of tested matcher.
+ * <p>Here is an example how {@link MatchesBefore} can be used:</p>
+ * <pre>
+ *  new Assertion<>(
+ *       "must run in 5 seconds maximum",
+ *       new TextOf("test"),
+ *       new MatchesBefore(
+ *           5000,
+ *           new TextIs("test")
+ *       )
+ *  ).affirm();</pre>
+ *
+ * @param <T> Type of the scalar's value
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Matches<X, M extends Matcher<X>> extends
-    TypeSafeDiagnosingMatcher<M> {
-
-    /**
-     * The testing arguments for the target matcher.
-     */
-    private final X args;
-
+public final class MatchesBefore<T> extends MatcherEnvelope<T> {
     /**
      * Ctor.
-     * @param args The testing arguments for the matcher.
+     * @param millisec Timeout.
+     * @param matcher Matcher.
      */
-    public Matches(final X args) {
-        super();
-        this.args = args;
-    }
-
-    @Override
-    public void describeTo(final Description desc) {
-        desc.appendValue(this.args);
-    }
-
-    @Override
-    protected boolean matchesSafely(final M matcher, final Description dsc) {
-        matcher.describeTo(dsc);
-        return matcher.matches(this.args);
+    public MatchesBefore(final long millisec, final Matcher<T> matcher) {
+        super(
+        // @checkstyle IndentationCheck (6 line)
+        new Timed<>(matcher::matches, millisec),
+        desc -> desc
+            .appendDescriptionOf(matcher)
+            .appendText(" runs in less than ")
+            .appendValue(millisec).appendText(" milliseconds"),
+        matcher::describeMismatch
+        );
     }
 }

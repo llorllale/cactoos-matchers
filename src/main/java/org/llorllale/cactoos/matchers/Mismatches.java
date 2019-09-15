@@ -51,6 +51,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *  }</pre>
  *
  * @param <X> Type of item.
+ * @param <M> Type of tested matcher.
  * @since 1.0.0
  * @todo #106:30min Convert all the Matcher tests to use Mismatches
  *  instead of checking directly the output of mismatch methods or
@@ -61,7 +62,8 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *  working and throwing errors.
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Mismatches<X> extends TypeSafeDiagnosingMatcher<Matcher<X>> {
+public final class Mismatches<X, M extends Matcher<X>> extends
+    TypeSafeDiagnosingMatcher<M> {
 
     /**
      * The testing arguments for the target matcher.
@@ -132,8 +134,7 @@ public final class Mismatches<X> extends TypeSafeDiagnosingMatcher<Matcher<X>> {
     //  And then introduce some tests to validate that the description
     //  is properly constructed.
     @Override
-    protected boolean matchesSafely(final Matcher<X> matcher,
-        final Description dsc) {
+    protected boolean matchesSafely(final M matcher, final Description dsc) {
         boolean mismatch;
         try {
             new Assertion<>("", this.args, matcher).affirm();

@@ -29,70 +29,66 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
 import org.cactoos.text.TextOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Test case for {@link Matches}.
+ * Test case for {@link MatchesBefore}.
  *
  * @since 1.0.0
+ * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle MagicNumberCheck (500 line)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MatchesTest {
+public final class MatchesBeforeTest {
 
     /**
-     * Example of {@link Matches} usage.
+     * Example of {@link MatchesBefore} usage.
      */
     @Test
     public void matches() {
+        final String val = "test";
         new Assertion<>(
-            "Matcher TextIs(abc) gives positive result for Text(abc)",
-            new TextIs("abc"),
-            new Matches<>(new TextOf("abc"))
+            "must run in 1000 milliseconds maximum",
+            new TextOf(val),
+            new MatchesBefore<>(
+                1000,
+                new TextIs(val)
+            )
         ).affirm();
     }
 
-    /**
-     * Gives negative testing result for the invalid arguments.
-     */
     @Test
-    public void matchStatus() {
+    public void mismatchesFromMatcher() {
         new Assertion<>(
-            "Matcher TextIs(abc) gives negative result for Text(def)",
-            new Matches<>(new TextOf("def")).matches(new TextIs("abc")),
-            new IsEqual<>(false)
+            "must fail because of matcher",
+            new MatchesBefore<>(1000, new TextIs("a")),
+            new Mismatches<>(
+                new TextOf("b"),
+                "Text with value \"a\" runs in less than <1000L> milliseconds",
+                "Text is \"b\""
+            )
         ).affirm();
     }
 
-    /**
-     * Matcher prints the actual value(s) properly.
-     */
+    // @todo #133:30min Currently MatchesBefore directly throws a
+    //  TimeoutException but instead it should populate the mismatch
+    //  message so that it can be properly tested with Mismatches.
+    //  Unignore and update this test to validate it is correctly implemented
+    @Ignore
     @Test
-    public void describeActual() {
-        final Description description = new StringDescription();
-        new Matches<Text, TextIs>(new TextOf("expected")).matchesSafely(
-            new TextIs("actual"), description
-        );
+    public void mismatchesFromTimeout() {
+        final String val = "c";
         new Assertion<>(
-            "describes the matcher",
-            description.toString(),
-            new IsEqual<>("Text with value \"actual\"")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the expected value(s) properly.
-     */
-    @Test
-    public void describeExpected() {
-        final Description description = new StringDescription();
-        new Matches<>(new TextOf("expected")).describeTo(description);
-        new Assertion<>(
-            "describes the expected value",
-            description.toString(),
-            new IsEqual<>("<expected>")
+            "must fail because of timeout",
+            new MatchesBefore<>(10, new TextIs(val)),
+            new Mismatches<>(
+                (Text) () -> {
+                    Thread.sleep(1000);
+                    return val;
+                },
+                "Text with value \"c\" runs in less than <10L> milliseconds",
+                "Tto be determined"
+            )
         ).affirm();
     }
 }
