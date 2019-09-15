@@ -45,10 +45,12 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * }</pre>
  *
  * @param <X> Type of item.
+ * @param <M> Type of tested matcher.
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Matches<X> extends TypeSafeDiagnosingMatcher<Matcher<X>> {
+public final class Matches<X, M extends Matcher<X>> extends
+    TypeSafeDiagnosingMatcher<M> {
 
     /**
      * The testing arguments for the target matcher.
@@ -70,8 +72,7 @@ public final class Matches<X> extends TypeSafeDiagnosingMatcher<Matcher<X>> {
     }
 
     @Override
-    protected boolean matchesSafely(final Matcher<X> matcher,
-        final Description dsc) {
+    protected boolean matchesSafely(final M matcher, final Description dsc) {
         matcher.describeTo(dsc);
         return matcher.matches(this.args);
     }
