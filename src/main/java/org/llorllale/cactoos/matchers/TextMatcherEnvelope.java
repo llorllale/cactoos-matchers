@@ -27,6 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
+import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -89,10 +90,9 @@ public abstract class TextMatcherEnvelope extends
     @Override
     protected final boolean matchesSafely(final Text text,
         final Description desc) {
-        desc.appendText(this.actual).appendValue(
-            new UncheckedText(text).asString()
-        );
-        return this.matcher.matches(text);
+        final String txt = new UncheckedText(text).asString();
+        desc.appendText(this.actual).appendValue(txt);
+        return this.matcher.matches(new TextOf(txt));
     }
 
 }
