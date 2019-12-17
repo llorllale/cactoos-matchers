@@ -69,7 +69,7 @@ public void textHasPrefix() {
   final String prefix = "Application startup";
   new Assertion<>(
     "must have the prefix",
-    () -> new TextOf(new File("some.log")),
+    new TextOf(new File("some.log")),
     new StartsWith(prefix)
   ).affirm();
 }  
