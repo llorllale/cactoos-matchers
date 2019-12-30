@@ -92,11 +92,13 @@ public void csvLineHasCorrectFormat() throws Exception {
 }
 
 @Test
-public void textIsBlank() throws IOException {
+public void textIsBlank(){
   new Assertion<>(
     "must be blank",
-    new TextOf(
-      new File("records.txt")
+    new UncheckedText(    
+      new TextOf(
+        new File("records.txt")
+      )
     ).asString(),
     new IsBlank()
   ).affirm();
@@ -165,7 +167,7 @@ Use `Matches` to test matchers themselves:
 public void matchExactString() {
   new Assertion<>(
     "must match the exact text",
-    new TextIs("abc"),          // matcher being tested
+    textIsBlanknew TextIs("abc"),          // matcher being tested
     new Matches<>(new TextOf("abc"))  // reference against which the matcher is tested
   ).affirm();
 }
