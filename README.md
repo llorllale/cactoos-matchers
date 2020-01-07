@@ -97,7 +97,7 @@ public void textIsBlank(){
     "must be blank",
     new UncheckedText(    
       new TextOf(
-        new File("records.txt")
+        new File("file.txt")
       )
     ).asString(),
     new IsBlank()
