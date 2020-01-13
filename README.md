@@ -69,7 +69,7 @@ public void textHasPrefix() {
   final String prefix = "Application startup";
   new Assertion<>(
     "must have the prefix",
-    () -> new TextOf(new File("some.log")),
+    new TextOf(new File("some.log")),
     new StartsWith(prefix)
   ).affirm();
 }  
@@ -79,22 +79,27 @@ public void csvLineHasCorrectFormat() throws Exception {
   final String fields = "^[^|]+|[^|]+|[^|]+$";
   new Assertion<>(
     "must match the expected pattern",
-    () -> new FirstOf<>(
+    new FirstOf<>(
       line -> true,
-      new SplitText(
+      new Split(
         new TextOf(new File("report.csv")),
         "\n"
-      )
+      ),
+      () -> new TextOf("")
     ).value(),
     new MatchesRegex(fields)
   ).affirm();
 }
 
 @Test
-public void textIsBlank() {
+public void textIsBlank(){
   new Assertion<>(
     "must be blank",
-    () -> new TextOf(new File("records.txt")),
+    new UncheckedText(    
+      new TextOf(
+        new File("file.txt")
+      )
+    ).asString(),
     new IsBlank()
   ).affirm();
 }
@@ -112,7 +117,7 @@ Examples:
 public void threadSafety() {
   new Assertion<>(
     "must be able to modify the map concurrently",
-    () -> map -> {
+    map -> {
       boolean success = true;
       try {
         map.forEach(
@@ -147,7 +152,7 @@ public void throwIllegalArgumentExceptionIfLessThan10() throws Exception {
   new Assertion<>(
     "must throw illegalargumentexception if input is less than 10",
     () -> test.apply(5),
-    new Throws(IllegalArgumentException.class)
+    new Throws<>(IllegalArgumentException.class)
   ).affirm();
 }
 ```
@@ -162,7 +167,7 @@ Use `Matches` to test matchers themselves:
 public void matchExactString() {
   new Assertion<>(
     "must match the exact text",
-    () -> new TextIs("abc"),          // matcher being tested
+    textIsBlanknew TextIs("abc"),          // matcher being tested
     new Matches<>(new TextOf("abc"))  // reference against which the matcher is tested
   ).affirm();
 }
