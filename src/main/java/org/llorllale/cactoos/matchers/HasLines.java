@@ -31,11 +31,10 @@ import org.cactoos.BiFunc;
 import org.cactoos.Func;
 import org.cactoos.Scalar;
 import org.cactoos.Text;
-import org.cactoos.collection.CollectionOf;
-import org.cactoos.collection.Mapped;
 import org.cactoos.iterable.IterableOf;
+import org.cactoos.iterable.Mapped;
 import org.cactoos.list.ListOf;
-import org.cactoos.scalar.Unchecked;
+import org.cactoos.text.Split;
 
 /**
  * Allows to check that text has lines considering platform-dependent line
@@ -84,10 +83,8 @@ public final class HasLines extends MatcherEnvelope<String> {
         this(
             fnc,
             lns,
-            text -> new CollectionOf<>(
-                text.split(
-                    new Unchecked<>(sep).value()
-                )
+            text -> new ListOf<>(
+                new Mapped<>(Text::asString, new Split(text, sep::value))
             )
         );
     }
@@ -105,9 +102,7 @@ public final class HasLines extends MatcherEnvelope<String> {
     ) {
         super(
             // @checkstyle IndentationCheck (5 line)
-            actual -> match.apply(
-                split.apply(actual), expected
-            ),
+            actual -> match.apply(split.apply(actual), expected),
             desc -> desc.appendText("Lines are ").appendValue(expected),
             (actual, desc) -> desc.appendValue(split.apply(actual))
         );

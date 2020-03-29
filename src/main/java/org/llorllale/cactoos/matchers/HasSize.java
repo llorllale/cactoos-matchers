@@ -26,7 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.collection.CollectionOf;
+import org.cactoos.scalar.LengthOf;
 
 /**
  * Matcher to check that {@link Iterable} has required size.
@@ -43,11 +43,11 @@ public final class HasSize extends MatcherEnvelope<Iterable<?>> {
     public HasSize(final Integer size) {
         super(
         // @checkstyle IndentationCheck (5 line)
-        input -> new CollectionOf<>(input).size() == size,
+        input -> new LengthOf(input).intValue() == size,
         desc -> desc.appendText("has size ")
             .appendValue(size),
         (input, desc) -> desc.appendText("has size ")
-            .appendValue(new CollectionOf<>(input).size())
+            .appendValue(new LengthOf(input).intValue())
         );
     }
 }

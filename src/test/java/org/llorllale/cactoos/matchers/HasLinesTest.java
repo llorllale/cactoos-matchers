@@ -28,6 +28,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.Joined;
+import org.cactoos.text.TextOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -54,6 +55,18 @@ public final class HasLinesTest {
             "matches lines containing the given strings",
             new HasLines("A", "C"),
             new Matches<>(String.format("A%nB%nC%n"))
+        ).affirm();
+    }
+
+    /**
+     * Example of {@link HasLines} behavior for positive results.
+     */
+    @Test
+    public void matchesWithText() {
+        new Assertion<>(
+            "matches lines containing the given Text",
+            new HasLines(new TextOf("A"), new TextOf("D")),
+            new Matches<>(String.format("A%nB%nD%n"))
         ).affirm();
     }
 
