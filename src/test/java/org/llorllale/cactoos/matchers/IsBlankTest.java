@@ -27,9 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link IsBlank}.
@@ -38,12 +36,6 @@ import org.junit.rules.ExpectedException;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class IsBlankTest {
-
-    /**
-     * A rule for handling an exception.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void blank() {
@@ -56,27 +48,27 @@ public final class IsBlankTest {
 
     @Test
     public void notBlank() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            String.format("Expected: is blank%n but was: \"-.$%%\"")
-        );
         new Assertion<>(
             "does not match non-empty string",
-            "-.$%",
-            new IsBlank()
+            new IsBlank(),
+            new Mismatches<>(
+                "-.$%",
+                "is blank", "\"-.$%\""
+            )
+
         ).affirm();
     }
 
     @Test
     public void nonBlankMessage() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            String.format("Expected: is blank%n but was: \"text\"")
-        );
         new Assertion<>(
             "describes itself in terms of the text being matched against",
-            "text",
-            new IsBlank()
+            new IsBlank(),
+            new Mismatches<>(
+                "text",
+                "is blank",
+                "\"text\""
+            )
         ).affirm();
     }
 }
