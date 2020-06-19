@@ -27,9 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
-import java.io.IOException;
 import org.cactoos.list.ListOf;
-import org.cactoos.text.Joined;
 import org.junit.Test;
 
 /**
@@ -67,25 +65,14 @@ public final class HasValuesTest {
     }
 
     @Test
-    public void mismatches() throws IOException {
+    public void mismatches() {
         new Assertion<>(
             "must throw an exception that describes the values",
-            () -> {
-                new Assertion<>(
-                    "",
-                    new ListOf<>(1, 2, 3),
-                    new HasValues<>(5)
-                ).affirm();
-                return true;
-            },
-            new Throws<>(
-                new Joined(
-                    "\n",
-                    "",
-                    "Expected: contains <5>",
-                    " but was: <1, 2, 3>"
-                ).asString(),
-                AssertionError.class
+            new HasValues<>(5),
+            new Mismatches<>(
+                new ListOf<>(1, 2, 3),
+                "contains <5>",
+                "<1, 2, 3>"
             )
         ).affirm();
     }
