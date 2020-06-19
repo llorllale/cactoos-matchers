@@ -28,9 +28,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsNot;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link TextHasString}.
@@ -41,11 +39,6 @@ import org.junit.rules.ExpectedException;
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class TextHasStringTest {
-    /**
-     * Rule for handling expected exceptions.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void matchesPrefix() {
@@ -85,16 +78,14 @@ public final class TextHasStringTest {
 
     @Test
     public void describesMismatch() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            String.format(
-                "Expected: Text with \"xyz456\"%n but was: Text is \"abc123\""
-            )
-        );
         new Assertion<>(
             "describes mismatch correctly",
-            new TextOf("abc123"),
-            new TextHasString("xyz456")
+            new TextHasString("xyz456"),
+            new Mismatches<>(
+                new TextOf("abc123"),
+                "Text with \"xyz456\"",
+                "Text is \"abc123\""
+            )
         ).affirm();
     }
 }
