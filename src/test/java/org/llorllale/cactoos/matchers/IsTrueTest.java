@@ -27,8 +27,6 @@
 
 package org.llorllale.cactoos.matchers;
 
-import java.io.IOException;
-import org.cactoos.text.Joined;
 import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
@@ -65,22 +63,16 @@ public final class IsTrueTest {
     }
 
     @Test
-    public void describesCorrectly() throws IOException {
+    public void describesCorrectly() {
         new Assertion<>(
             "must throw an exception that describes the values",
-            () -> {
-                new Assertion<>("", false, new IsTrue()).affirm();
-                return true;
-            },
-            new Throws<>(
-                new Joined(
-                    "\n",
-                    "",
-                    "Expected: <true>",
-                    " but was: <false>"
-                ).asString(),
-                AssertionError.class
+            new IsTrue(),
+            new Mismatches<>(
+                false,
+                "<true>",
+                "<false>"
             )
+
         ).affirm();
     }
 }
