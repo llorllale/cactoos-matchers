@@ -32,7 +32,6 @@ import org.cactoos.list.ListOf;
 import org.cactoos.scalar.PropertiesOf;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
-import org.hamcrest.core.IsNot;
 import org.hamcrest.text.IsEqualIgnoringCase;
 import org.junit.Test;
 
@@ -96,13 +95,23 @@ public final class HasPropertyTest {
      */
     @Test
     public void negativeMatch() {
+        final String expected =
+            "Scalar with has property key \"abc\", value \"1\"";
         new Assertion<>(
             "must mismatches 'abc=2' & 'xyz=1'",
             new ScalarHasValue<>(new HasProperty("abc", "1")),
             new AllOf<>(
                 new ListOf<Matcher<? super ScalarHasValue<Properties>>>(
-                    new IsNot<>(new Matches<>(new PropertiesOf("abc=2"))),
-                    new IsNot<>(new Matches<>(new PropertiesOf("xyz=1")))
+                    new Mismatches<>(
+                        new PropertiesOf("abc=2"),
+                        expected,
+                        "<{abc=2}>"
+                    ),
+                    new Mismatches<>(
+                        new PropertiesOf("xyz=1"),
+                        expected,
+                        "<{xyz=1}>"
+                    )
                 )
             )
         ).affirm();
