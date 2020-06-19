@@ -53,9 +53,6 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @param <X> Type of item.
  * @param <M> Type of tested matcher.
  * @since 1.0.0
- * @todo #106:30min Convert all the Matcher tests to use Mismatches
- *  instead of checking directly the output of mismatch methods or
- *  the exception of Assertion.
  * @todo #106:30min Add extra tests for this class to validate all
  *  the different constructors (also add a constructor taking message
  *  as a String) and ensure they are coherent with how Assertion is
