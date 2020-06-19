@@ -35,6 +35,7 @@ import org.junit.Test;
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class IsBlankTest {
 
     @Test
@@ -53,9 +54,9 @@ public final class IsBlankTest {
             new IsBlank(),
             new Mismatches<>(
                 "-.$%",
-                "is blank", "\"-.$%\""
+                "is blank",
+                "\"-.$%\""
             )
-
         ).affirm();
     }
 

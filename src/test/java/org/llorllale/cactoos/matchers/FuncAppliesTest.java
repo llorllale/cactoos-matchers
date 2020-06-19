@@ -33,10 +33,10 @@ import org.junit.Test;
  * Test case for {@link FuncApplies}.
  *
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @checkstyle JavadocMethodCheck (100 lines)
+ * @checkstyle MagicNumber (100 line)
  */
 public final class FuncAppliesTest {
-
 
     @Test
     public void matchFuncs() {
@@ -53,7 +53,6 @@ public final class FuncAppliesTest {
             // @checkstyle LineLength (1 line)
             "does not match function that produces different output from the given input",
             new FuncApplies<>(1, 1),
-            // @checkstyle MagicNumber (1 line)
             new IsNot<>(new Matches<>(x -> 3 * x))
         ).affirm();
     }
@@ -62,7 +61,6 @@ public final class FuncAppliesTest {
     public void describesMismatch() {
         new Assertion<>(
             "describes mismatch",
-            // @checkstyle MagicNumber (1 line)
             new FuncApplies<>(1, 1),
             new Mismatches<>(
                 x -> 3 * x,

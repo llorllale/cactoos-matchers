@@ -72,7 +72,6 @@ public final class IsTrueTest {
                 "<true>",
                 "<false>"
             )
-
         ).affirm();
     }
 }
