@@ -34,7 +34,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 import org.hamcrest.core.IsNot;
 import org.hamcrest.text.IsEqualIgnoringCase;
-import org.hamcrest.text.StringContainsInOrder;
 import org.junit.Test;
 
 /**
@@ -112,32 +111,20 @@ public final class HasPropertyTest {
     /**
      * Test for mismatch description readability.
      *
-     * @todo #67:30m Make {@link Matcher#describeMismatch} of the original
+     * @todo #67:30m Make sure {@link Matcher#describeMismatch} of the original
      *  matcher is called by {@link ScalarHasValue}.
-     *  And then adjust this test with more readable message originating
+     *  And then adjust this test with the message originating
      *  from {@link HasProperty}.
      */
     @Test
     public void describesCorrectly() {
         new Assertion<>(
-            "must throw an exception that describes the properties",
-            () -> {
-                new Assertion<>(
-                    "",
-                    new PropertiesOf("b=2"),
-                    new ScalarHasValue<>(new HasProperty("c", "3"))
-                ).affirm();
-                return true;
-            },
-            new Throws<>(
-                new StringContainsInOrder(
-                    new ListOf<>(
-                        "Expected: Scalar with ",
-                        "has property key \"c\", value \"3\"",
-                        " but was: <{b=2}>"
-                    )
-                ),
-                AssertionError.class
+            "must have a message that describes the properties",
+            new ScalarHasValue<>(new HasProperty("c", "3")),
+            new Mismatches<>(
+                new PropertiesOf("b=2"),
+                "Scalar with has property key \"c\", value \"3\"",
+                "<{b=2}>"
             )
         ).affirm();
     }

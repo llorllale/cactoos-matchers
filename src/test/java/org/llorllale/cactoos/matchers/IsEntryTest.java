@@ -27,11 +27,9 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.list.ListOf;
 import org.cactoos.map.MapEntry;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
-import org.hamcrest.text.StringContainsInOrder;
 import org.junit.Test;
 
 /**
@@ -77,23 +75,12 @@ public final class IsEntryTest {
     @Test
     public void describesCorrectly() {
         new Assertion<>(
-            "must throw an exception that describes the properties",
-            () -> {
-                new Assertion<>(
-                    "",
-                    new MapEntry<>("b", "2"),
-                    new IsEntry<>("c", "3")
-                ).affirm();
-                return true;
-            },
-            new Throws<>(
-                new StringContainsInOrder(
-                    new ListOf<>(
-                        "Expected: key \"c\", value \"3\"",
-                        " but was: key was \"b\", value was \"2\""
-                    )
-                ),
-                AssertionError.class
+            "must mismatch with a description",
+            new IsEntry<>("c", "3"),
+            new Mismatches<>(
+                new MapEntry<>("b", "2"),
+                "key \"c\", value \"3\"",
+                "key was \"b\", value was \"2\""
             )
         ).affirm();
     }
