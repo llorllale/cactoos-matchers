@@ -29,7 +29,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.map.MapEntry;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -50,7 +49,11 @@ public final class IsEntryTest {
                 new IsEqual<>("q"),
                 new IsEqual<>("w")
             ),
-            new IsNot<>(new Matches<>(new MapEntry<>("k", "v")))
+            new Mismatches<>(
+                new MapEntry<>("k", "v"),
+                "key \"q\", value \"w\"",
+                "key was \"k\", value was \"v\""
+            )
         ).affirm();
     }
 
