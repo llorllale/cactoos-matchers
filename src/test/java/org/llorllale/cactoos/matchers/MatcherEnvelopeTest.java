@@ -104,8 +104,9 @@ public final class MatcherEnvelopeTest {
                     "must delegate describeMismatchSafely to encapsulated matcher",
                     MatcherEnvelopeTest.TEST_INTEGER,
                     new MatcherEnvelopeChild<>(
-                        (item) -> false,
-                        (description) -> { },
+                        item -> false,
+                        description -> {
+                        },
                         (item, description) -> description.appendText(
                             MatcherEnvelopeTest.TEST_STRING
                         )
