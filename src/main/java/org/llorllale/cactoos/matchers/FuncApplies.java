@@ -57,7 +57,6 @@ public final class FuncApplies<X, Y> extends MatcherEnvelope<Func<X, Y>> {
      */
     public FuncApplies(final X input, final Matcher<Y> mtr) {
         super(
-            // @checkstyle IndentationCheck (7 line)
             func -> mtr.matches(
                 new UncheckedFunc<>(func).apply(input)
             ),

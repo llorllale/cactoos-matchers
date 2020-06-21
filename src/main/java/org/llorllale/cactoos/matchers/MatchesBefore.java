@@ -56,13 +56,12 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
      */
     public MatchesBefore(final long millisec, final Matcher<T> matcher) {
         super(
-        // @checkstyle IndentationCheck (6 line)
-        new Timed<>(matcher::matches, millisec),
-        desc -> desc
-            .appendDescriptionOf(matcher)
-            .appendText(" runs in less than ")
-            .appendValue(millisec).appendText(" milliseconds"),
-        matcher::describeMismatch
+            new Timed<>(matcher::matches, millisec),
+            desc -> desc
+                .appendDescriptionOf(matcher)
+                .appendText(" runs in less than ")
+                .appendValue(millisec).appendText(" milliseconds"),
+            matcher::describeMismatch
         );
     }
 }

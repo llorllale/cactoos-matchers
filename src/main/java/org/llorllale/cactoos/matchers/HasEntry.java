@@ -57,7 +57,6 @@ public final class HasEntry<K, V> extends MatcherEnvelope<Map<K, V>> {
     @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public HasEntry(final K key, final V value) {
         super(
-             // @checkstyle IndentationCheck (16 lines)
             input -> Optional.ofNullable(input.get(key))
                 .map(vl -> vl.equals(value))
                 .orElse(false),

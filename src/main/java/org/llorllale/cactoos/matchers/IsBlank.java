@@ -37,7 +37,6 @@ public final class IsBlank extends MatcherEnvelope<String> {
      */
     public IsBlank() {
         super(
-            // @checkstyle IndentationCheck (3 line)
             text -> text.trim().isEmpty(),
             desc -> desc.appendText("is blank"),
             (text, desc) -> desc.appendValue(text)
