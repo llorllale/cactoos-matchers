@@ -73,6 +73,7 @@ public final class Assertion<T> {
      * Whether this assertion is refuted.
      */
     private final Unchecked<Boolean> refuted;
+
     /**
      * Refutation error.
      */
