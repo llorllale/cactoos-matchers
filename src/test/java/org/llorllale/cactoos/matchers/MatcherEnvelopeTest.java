@@ -105,8 +105,7 @@ public final class MatcherEnvelopeTest {
                     MatcherEnvelopeTest.TEST_INTEGER,
                     new MatcherEnvelopeChild<>(
                         item -> false,
-                        description -> {
-                        },
+                        description -> { },
                         (item, description) -> description.appendText(
                             MatcherEnvelopeTest.TEST_STRING
                         )
