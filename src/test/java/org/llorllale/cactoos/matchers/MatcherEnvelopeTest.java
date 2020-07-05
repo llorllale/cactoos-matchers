@@ -104,8 +104,8 @@ public final class MatcherEnvelopeTest {
                     "must delegate describeMismatchSafely to encapsulated matcher",
                     MatcherEnvelopeTest.TEST_INTEGER,
                     new MatcherEnvelopeChild<>(
-                        (item) -> false,
-                        (description) -> { },
+                        item -> false,
+                        description -> { },
                         (item, description) -> description.appendText(
                             MatcherEnvelopeTest.TEST_STRING
                         )
@@ -122,9 +122,10 @@ public final class MatcherEnvelopeTest {
 
     /**
      * Private child class to test MatcherEnvelope, which is abstract.
-     * @param <T>
+     * @param <T> Type of object under the test.
+     * @since 1.0.0
      */
-    private class MatcherEnvelopeChild<T> extends MatcherEnvelope<T> {
+    private static class MatcherEnvelopeChild<T> extends MatcherEnvelope<T> {
 
         /**
          * Multi-argument constructor, just delegating to super.
@@ -152,8 +153,9 @@ public final class MatcherEnvelopeTest {
 
     /**
      * Test matcher to test one-argument constructor of MatcherEnvelope.
+     * @since 1.0.0
      */
-    private class EncapsulatedTestMatcher extends TypeSafeMatcher<Integer> {
+    private static class EncapsulatedTestMatcher extends TypeSafeMatcher<Integer> {
         @Override
         public void describeTo(final Description description) {
             description.appendValue(MatcherEnvelopeTest.TEST_INTEGER);

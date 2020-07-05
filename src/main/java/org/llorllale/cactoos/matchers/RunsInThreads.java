@@ -77,6 +77,7 @@ public final class RunsInThreads<T> extends TypeSafeMatcher<Func<T, Boolean>> {
     /**
      * Ctor.
      * @param object Input object
+     * @param threads Size of thread pool
      */
     public RunsInThreads(final T object, final int threads) {
         super();

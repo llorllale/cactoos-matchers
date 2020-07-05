@@ -52,7 +52,6 @@ public final class ScalarHasValue<T> extends MatcherEnvelope<Scalar<T>> {
      */
     public ScalarHasValue(final Matcher<T> mtr) {
         super(
-            // @checkstyle IndentationCheck (3 line)
             scalar -> mtr.matches(scalar.value()),
             desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
             (scalar, desc) -> desc.appendValue(scalar.value())

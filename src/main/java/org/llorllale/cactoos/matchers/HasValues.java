@@ -59,7 +59,6 @@ public final class HasValues<X> extends MatcherEnvelope<Iterable<X>> {
      */
     public HasValues(final Iterable<X> expected) {
         super(
-            // @checkstyle IndentationCheck (4 line)
             actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
             desc -> desc.appendText("contains ")
                 .appendValue(new TextOf(expected)),

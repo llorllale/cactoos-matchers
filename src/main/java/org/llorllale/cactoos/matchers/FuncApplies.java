@@ -43,8 +43,8 @@ public final class FuncApplies<X, Y> extends MatcherEnvelope<Func<X, Y>> {
 
     /**
      * Ctor.
-     * @param result The result expected
      * @param inpt Input for the function
+     * @param result The result expected
      */
     public FuncApplies(final X inpt, final Y result) {
         this(inpt, new IsEqual<>(result));
@@ -57,7 +57,6 @@ public final class FuncApplies<X, Y> extends MatcherEnvelope<Func<X, Y>> {
      */
     public FuncApplies(final X input, final Matcher<Y> mtr) {
         super(
-            // @checkstyle IndentationCheck (7 line)
             func -> mtr.matches(
                 new UncheckedFunc<>(func).apply(input)
             ),
