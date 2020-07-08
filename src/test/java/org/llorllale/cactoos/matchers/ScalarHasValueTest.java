@@ -74,7 +74,7 @@ public final class ScalarHasValueTest {
         this.exception.expectMessage(
             String.format(
                 // @checkstyle LineLength (1 line)
-                "Expected: Scalar with \"something\"%n but was: \"something else\""
+                "Expected: Scalar with \"something\"%n but was: was \"something else\""
             )
         );
         new Assertion<>(

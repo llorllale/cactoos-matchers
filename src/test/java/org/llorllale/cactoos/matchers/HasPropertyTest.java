@@ -105,12 +105,12 @@ public final class HasPropertyTest {
                     new Mismatches<>(
                         new PropertiesOf("abc=2"),
                         expected,
-                        "<{abc=2}>"
+                        "has properties <{abc=2}>"
                     ),
                     new Mismatches<>(
                         new PropertiesOf("xyz=1"),
                         expected,
-                        "<{xyz=1}>"
+                        "has properties <{xyz=1}>"
                     )
                 )
             )
@@ -133,7 +133,7 @@ public final class HasPropertyTest {
             new Mismatches<>(
                 new PropertiesOf("b=2"),
                 "Scalar with has property key \"c\", value \"3\"",
-                "<{b=2}>"
+                "has properties <{b=2}>"
             )
         ).affirm();
     }
