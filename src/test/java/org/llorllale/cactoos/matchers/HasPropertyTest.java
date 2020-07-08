@@ -119,11 +119,6 @@ public final class HasPropertyTest {
 
     /**
      * Test for mismatch description readability.
-     *
-     * @todo #67:30m Make sure {@link Matcher#describeMismatch} of the original
-     *  matcher is called by {@link ScalarHasValue}.
-     *  And then adjust this test with the message originating
-     *  from {@link HasProperty}.
      */
     @Test
     public void describesCorrectly() {
