@@ -27,60 +27,64 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.Constant;
-import org.cactoos.scalar.Unchecked;
+import org.cactoos.map.MapEntry;
 import org.hamcrest.core.IsEqual;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
- * Test case for {@link ScalarHasValue}.
+ * Test for {@link IsEntry}.
  *
- * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @since 1.0.0
+ * @checkstyle ClassDataAbstractionCoupling (100 lines)
  */
-public final class ScalarHasValueTest {
+public final class IsEntryTest {
+    /**
+     * Negative case.
+     */
+    @Test
+    public void doesNotMatchEntry() {
+        new Assertion<>(
+            "must not match the entry",
+            new IsEntry<>(
+                new IsEqual<>("q"),
+                new IsEqual<>("w")
+            ),
+            new Mismatches<>(
+                new MapEntry<>("k", "v"),
+                "key \"q\", value \"w\"",
+                "key was \"k\", value was \"v\""
+            )
+        ).affirm();
+    }
 
     /**
-     * A rule for handling an exception.
+     * Positive case.
      */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Test
-    public void matchesWithExpectedString() {
-        final String expected = "some text";
+    public void matchesEntry() {
         new Assertion<>(
-            "Must match with expected string",
-            new Unchecked<>(() -> expected),
-            new ScalarHasValue<>(expected)
+            "must match the entry",
+            new IsEntry<>(
+                new IsEqual<>("k"),
+                new IsEqual<>("v")
+            ),
+            new Matches<>(new MapEntry<>("k", "v"))
         ).affirm();
     }
 
+    /**
+     * Test for mismatch description readability.
+     */
     @Test
-    public void matchesAsExpectedWithMatcher() {
-        final String expected = "text";
+    public void describesCorrectly() {
         new Assertion<>(
-            "Must match a with the given Matcher",
-            new Unchecked<>(() -> expected),
-            new ScalarHasValue<>(new IsEqual<>(expected))
-        ).affirm();
-    }
-
-    @Test
-    public void hasMatcherDescriptionForFailedTest() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            String.format(
-                // @checkstyle LineLength (1 line)
-                "Expected: Scalar with \"something\"%n but was: was \"something else\""
+            "must mismatch with a description",
+            new IsEntry<>("c", "3"),
+            new Mismatches<>(
+                new MapEntry<>("b", "2"),
+                "key \"c\", value \"3\"",
+                "key was \"b\", value was \"2\""
             )
-        );
-        new Assertion<>(
-            "correctly describes a mismatch",
-            new Constant<>("something else"),
-            new ScalarHasValue<>(new IsEqual<>("something"))
         ).affirm();
     }
 }
