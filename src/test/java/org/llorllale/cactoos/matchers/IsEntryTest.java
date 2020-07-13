@@ -24,22 +24,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.map.MapEntry;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
+
 /**
- * The matcher to check that text is empty.
+ * Test for {@link IsEntry}.
  *
  * @since 1.0.0
+ * @checkstyle ClassDataAbstractionCoupling (100 lines)
  */
-public final class IsBlank extends MatcherEnvelope<String> {
+public final class IsEntryTest {
     /**
-     * Ctor.
+     * Negative case.
      */
-    public IsBlank() {
-        super(
-            text -> text.trim().isEmpty(),
-            desc -> desc.appendText("is blank"),
-            (text, desc) -> desc.appendValue(text)
-        );
+    @Test
+    public void doesNotMatchEntry() {
+        new Assertion<>(
+            "must not match the entry",
+            new IsEntry<>(
+                new IsEqual<>("q"),
+                new IsEqual<>("w")
+            ),
+            new Mismatches<>(
+                new MapEntry<>("k", "v"),
+                "key \"q\", value \"w\"",
+                "key was \"k\", value was \"v\""
+            )
+        ).affirm();
+    }
+
+    /**
+     * Positive case.
+     */
+    @Test
+    public void matchesEntry() {
+        new Assertion<>(
+            "must match the entry",
+            new IsEntry<>(
+                new IsEqual<>("k"),
+                new IsEqual<>("v")
+            ),
+            new Matches<>(new MapEntry<>("k", "v"))
+        ).affirm();
+    }
+
+    /**
+     * Test for mismatch description readability.
+     */
+    @Test
+    public void describesCorrectly() {
+        new Assertion<>(
+            "must mismatch with a description",
+            new IsEntry<>("c", "3"),
+            new Mismatches<>(
+                new MapEntry<>("b", "2"),
+                "key \"c\", value \"3\"",
+                "key was \"b\", value was \"2\""
+            )
+        ).affirm();
     }
 }

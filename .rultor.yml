@@ -7,7 +7,7 @@ docker:
   as_root: true
 architect:
   - llorllale
-  - paulodamaso
+  - victornoel
 merge:
   script: |
     pdd -f /dev/null

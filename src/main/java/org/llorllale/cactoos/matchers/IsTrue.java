@@ -37,7 +37,6 @@ public final class IsTrue extends MatcherEnvelope<Boolean> {
      */
     public IsTrue() {
         super(
-            // @checkstyle IndentationCheck (3 line)
             bool -> bool,
             desc -> desc.appendValue(true),
             (bool, desc) -> desc.appendValue(bool)

@@ -101,7 +101,6 @@ public final class HasLines extends MatcherEnvelope<String> {
         final Func<String, Collection<String>> split
     ) {
         super(
-            // @checkstyle IndentationCheck (5 line)
             actual -> match.apply(split.apply(actual), expected),
             desc -> desc.appendText("Lines are ").appendValue(expected),
             (actual, desc) -> desc.appendValue(split.apply(actual))

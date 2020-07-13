@@ -91,6 +91,8 @@ public final class RunsInThreadsTest {
 
     /**
      * Guaranteed thread-safety.
+     *
+     * @since 0.24
      */
     private static class Safe implements Func<AtomicInteger, Boolean> {
         @Override
@@ -103,12 +105,15 @@ public final class RunsInThreadsTest {
     /**
      * Guaranteed "thread-unsafety". It only allows the first thread to
      * increment the integer.
+     *
+     * @since 0.24
      */
     private static class Unsafe implements Func<AtomicInteger, Boolean> {
         /**
          * Special value indicating no thread has yet applied this func.
          */
         private static final String NO_THREAD = "";
+
         /**
          * Name of thread to first apply this func.
          */

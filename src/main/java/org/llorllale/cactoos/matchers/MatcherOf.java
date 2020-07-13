@@ -66,7 +66,6 @@ public final class MatcherOf<T> extends MatcherEnvelope<T> {
      */
     public MatcherOf(final Func<T, Boolean> fnc, final Text description) {
         super(
-            // @checkstyle IndentationCheck (5 line)
             fnc,
             desc -> desc.appendText(
                 new FormattedText("\"%s\"", description).asString()

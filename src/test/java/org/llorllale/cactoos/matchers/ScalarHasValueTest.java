@@ -68,7 +68,7 @@ public final class ScalarHasValueTest {
             new Mismatches<>(
                 new Constant<>("something else"),
                 "Scalar with \"something\"",
-                "\"something else\""
+                "was \"something else\""
             )
         ).affirm();
     }
