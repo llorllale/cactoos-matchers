@@ -53,13 +53,15 @@ public final class HasValuesMatching<X> extends MatcherEnvelope<Iterable<X>> {
      */
     public HasValuesMatching(final Func<X, Boolean> fnc) {
         super(
-            actual -> new Or(fnc, actual).value(),
-            desc -> desc.appendText("The function matches at least 1 element."),
-            (actual, desc) -> desc.appendText(
-                new FormattedText(
-                    "No any elements from [%s] matches by the function",
-                    new TextOf(actual)
-                ).asString()
+            new MatcherOf<>(
+                actual -> new Or(fnc, actual).value(),
+                desc -> desc.appendText("The function matches at least 1 element."),
+                (actual, desc) -> desc.appendText(
+                    new FormattedText(
+                        "No any elements from [%s] matches by the function",
+                        new TextOf(actual)
+                    ).asString()
+                )
             )
         );
     }

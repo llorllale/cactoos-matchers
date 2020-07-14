@@ -60,21 +60,22 @@ public final class IsEntry<K, V> extends MatcherEnvelope<Map.Entry<K, V>> {
      */
     public IsEntry(final Matcher<K> key, final Matcher<V> value) {
         super(
-            // @checkstyle IndentationCheck (20 line)
-            entry -> new And(
-                () -> key.matches(entry.getKey()),
-                () -> value.matches(entry.getValue())
-            ).value(),
-            desc -> {
-                IsEntry.descriptionOfKey(desc).appendDescriptionOf(key);
-                IsEntry.descriptionOfValue(desc).appendDescriptionOf(value);
-            },
-            (entry, desc) -> {
-                IsEntry.descriptionOfKey(desc);
-                key.describeMismatch(entry.getKey(), desc);
-                IsEntry.descriptionOfValue(desc);
-                value.describeMismatch(entry.getValue(), desc);
-            }
+            new MatcherOf<>(
+                entry -> new And(
+                    () -> key.matches(entry.getKey()),
+                    () -> value.matches(entry.getValue())
+                ).value(),
+                desc -> {
+                    IsEntry.descriptionOfKey(desc).appendDescriptionOf(key);
+                    IsEntry.descriptionOfValue(desc).appendDescriptionOf(value);
+                },
+                (entry, desc) -> {
+                    IsEntry.descriptionOfKey(desc);
+                    key.describeMismatch(entry.getKey(), desc);
+                    IsEntry.descriptionOfValue(desc);
+                    value.describeMismatch(entry.getValue(), desc);
+                }
+            )
         );
     }
 

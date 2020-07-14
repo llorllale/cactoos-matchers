@@ -26,12 +26,18 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.BiProc;
 import org.cactoos.Func;
 import org.cactoos.Proc;
 import org.cactoos.Text;
 import org.cactoos.func.FuncOf;
+import org.cactoos.func.UncheckedBiProc;
+import org.cactoos.func.UncheckedFunc;
+import org.cactoos.func.UncheckedProc;
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Func as Matcher.
@@ -40,8 +46,27 @@ import org.cactoos.text.UncheckedText;
  *
  * @param <T> Type of object to match
  * @since 0.12
+ * @todo #135:30min Remove all constructors except the last one so that
+ *  every matcher implemented using MatcherOf take care of properly
+ *  describe itself and the mismatch.
  */
-public final class MatcherOf<T> extends MatcherEnvelope<T> {
+public final class MatcherOf<T> extends TypeSafeMatcher<T> {
+
+    /**
+     * Matches an actual object with expected one.
+     */
+    private final Func<T, Boolean> match;
+
+    /**
+     * Generates a description of the object.
+     */
+    private final Proc<Description> description;
+
+    /**
+     * Generates a description for situation when an actual
+     * object does not match to the expected one.
+     */
+    private final BiProc<T, Description> mismatch;
 
     /**
      * Ctor.
@@ -65,12 +90,47 @@ public final class MatcherOf<T> extends MatcherEnvelope<T> {
      * @param description The description
      */
     public MatcherOf(final Func<T, Boolean> fnc, final Text description) {
-        super(
+        this(
             fnc,
             desc -> desc.appendText(
                 new FormattedText("\"%s\"", description).asString()
             ),
             (actual, desc) -> desc.appendValue(actual)
         );
+    }
+
+    /**
+     * Ctor.
+     * @param match Matches an actual object with expected one
+     * @param description Generates a description of the object
+     * @param mismatch Generates a description for situation when an
+     *  actual object does not match to the expected one
+     */
+    public MatcherOf(
+        final Func<T, Boolean> match,
+        final Proc<Description> description,
+        final BiProc<T, Description> mismatch
+    ) {
+        this.match = match;
+        this.description = description;
+        this.mismatch = mismatch;
+    }
+
+    @Override
+    public void describeTo(final Description desc) {
+        new UncheckedProc<>(this.description).exec(desc);
+    }
+
+    @Override
+    public void describeMismatchSafely(
+        final T item,
+        final Description desc
+    ) {
+        new UncheckedBiProc<>(this.mismatch).exec(item, desc);
+    }
+
+    @Override
+    public boolean matchesSafely(final T item) {
+        return new UncheckedFunc<>(this.match).apply(item);
     }
 }

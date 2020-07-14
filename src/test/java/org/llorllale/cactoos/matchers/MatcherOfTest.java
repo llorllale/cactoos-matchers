@@ -27,6 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.FormattedText;
+import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
 import org.hamcrest.core.IsNot;
@@ -40,6 +41,7 @@ import org.junit.rules.ExpectedException;
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 public final class MatcherOfTest {
 
@@ -91,6 +93,25 @@ public final class MatcherOfTest {
             "matches any arguments when constructed from a Proc",
             new MatcherOf<>(String::trim),
             new Matches<>("a")
+        ).affirm();
+    }
+
+    @Test
+    public void mismatches() {
+        final Integer expected = 42;
+        final Integer provided = 43;
+        new Assertion<>(
+            "must mismatches correctly",
+            new MatcherOf<>(
+                input -> input.equals(expected),
+                desc -> desc.appendValue(expected),
+                (actual, desc) -> desc.appendValue(actual)
+            ),
+            new Mismatches<>(
+                provided,
+                new Joined("", "<", expected.toString(), ">"),
+                new Joined("", "<", provided.toString(), ">")
+            )
         ).affirm();
     }
 }

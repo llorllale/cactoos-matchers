@@ -37,9 +37,11 @@ public final class IsBlank extends MatcherEnvelope<String> {
      */
     public IsBlank() {
         super(
-            text -> text.trim().isEmpty(),
-            desc -> desc.appendText("is blank"),
-            (text, desc) -> desc.appendValue(text)
+            new MatcherOf<>(
+                text -> text.trim().isEmpty(),
+                desc -> desc.appendText("is blank"),
+                (text, desc) -> desc.appendValue(text)
+            )
         );
     }
 }

@@ -57,13 +57,15 @@ public final class FuncApplies<X, Y> extends MatcherEnvelope<Func<X, Y>> {
      */
     public FuncApplies(final X input, final Matcher<Y> mtr) {
         super(
-            func -> mtr.matches(
-                new UncheckedFunc<>(func).apply(input)
-            ),
-            desc -> desc.appendText("Func with ")
-                .appendDescriptionOf(mtr),
-            (func, desc) -> desc.appendText("Func with ")
-                .appendValue(func.apply(input))
+            new MatcherOf<>(
+                func -> mtr.matches(
+                    new UncheckedFunc<>(func).apply(input)
+                ),
+                desc -> desc.appendText("Func with ")
+                    .appendDescriptionOf(mtr),
+                (func, desc) -> desc.appendText("Func with ")
+                    .appendValue(func.apply(input))
+            )
         );
     }
 }

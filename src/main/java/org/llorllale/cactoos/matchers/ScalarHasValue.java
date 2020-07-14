@@ -52,9 +52,11 @@ public final class ScalarHasValue<T> extends MatcherEnvelope<Scalar<T>> {
      */
     public ScalarHasValue(final Matcher<T> mtr) {
         super(
-            scalar -> mtr.matches(scalar.value()),
-            desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
-            (scalar, desc) -> mtr.describeMismatch(scalar.value(), desc)
+            new MatcherOf<>(
+                scalar -> mtr.matches(scalar.value()),
+                desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
+                (scalar, desc) -> mtr.describeMismatch(scalar.value(), desc)
+            )
         );
     }
 }

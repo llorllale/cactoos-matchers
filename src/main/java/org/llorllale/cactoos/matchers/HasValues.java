@@ -59,10 +59,12 @@ public final class HasValues<X> extends MatcherEnvelope<Iterable<X>> {
      */
     public HasValues(final Iterable<X> expected) {
         super(
-            actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
-            desc -> desc.appendText("contains ")
-                .appendValue(new TextOf(expected)),
-            (actual, desc) -> desc.appendValue(new TextOf(actual))
+            new MatcherOf<>(
+                actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
+                desc -> desc.appendText("contains ")
+                    .appendValue(new TextOf(expected)),
+                (actual, desc) -> desc.appendValue(new TextOf(actual))
+            )
         );
     }
 }

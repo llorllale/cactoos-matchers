@@ -42,11 +42,13 @@ public final class HasSize extends MatcherEnvelope<Iterable<?>> {
      */
     public HasSize(final Integer size) {
         super(
-            input -> new LengthOf(input).intValue() == size,
-            desc -> desc.appendText("has size ")
-                .appendValue(size),
-            (input, desc) -> desc.appendText("has size ")
-                .appendValue(new LengthOf(input).intValue())
+            new MatcherOf<>(
+                input -> new LengthOf(input).intValue() == size,
+                desc -> desc.appendText("has size ")
+                    .appendValue(size),
+                (input, desc) -> desc.appendText("has size ")
+                    .appendValue(new LengthOf(input).intValue())
+            )
         );
     }
 }

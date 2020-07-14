@@ -69,15 +69,15 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      */
     public InputHasContent(final Matcher<String> mtr) {
         super(
-            input -> mtr.matches(
-                new TextOf(input).asString()
-            ),
-            desc -> desc.appendText("has content ")
-                .appendDescriptionOf(mtr),
-            (input, desc) -> desc.appendText("has content ")
-                .appendValue(
-                    new TextOf(input).asString()
-                )
+            new MatcherOf<>(
+                input -> mtr.matches(new TextOf(input).asString()),
+                desc -> desc
+                    .appendText("has content ")
+                    .appendDescriptionOf(mtr),
+                (input, desc) -> desc
+                    .appendText("has content ")
+                    .appendValue(new TextOf(input).asString())
+            )
         );
     }
 }

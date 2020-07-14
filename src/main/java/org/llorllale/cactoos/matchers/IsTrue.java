@@ -37,9 +37,11 @@ public final class IsTrue extends MatcherEnvelope<Boolean> {
      */
     public IsTrue() {
         super(
-            bool -> bool,
-            desc -> desc.appendValue(true),
-            (bool, desc) -> desc.appendValue(bool)
+            new MatcherOf<>(
+                bool -> bool,
+                desc -> desc.appendValue(true),
+                (bool, desc) -> desc.appendValue(bool)
+            )
         );
     }
 }

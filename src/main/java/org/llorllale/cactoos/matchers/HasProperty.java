@@ -84,16 +84,17 @@ public final class HasProperty extends MatcherEnvelope<Properties> {
      */
     private HasProperty(final Matcher<Map.Entry<String, String>> entr) {
         super(
-            // @checkstyle IndentationCheck (10 line)
-            properties -> new HasValuesMatching<>(
-                entr::matches
-            ).matches(properties.entrySet()),
-            desc -> desc
-                .appendText("has property ")
-                .appendDescriptionOf(entr),
-            (properties, desc) -> desc
-                .appendText("has properties ")
-                .appendValue(properties)
+            new MatcherOf<>(
+                properties -> new HasValuesMatching<>(
+                    entr::matches
+                ).matches(properties.entrySet()),
+                desc -> desc
+                    .appendText("has property ")
+                    .appendDescriptionOf(entr),
+                (properties, desc) -> desc
+                    .appendText("has properties ")
+                    .appendValue(properties)
+            )
         );
     }
 

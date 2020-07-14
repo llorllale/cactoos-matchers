@@ -57,23 +57,25 @@ public final class HasEntry<K, V> extends MatcherEnvelope<Map<K, V>> {
     @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     public HasEntry(final K key, final V value) {
         super(
-            input -> Optional.ofNullable(input.get(key))
-                .map(vl -> vl.equals(value))
-                .orElse(false),
-            desc -> desc
-                .appendText("has entry ")
-                .appendValue(key)
-                .appendText("=")
-                .appendValue(value),
-            (input, desc) -> new Ternary<>(
-                () -> input.containsKey(key),
-                () -> desc.appendText("has entry ")
+            new MatcherOf<>(
+                input -> Optional.ofNullable(input.get(key))
+                    .map(vl -> vl.equals(value))
+                    .orElse(false),
+                desc -> desc
+                    .appendText("has entry ")
                     .appendValue(key)
                     .appendText("=")
-                    .appendValue(input.get(key)),
-                () -> desc.appendText("has no entry for ")
-                    .appendValue(key)
-            ).value()
+                    .appendValue(value),
+                (input, desc) -> new Ternary<>(
+                    () -> input.containsKey(key),
+                    () -> desc.appendText("has entry ")
+                        .appendValue(key)
+                        .appendText("=")
+                        .appendValue(input.get(key)),
+                    () -> desc.appendText("has no entry for ")
+                        .appendValue(key)
+                ).value()
+            )
         );
     }
 }
