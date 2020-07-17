@@ -36,11 +36,13 @@ import org.cactoos.text.TextOf;
  *  function.
  *
  * <p>Here is an example how {@link HasValuesMatching} can be used:</p>
- * <pre>
- *  MatcherAssert.assertThat(
+ * <pre>{@code
+ *  new Assertion<>(
+ *     "must match",
  *     new ListOf<>(1, 2, 3),
  *     new HasValuesMatching<>(value -> value > 2 || value == 3)
- * );</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <X> Type of item.
  * @since 1.0.0

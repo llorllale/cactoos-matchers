@@ -28,26 +28,20 @@ package org.llorllale.cactoos.matchers;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.cactoos.Scalar;
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsInstanceOf;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * Tests for {@link Assertion}.
  * @since 1.0.0
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class AssertionTest {
-    /**
-     * A rule for handling an exception.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     /**
      * Assertion can be affirmed if the operation being tested matches.
      */
@@ -69,19 +63,20 @@ public final class AssertionTest {
      */
     @Test
     public void refuteIfResultDoesNotMatch() throws IOException {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
+        Assertions.assertThrows(
+            AssertionError.class,
+            () -> new Assertion<>(
+                "must refute the assertion if the test's result is not as expected",
+                new TextOf("test"),
+                new TextIs("no match")
+            ).affirm(),
             new Joined(
                 System.lineSeparator(),
-                "Text with value \"no match\"",
+                "must refute the assertion if the test's result is not as expected",
+                "Expected: Text with value \"no match\"",
                 " but was: Text is \"test\""
             ).asString()
         );
-        new Assertion<>(
-            "must refute the assertion if the test's result is not as expected",
-            new TextOf("test"),
-            new TextIs("no match")
-        ).affirm();
     }
 
     /**
@@ -90,16 +85,16 @@ public final class AssertionTest {
      */
     @Test
     public void refuteIfErrorDoesNotMatch() {
-        this.exception.expectCause(
-            IsInstanceOf.instanceOf(IllegalStateException.class)
+        Assertions.assertThrows(
+            IllegalStateException.class,
+            () -> new Assertion<Scalar<String>>(
+                "must fail if the test throws an unexpected error",
+                () -> {
+                    throw new IllegalStateException();
+                },
+                new ScalarHasValue<>("no match")
+            ).affirm()
         );
-        new Assertion<>(
-            "must fail if the test throws an unexpected error",
-            () -> {
-                throw new IllegalStateException();
-            },
-            new TextIs("no match")
-        ).affirm();
     }
 
     /**

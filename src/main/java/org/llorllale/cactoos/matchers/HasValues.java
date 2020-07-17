@@ -34,11 +34,13 @@ import org.cactoos.text.TextOf;
  * Matcher to check that {@link Iterable} has particular elements.
  *
  * <p>Here is an example how {@link HasValues} can be used:</p>
- * <pre>
- *  MatcherAssert.assertThat(
+ * <pre>{@code
+ *  new Assertion<>(
+ *     "must match",
  *     new ListOf<>(1, 2, 3),
  *     new HasValues<>(2)
- * );</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <X> Type of item.
  * @since 1.0.0

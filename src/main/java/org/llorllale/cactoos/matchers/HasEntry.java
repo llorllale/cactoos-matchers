@@ -34,7 +34,7 @@ import org.cactoos.scalar.Ternary;
  * Matcher to check that {@link Map} has particular elements.
  *
  * <p>Here is an example how {@link HasEntry} can be used:</p>
- * <pre>
+ * <pre>{@code
  *  new Assertion<>(
  *     "must match",
  *     () -> new MapOf<>(
@@ -42,7 +42,8 @@ import org.cactoos.scalar.Ternary;
  *         new MapEntry<>("b", 2)
  *     ),
  *     new HasEntry<>("a", 1)
- * ).affirm();</pre>
+ * ).affirm();
+ * }</pre>
  *
  * @param <K> Type of key.
  * @param <V> Type of value.

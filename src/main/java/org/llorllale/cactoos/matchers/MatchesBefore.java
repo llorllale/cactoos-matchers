@@ -32,10 +32,10 @@ import org.hamcrest.Matcher;
 /**
  * Matcher to check that scalar finishes before some timeout.
  *
- * This is a {@link Matcher} alternative to JUnit's {@link Test#timeout}.
+ * This is a {@link Matcher} alternative to JUnit's {@code Timeout} annotation.
  *
  * <p>Here is an example how {@link MatchesBefore} can be used:</p>
- * <pre>
+ * <pre>{@code
  *  new Assertion<>(
  *       "must run in 5 seconds maximum",
  *       new TextOf("test"),
@@ -43,7 +43,8 @@ import org.hamcrest.Matcher;
  *           5000,
  *           new TextIs("test")
  *       )
- *  ).affirm();</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <T> Type of the scalar's value
  * @since 1.0.0

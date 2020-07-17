@@ -37,12 +37,13 @@ import org.hamcrest.core.IsEqual;
  * Matcher to check that {@link Properties} has particular entry.
  *
  * <p>Here is an example how {@link HasProperty} can be used:</p>
- * <pre>
+ * <pre>{@code
  *  new Assertion<>(
  *     "must have an entry",
  *     new PropertiesOf<>(...),
  *     new HasProperty<>("foo", "bar")
- * );</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @since 1.0.0
  */

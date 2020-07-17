@@ -37,14 +37,15 @@ import org.hamcrest.core.IsEqual;
  * Matcher to check that scalar throw the expected exception.
  *
  * <p>Here is an example how {@link Throws} can be used:</p>
- * <pre>
- *  MatcherAssert.assertThat(
+ * <pre>{@code
+ *  new Assertion<>(
  *       "The matcher check that [1,2,3] contains [2]",
  *       () -> {
  *            throw new IllegalArgumentException("No object(s) found.");
  *       },
  *       new Throws("No object(s) found.", IllegalArgumentException.class)
- *  );</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <T> Type of the scalar's value
  * @since 1.0.0

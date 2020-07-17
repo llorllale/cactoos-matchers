@@ -34,15 +34,18 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * Matcher to test {@link org.hamcrest.Matcher} objects.
  *
  * <p>Here is an example:</p>
- * <pre>{@code
- *  @Test
+ * <pre>
+ * <code>
+ *  &#64;Test
  *  public void matches() {
- *      MatcherAssert.assertThat(
+ *      new Assertion&#60;&#62;(
+ *          "must match",
  *          new TextIs("abc"),
- *          new Matches<>(new TextOf("abc"))
- *      );
+ *          new Matches&#60;&#62;(new TextOf("abc"))
+ *      ).affirm();
  *  }
- * }</pre>
+ * </code>
+ * </pre>
  *
  * @param <X> Type of item.
  * @param <M> Type of tested matcher.
