@@ -29,9 +29,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link HasLines}.
@@ -39,12 +37,6 @@ import org.junit.rules.ExpectedException;
  * @since 1.0.0
  */
 public final class HasLinesTest {
-
-    /**
-     * A rule for handling an exception.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     /**
      * Example of {@link HasLines} behavior for positive results.

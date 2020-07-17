@@ -27,9 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
-import java.io.IOException;
 import org.cactoos.list.ListOf;
-import org.cactoos.text.Joined;
 import org.junit.Test;
 
 /**
@@ -54,26 +52,14 @@ public final class HasValuesMatchingTest {
     }
 
     @Test
-    public void mismatches() throws IOException {
+    public void mismatches() {
         new Assertion<>(
             "must throw an exception that describes the values",
-            () -> {
-                new Assertion<>(
-                    "",
-                    new ListOf<>(1, 2, 3),
-                    new HasValuesMatching<>(value -> value > 5)
-                ).affirm();
-                return true;
-            },
-            new Throws<>(
-                new Joined(
-                    "\n",
-                    "",
-                    "Expected: The function matches at least 1 element.",
-                    // @checkstyle LineLengthCheck (1 line)
-                    " but was: No any elements from [1, 2, 3] matches by the function"
-                ).asString(),
-                AssertionError.class
+            new HasValuesMatching<>(value -> value > 5),
+            new Mismatches<>(
+                new ListOf<>(1, 2, 3),
+                "The function matches at least 1 element.",
+                "No any elements from [1, 2, 3] matches by the function"
             )
         ).affirm();
     }
