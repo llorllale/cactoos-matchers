@@ -25,7 +25,7 @@
 # SOFTWARE.
 #
 
-name: llorllale/cactoos-matchers
+name: build
 
 on:
   push:
