@@ -1,22 +1,18 @@
+docker:
+  image: g4s8/rultor:alpine3.10
 assets:
   settings.xml: llorllale/home#assets/cactoos-matchers/settings.xml
   pubring.gpg: llorllale/home#assets/pubring.gpg
   secring.gpg: llorllale/home#assets/secring.gpg
-docker:
-  image: g4s8/rultor:alpine3.11
 architect:
   - llorllale
   - victornoel
 merge:
-  sensitive:
-    - settings.xml
   script: |
     pdd -f /dev/null
     mvn clean install -Pqulice --errors --settings ../settings.xml
     mvn clean site -Psite --errors --settings ../settings.xml
 deploy:
-  sensitive:
-    - settings.xml
   script: |
     pdd -f /dev/null
     mvn clean deploy -Pqulice --errors --settings ../settings.xml
