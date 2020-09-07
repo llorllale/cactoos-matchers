@@ -4,7 +4,7 @@
 [![EO principles respected here](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
 [![DevOps By Rultor.com](http://www.rultor.com/b/llorllale/cactoos-matchers)](http://www.rultor.com/p/llorllale/cactoos-matchers)
 
-[![Build Status](https://travis-ci.org/llorllale/cactoos-matchers.svg?branch=master)](https://travis-ci.org/llorllale/cactoos-matchers)
+[![Build Status](https://travis-ci.com/llorllale/cactoos-matchers.svg?branch=master)](https://travis-ci.com/llorllale/cactoos-matchers)
 [![Javadoc](http://www.javadoc.io/badge/org.llorllale/cactoos-matchers.svg)](http://www.javadoc.io/doc/org.llorllale/cactoos-matchers)
 [![PDD status](http://www.0pdd.com/svg?name=llorllale/cactoos-matchers)](http://www.0pdd.com/p?name=llorllale/cactoos-matchers)
 [![Maven Central](https://img.shields.io/maven-central/v/org.llorllale/cactoos-matchers.svg)](https://maven-badges.herokuapp.com/maven-central/org.llorllale/cactoos-matchers)
