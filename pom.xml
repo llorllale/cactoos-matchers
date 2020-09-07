@@ -75,7 +75,7 @@
       <scope>provided</scope>
     </dependency>
     <!--
-     @todo #1411:30min Migrate existing tests to JUnit 5. It mainly means
+     @todo #162:30min Migrate existing tests to JUnit 5. It mainly means
       changing the imports and move from Ignore to Disabled annotation as
       well as replace rules with corresponding annotations. Once this is done
       remove the dependency for junit 4 and junit-vintage-engine below.
