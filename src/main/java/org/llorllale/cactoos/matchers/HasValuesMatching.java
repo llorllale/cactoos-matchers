@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,11 +36,13 @@ import org.cactoos.text.TextOf;
  *  function.
  *
  * <p>Here is an example how {@link HasValuesMatching} can be used:</p>
- * <pre>
- *  MatcherAssert.assertThat(
+ * <pre>{@code
+ *  new Assertion<>(
+ *     "must match",
  *     new ListOf<>(1, 2, 3),
  *     new HasValuesMatching<>(value -> value > 2 || value == 3)
- * );</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <X> Type of item.
  * @since 1.0.0
@@ -53,14 +55,15 @@ public final class HasValuesMatching<X> extends MatcherEnvelope<Iterable<X>> {
      */
     public HasValuesMatching(final Func<X, Boolean> fnc) {
         super(
-            // @checkstyle IndentationCheck (7 line)
-            actual -> new Or(fnc, actual).value(),
-            desc -> desc.appendText("The function matches at least 1 element."),
-            (actual, desc) -> desc.appendText(
-                new FormattedText(
-                    "No any elements from [%s] matches by the function",
-                    new TextOf(actual)
-                ).asString()
+            new MatcherOf<>(
+                actual -> new Or(fnc, actual).value(),
+                desc -> desc.appendText("The function matches at least 1 element."),
+                (actual, desc) -> desc.appendText(
+                    new FormattedText(
+                        "No any elements from [%s] matches by the function",
+                        new TextOf(actual)
+                    ).asString()
+                )
             )
         );
     }

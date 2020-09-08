@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,10 +37,11 @@ public final class IsBlank extends MatcherEnvelope<String> {
      */
     public IsBlank() {
         super(
-            // @checkstyle IndentationCheck (3 line)
-            text -> text.trim().isEmpty(),
-            desc -> desc.appendText("is blank"),
-            (text, desc) -> desc.appendValue(text)
+            new MatcherOf<>(
+                text -> text.trim().isEmpty(),
+                desc -> desc.appendText("is blank"),
+                (text, desc) -> desc.appendValue(text)
+            )
         );
     }
 }

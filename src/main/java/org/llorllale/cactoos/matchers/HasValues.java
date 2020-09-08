@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,11 +34,13 @@ import org.cactoos.text.TextOf;
  * Matcher to check that {@link Iterable} has particular elements.
  *
  * <p>Here is an example how {@link HasValues} can be used:</p>
- * <pre>
- *  MatcherAssert.assertThat(
+ * <pre>{@code
+ *  new Assertion<>(
+ *     "must match",
  *     new ListOf<>(1, 2, 3),
  *     new HasValues<>(2)
- * );</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <X> Type of item.
  * @since 1.0.0
@@ -59,11 +61,12 @@ public final class HasValues<X> extends MatcherEnvelope<Iterable<X>> {
      */
     public HasValues(final Iterable<X> expected) {
         super(
-            // @checkstyle IndentationCheck (4 line)
-            actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
-            desc -> desc.appendText("contains ")
-                .appendValue(new TextOf(expected)),
-            (actual, desc) -> desc.appendValue(new TextOf(actual))
+            new MatcherOf<>(
+                actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
+                desc -> desc.appendText("contains ")
+                    .appendValue(new TextOf(expected)),
+                (actual, desc) -> desc.appendValue(new TextOf(actual))
+            )
         );
     }
 }

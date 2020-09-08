@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,8 +43,8 @@ public final class FuncApplies<X, Y> extends MatcherEnvelope<Func<X, Y>> {
 
     /**
      * Ctor.
-     * @param result The result expected
      * @param inpt Input for the function
+     * @param result The result expected
      */
     public FuncApplies(final X inpt, final Y result) {
         this(inpt, new IsEqual<>(result));
@@ -57,14 +57,15 @@ public final class FuncApplies<X, Y> extends MatcherEnvelope<Func<X, Y>> {
      */
     public FuncApplies(final X input, final Matcher<Y> mtr) {
         super(
-            // @checkstyle IndentationCheck (7 line)
-            func -> mtr.matches(
-                new UncheckedFunc<>(func).apply(input)
-            ),
-            desc -> desc.appendText("Func with ")
-                .appendDescriptionOf(mtr),
-            (func, desc) -> desc.appendText("Func with ")
-                .appendValue(func.apply(input))
+            new MatcherOf<>(
+                func -> mtr.matches(
+                    new UncheckedFunc<>(func).apply(input)
+                ),
+                desc -> desc.appendText("Func with ")
+                    .appendDescriptionOf(mtr),
+                (func, desc) -> desc.appendText("Func with ")
+                    .appendValue(func.apply(input))
+            )
         );
     }
 }

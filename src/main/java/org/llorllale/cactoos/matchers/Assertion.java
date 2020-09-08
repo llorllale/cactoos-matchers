@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -67,12 +67,17 @@ import org.hamcrest.StringDescription;
  * @todo #18:30min Replace all uses of MatcherAssert.assertThat() with
  *  Assertion, and ban all overloads of the former in forbidden-apis.txt.
  *  We should also look into banning common matchers like Matchers.is(), etc.
+ * @todo #67:30min Assertion should rely on mismatch description when forming
+ *  error message (as assertThat does). Currently 'was' is being used by this
+ *  class as part of description, it causes duplication of the word with
+ *  Matchers derived from BaseMatcher, such as IsEqual.
  */
 public final class Assertion<T> {
     /**
      * Whether this assertion is refuted.
      */
     private final Unchecked<Boolean> refuted;
+
     /**
      * Refutation error.
      */

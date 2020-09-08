@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,6 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.BiProc;
-import org.cactoos.Func;
-import org.cactoos.Proc;
-import org.cactoos.func.UncheckedBiProc;
-import org.cactoos.func.UncheckedFunc;
-import org.cactoos.func.UncheckedProc;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -40,9 +34,6 @@ import org.hamcrest.TypeSafeMatcher;
  * Matcher Envelope.
  * @param <T> The type of the Matcher.
  * @since 1.0.0
- * @todo #129:30min Refactor other matchers to extend MatcherEnvelope.
- *  If you do not know how to do it please refer to InputHasContent
- *  class as the example.
  */
 public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
 
@@ -50,41 +41,6 @@ public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
      * The matcher to test.
      */
     private final Matcher<T> origin;
-
-    /**
-     * Ctor.
-     * @param match Function matches an actual object with expected one
-     * @param description Procedure generates a description of the object
-     * @param mismatch BiProcedure generates a description for situation when an
-     *  actual object does not match to the expected one
-     */
-    protected MatcherEnvelope(
-        final Func<T, Boolean> match,
-        final Proc<Description> description,
-        final BiProc<T, Description> mismatch
-    ) {
-        this(
-            new TypeSafeMatcher<T>() {
-                @Override
-                public void describeTo(final Description desc) {
-                    new UncheckedProc<>(description).exec(desc);
-                }
-
-                @Override
-                protected void describeMismatchSafely(
-                    final T item,
-                    final Description desc
-                ) {
-                    new UncheckedBiProc<>(mismatch).exec(item, desc);
-                }
-
-                @Override
-                protected boolean matchesSafely(final T item) {
-                    return new UncheckedFunc<>(match).apply(item);
-                }
-            }
-        );
-    }
 
     /**
      * Ctor.

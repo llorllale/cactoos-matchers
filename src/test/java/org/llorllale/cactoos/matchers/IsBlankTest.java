@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,9 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link IsBlank}.
@@ -37,13 +35,8 @@ import org.junit.rules.ExpectedException;
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class IsBlankTest {
-
-    /**
-     * A rule for handling an exception.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void blank() {
@@ -56,27 +49,27 @@ public final class IsBlankTest {
 
     @Test
     public void notBlank() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            String.format("Expected: is blank%n but was: \"-.$%%\"")
-        );
         new Assertion<>(
             "does not match non-empty string",
-            "-.$%",
-            new IsBlank()
+            new IsBlank(),
+            new Mismatches<>(
+                "-.$%",
+                "is blank",
+                "\"-.$%\""
+            )
         ).affirm();
     }
 
     @Test
     public void nonBlankMessage() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            String.format("Expected: is blank%n but was: \"text\"")
-        );
         new Assertion<>(
             "describes itself in terms of the text being matched against",
-            "text",
-            new IsBlank()
+            new IsBlank(),
+            new Mismatches<>(
+                "text",
+                "is blank",
+                "\"text\""
+            )
         ).affirm();
     }
 }

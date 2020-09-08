@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,14 +37,15 @@ import org.hamcrest.core.IsEqual;
  * Matcher to check that scalar throw the expected exception.
  *
  * <p>Here is an example how {@link Throws} can be used:</p>
- * <pre>
- *  MatcherAssert.assertThat(
+ * <pre>{@code
+ *  new Assertion<>(
  *       "The matcher check that [1,2,3] contains [2]",
  *       () -> {
  *            throw new IllegalArgumentException("No object(s) found.");
  *       },
  *       new Throws("No object(s) found.", IllegalArgumentException.class)
- *  );</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <T> Type of the scalar's value
  * @since 1.0.0

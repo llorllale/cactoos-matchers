@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -53,9 +53,6 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @param <X> Type of item.
  * @param <M> Type of tested matcher.
  * @since 1.0.0
- * @todo #106:30min Convert all the Matcher tests to use Mismatches
- *  instead of checking directly the output of mismatch methods or
- *  the exception of Assertion.
  * @todo #106:30min Add extra tests for this class to validate all
  *  the different constructors (also add a constructor taking message
  *  as a String) and ensure they are coherent with how Assertion is
