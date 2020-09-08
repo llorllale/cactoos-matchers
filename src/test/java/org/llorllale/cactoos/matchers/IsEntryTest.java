@@ -24,59 +24,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.cactoos.map.MapEntry;
+import org.hamcrest.core.IsEqual;
+import org.junit.Test;
 
 /**
- * Matcher to test {@link org.hamcrest.Matcher} objects.
+ * Test for {@link IsEntry}.
  *
- * <p>Here is an example:</p>
- * <pre>
- * <code>
- *  &#64;Test
- *  public void matches() {
- *      new Assertion&#60;&#62;(
- *          "must match",
- *          new TextIs("abc"),
- *          new Matches&#60;&#62;(new TextOf("abc"))
- *      ).affirm();
- *  }
- * </code>
- * </pre>
- *
- * @param <X> Type of item.
- * @param <M> Type of tested matcher.
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCoupling (100 lines)
  */
-public final class Matches<X, M extends Matcher<X>> extends
-    TypeSafeDiagnosingMatcher<M> {
-
+public final class IsEntryTest {
     /**
-     * The testing arguments for the target matcher.
+     * Negative case.
      */
-    private final X args;
-
-    /**
-     * Ctor.
-     * @param args The testing arguments for the matcher.
-     */
-    public Matches(final X args) {
-        super();
-        this.args = args;
+    @Test
+    public void doesNotMatchEntry() {
+        new Assertion<>(
+            "must not match the entry",
+            new IsEntry<>(
+                new IsEqual<>("q"),
+                new IsEqual<>("w")
+            ),
+            new Mismatches<>(
+                new MapEntry<>("k", "v"),
+                "key \"q\", value \"w\"",
+                "key was \"k\", value was \"v\""
+            )
+        ).affirm();
     }
 
-    @Override
-    public void describeTo(final Description desc) {
-        desc.appendValue(this.args);
+    /**
+     * Positive case.
+     */
+    @Test
+    public void matchesEntry() {
+        new Assertion<>(
+            "must match the entry",
+            new IsEntry<>(
+                new IsEqual<>("k"),
+                new IsEqual<>("v")
+            ),
+            new Matches<>(new MapEntry<>("k", "v"))
+        ).affirm();
     }
 
-    @Override
-    protected boolean matchesSafely(final M matcher, final Description dsc) {
-        matcher.describeTo(dsc);
-        return matcher.matches(this.args);
+    /**
+     * Test for mismatch description readability.
+     */
+    @Test
+    public void describesCorrectly() {
+        new Assertion<>(
+            "must mismatch with a description",
+            new IsEntry<>("c", "3"),
+            new Mismatches<>(
+                new MapEntry<>("b", "2"),
+                "key \"c\", value \"3\"",
+                "key was \"b\", value was \"2\""
+            )
+        ).affirm();
     }
 }

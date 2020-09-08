@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -52,10 +52,11 @@ public final class ScalarHasValue<T> extends MatcherEnvelope<Scalar<T>> {
      */
     public ScalarHasValue(final Matcher<T> mtr) {
         super(
-            // @checkstyle IndentationCheck (3 line)
-            scalar -> mtr.matches(scalar.value()),
-            desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
-            (scalar, desc) -> desc.appendValue(scalar.value())
+            new MatcherOf<>(
+                scalar -> mtr.matches(scalar.value()),
+                desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
+                (scalar, desc) -> mtr.describeMismatch(scalar.value(), desc)
+            )
         );
     }
 }

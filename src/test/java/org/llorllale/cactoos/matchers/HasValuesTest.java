@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,9 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
-import java.io.IOException;
 import org.cactoos.list.ListOf;
-import org.cactoos.text.Joined;
 import org.junit.Test;
 
 /**
@@ -67,25 +65,14 @@ public final class HasValuesTest {
     }
 
     @Test
-    public void mismatches() throws IOException {
+    public void mismatches() {
         new Assertion<>(
             "must throw an exception that describes the values",
-            () -> {
-                new Assertion<>(
-                    "",
-                    new ListOf<>(1, 2, 3),
-                    new HasValues<>(5)
-                ).affirm();
-                return true;
-            },
-            new Throws<>(
-                new Joined(
-                    "\n",
-                    "",
-                    "Expected: contains <5>",
-                    " but was: <1, 2, 3>"
-                ).asString(),
-                AssertionError.class
+            new HasValues<>(5),
+            new Mismatches<>(
+                new ListOf<>(1, 2, 3),
+                "contains <5>",
+                "<1, 2, 3>"
             )
         ).affirm();
     }

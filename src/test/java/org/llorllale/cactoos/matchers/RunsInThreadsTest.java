@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -91,6 +91,8 @@ public final class RunsInThreadsTest {
 
     /**
      * Guaranteed thread-safety.
+     *
+     * @since 0.24
      */
     private static class Safe implements Func<AtomicInteger, Boolean> {
         @Override
@@ -103,12 +105,15 @@ public final class RunsInThreadsTest {
     /**
      * Guaranteed "thread-unsafety". It only allows the first thread to
      * increment the integer.
+     *
+     * @since 0.24
      */
     private static class Unsafe implements Func<AtomicInteger, Boolean> {
         /**
          * Special value indicating no thread has yet applied this func.
          */
         private static final String NO_THREAD = "";
+
         /**
          * Name of thread to first apply this func.
          */

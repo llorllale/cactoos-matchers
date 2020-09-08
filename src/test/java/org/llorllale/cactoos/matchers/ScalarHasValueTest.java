@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,9 +30,7 @@ package org.llorllale.cactoos.matchers;
 import org.cactoos.scalar.Constant;
 import org.cactoos.scalar.Unchecked;
 import org.hamcrest.core.IsEqual;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 /**
  * Test case for {@link ScalarHasValue}.
@@ -41,12 +39,6 @@ import org.junit.rules.ExpectedException;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class ScalarHasValueTest {
-
-    /**
-     * A rule for handling an exception.
-     */
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
 
     @Test
     public void matchesWithExpectedString() {
@@ -70,17 +62,14 @@ public final class ScalarHasValueTest {
 
     @Test
     public void hasMatcherDescriptionForFailedTest() {
-        this.exception.expect(AssertionError.class);
-        this.exception.expectMessage(
-            String.format(
-                // @checkstyle LineLength (1 line)
-                "Expected: Scalar with \"something\"%n but was: \"something else\""
-            )
-        );
         new Assertion<>(
             "correctly describes a mismatch",
-            new Constant<>("something else"),
-            new ScalarHasValue<>(new IsEqual<>("something"))
+            new ScalarHasValue<>(new IsEqual<>("something")),
+            new Mismatches<>(
+                new Constant<>("something else"),
+                "Scalar with \"something\"",
+                "was \"something else\""
+            )
         ).affirm();
     }
 }

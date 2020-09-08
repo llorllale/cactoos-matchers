@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -39,9 +39,6 @@ import org.hamcrest.Matcher;
  *  are satisfactory. The matchers should not expose publicly the xxxSafely
  *  method and the tests should rely on actual real use with assertThat.
  *  See ScalarHasValueTest for an example of a satisfactory result.
- * @todo #75:30min Remove checkstyle suppression when qulice will fix this issue
- *  See https://github.com/teamed/qulice/issues/985.
- *  When new version will be released, update qulice and remove this puzzle.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class InputHasContent extends MatcherEnvelope<Input> {
@@ -72,16 +69,15 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      */
     public InputHasContent(final Matcher<String> mtr) {
         super(
-            // @checkstyle IndentationCheck (9 line)
-            input -> mtr.matches(
-                new TextOf(input).asString()
-            ),
-            desc -> desc.appendText("has content ")
-                .appendDescriptionOf(mtr),
-            (input, desc) -> desc.appendText("has content ")
-                .appendValue(
-                    new TextOf(input).asString()
-                )
+            new MatcherOf<>(
+                input -> mtr.matches(new TextOf(input).asString()),
+                desc -> desc
+                    .appendText("has content ")
+                    .appendDescriptionOf(mtr),
+                (input, desc) -> desc
+                    .appendText("has content ")
+                    .appendValue(new TextOf(input).asString())
+            )
         );
     }
 }

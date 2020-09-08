@@ -4,7 +4,7 @@
  * Copyright (c) for portions of project cactoos-matchers are held by
  * Yegor Bugayenko, 2017-2018, as part of project cactoos.
  * All other copyright for project cactoos-matchers are held by
- * George Aristy, 2018.
+ * George Aristy, 2018-2020.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,10 +36,10 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 /**
  * Matcher to check that scalar finishes before some timeout.
  *
- * This is a {@link Matcher} alternative to JUnit's {@link Test#timeout}.
+ * This is a {@link Matcher} alternative to JUnit's {@code Timeout} annotation.
  *
  * <p>Here is an example how {@link MatchesBefore} can be used:</p>
- * <pre>
+ * <pre>{@code
  *  new Assertion<>(
  *       "must run in 5 seconds maximum",
  *       new TextOf("test"),
@@ -47,7 +47,8 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *           5000,
  *           new TextIs("test")
  *       )
- *  ).affirm();</pre>
+ *  ).affirm();
+ * }</pre>
  *
  * @param <T> Type of the scalar's value
  * @since 1.0.0

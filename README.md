@@ -4,7 +4,7 @@
 [![EO principles respected here](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
 [![DevOps By Rultor.com](http://www.rultor.com/b/llorllale/cactoos-matchers)](http://www.rultor.com/p/llorllale/cactoos-matchers)
 
-[![Build Status](https://travis-ci.org/llorllale/cactoos-matchers.svg?branch=master)](https://travis-ci.org/llorllale/cactoos-matchers)
+[![Build Status](https://github.com/llorllale/cactoos-matchers/workflows/build/badge.svg)](https://github.com/llorllale/cactoos-matchers/actions)
 [![Javadoc](http://www.javadoc.io/badge/org.llorllale/cactoos-matchers.svg)](http://www.javadoc.io/doc/org.llorllale/cactoos-matchers)
 [![PDD status](http://www.0pdd.com/svg?name=llorllale/cactoos-matchers)](http://www.0pdd.com/p?name=llorllale/cactoos-matchers)
 [![Maven Central](https://img.shields.io/maven-central/v/org.llorllale/cactoos-matchers.svg)](https://maven-badges.herokuapp.com/maven-central/org.llorllale/cactoos-matchers)
@@ -198,7 +198,7 @@ Note: [Checkstyle](https://en.wikipedia.org/wiki/Checkstyle) is used as a static
 Copyright (c) for portions of project cactoos-matchers are held by
 Yegor Bugayenko, 2017-2018, as part of project cactoos.
 All other copyright for project cactoos-matchers are held by
-George Aristy, 2018.
+George Aristy, 2018-2020.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -24,59 +24,79 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
 import java.util.Map;
-import java.util.Optional;
-import org.cactoos.scalar.Ternary;
+import java.util.Properties;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.IsAnything;
+import org.hamcrest.core.IsEqual;
 
 /**
- * Matcher to check that {@link Map} has particular elements.
+ * Matcher to check that {@link Properties} has particular entry.
  *
- * <p>Here is an example how {@link HasEntry} can be used:</p>
+ * <p>Here is an example how {@link HasProperty} can be used:</p>
  * <pre>{@code
  *  new Assertion<>(
- *     "must match",
- *     () -> new MapOf<>(
- *         new MapEntry<>("a", 1),
- *         new MapEntry<>("b", 2)
- *     ),
- *     new HasEntry<>("a", 1)
- * ).affirm();
+ *     "must have an entry",
+ *     new PropertiesOf<>(...),
+ *     new HasProperty<>("foo", "bar")
+ *  ).affirm();
  * }</pre>
  *
- * @param <K> Type of key.
- * @param <V> Type of value.
  * @since 1.0.0
  */
-public final class HasEntry<K, V> extends MatcherEnvelope<Map<K, V>> {
+public final class HasProperty extends MatcherEnvelope<Properties> {
+
     /**
      * Ctor.
-     * @param key The expected key.
-     * @param value The expected value.
+     *
+     * @param key Literal key.
+     * @param value Literal value.
      */
-    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-    public HasEntry(final K key, final V value) {
+    HasProperty(final String key, final String value) {
+        this(new IsEqual<>(key), new IsEqual<>(value));
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param key Matcher for key.
+     * @param value Matcher for value.
+     */
+    public HasProperty(final Matcher<String> key, final Matcher<String> value) {
+        this(new IsEntry<>(key, value));
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param key Literal key.
+     */
+    public HasProperty(final String key) {
+        this(new IsEntry<>(new IsEqual<>(key), new IsAnything<>()));
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param entr Entry matcher.
+     */
+    private HasProperty(final Matcher<Map.Entry<String, String>> entr) {
         super(
             new MatcherOf<>(
-                input -> Optional.ofNullable(input.get(key))
-                    .map(vl -> vl.equals(value))
-                    .orElse(false),
+                properties -> new HasValuesMatching<>(
+                    entr::matches
+                ).matches(properties.entrySet()),
                 desc -> desc
-                    .appendText("has entry ")
-                    .appendValue(key)
-                    .appendText("=")
-                    .appendValue(value),
-                (input, desc) -> new Ternary<>(
-                    () -> input.containsKey(key),
-                    () -> desc.appendText("has entry ")
-                        .appendValue(key)
-                        .appendText("=")
-                        .appendValue(input.get(key)),
-                    () -> desc.appendText("has no entry for ")
-                        .appendValue(key)
-                ).value()
+                    .appendText("has property ")
+                    .appendDescriptionOf(entr),
+                (properties, desc) -> desc
+                    .appendText("has properties ")
+                    .appendValue(properties)
             )
         );
     }
+
 }
