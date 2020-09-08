@@ -90,7 +90,7 @@ public final class MatchesBeforeTest {
     public void mismatchesWhenExceptionThrown() {
         final String val = "c";
         new Assertion<>(
-            "must fail because of inner exception",
+            "description must contain exception happened inside Text",
             new MatchesBefore<>(20, new TextIs(val)),
             new Mismatches<>(
                 () -> {
