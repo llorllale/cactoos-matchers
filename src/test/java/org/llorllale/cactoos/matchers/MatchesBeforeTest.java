@@ -27,6 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.junit.Test;
 
@@ -95,9 +96,15 @@ public final class MatchesBeforeTest {
                 () -> {
                     throw new UnsupportedOperationException();
                 },
-                "Text with value \"c\" runs in less than <20L> milliseconds",
-                // @checkstyle LineLength (1 line)
-                "Thrown <java.util.concurrent.ExecutionException: java.lang.RuntimeException: java.lang.UnsupportedOperationException>"
+                new TextOf(
+                    "Text with value \"c\" runs in less than <20L> milliseconds"
+                ),
+                new Joined(
+                    " ",
+                    "Thrown <java.util.concurrent.ExecutionException:",
+                    "java.lang.RuntimeException:",
+                    "java.lang.UnsupportedOperationException>"
+                )
             )
         ).affirm();
     }
