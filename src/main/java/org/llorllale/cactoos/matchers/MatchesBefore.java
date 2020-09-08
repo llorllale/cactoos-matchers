@@ -61,7 +61,7 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
     /**
      * Time unit.
      */
-    private static final String UNIT = "milliseconds";
+    private static final String TIME_UNIT = "milliseconds";
 
     /**
      * Ctor.
@@ -88,7 +88,7 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
                         desc.appendText("Timeout after ")
                             .appendValue(millisec)
                             .appendText(" ")
-                            .appendText(MatchesBefore.UNIT);
+                            .appendText(MatchesBefore.TIME_UNIT);
                     } catch (final Exception ex) {
                         desc.appendText("Thrown ")
                             .appendValue(ex);
@@ -103,7 +103,7 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
                         .appendText(" runs in less than ")
                         .appendValue(millisec)
                         .appendText(" ")
-                        .appendText(MatchesBefore.UNIT);
+                        .appendText(MatchesBefore.TIME_UNIT);
                 }
             }
         );
