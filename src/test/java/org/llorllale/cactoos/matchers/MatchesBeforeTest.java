@@ -27,10 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
 import org.cactoos.text.TextOf;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -92,16 +89,15 @@ public final class MatchesBeforeTest {
     public void mismatchesWhenExceptionThrown() {
         final String val = "c";
         new Assertion<>(
-            "must fail because of timeout",
-            new MatchesBefore<>(10, new TextIs(val)),
+            "must fail because of inner exception",
+            new MatchesBefore<>(20, new TextIs(val)),
             new Mismatches<>(
                 () -> {
                     throw new UnsupportedOperationException();
                 },
-                "Text with value \"c\" runs in less than <10L> milliseconds",
-                "Throwablewn <java.util.concurrent.ExecutionException: "
-                    + "java.lang.RuntimeException: "
-                    + "java.lang.UnsupportedOperationException>"
+                "Text with value \"c\" runs in less than <20L> milliseconds",
+                // @checkstyle LineLength (1 line)
+                "Thrown <java.util.concurrent.ExecutionException: java.lang.RuntimeException: java.lang.UnsupportedOperationException>"
             )
         ).affirm();
     }

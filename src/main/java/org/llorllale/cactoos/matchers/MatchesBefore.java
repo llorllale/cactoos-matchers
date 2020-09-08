@@ -52,7 +52,17 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @param <T> Type of the scalar's value
  * @since 1.0.0
  */
+@SuppressWarnings({
+    "PMD.AvoidCatchingGenericException",
+    "PMD.CallSuperInConstructor",
+    "PMD.ConstructorOnlyInitializesOrCallOtherConstructors"
+    })
 public final class MatchesBefore<T> extends MatcherEnvelope<T> {
+    /**
+     * Time unit.
+     */
+    private static final String UNIT = "milliseconds";
+
     /**
      * Ctor.
      * @param millisec Timeout.
@@ -60,7 +70,10 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
      */
     public MatchesBefore(final long millisec, final Matcher<T> matcher) {
         super(
+            // @checkstyle IllegalCatchCheck (30 lines)
+            // @checkstyle AnonInnerLengthCheck (30 lines)
             new TypeSafeDiagnosingMatcher<T>() {
+
                 @Override
                 protected boolean matchesSafely(
                     final T item, final Description desc
@@ -74,9 +87,11 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
                     } catch (final TimeoutException texc) {
                         desc.appendText("Timeout after ")
                             .appendValue(millisec)
-                            .appendText(" milliseconds");
+                            .appendText(" ")
+                            .appendText(MatchesBefore.UNIT);
                     } catch (final Exception ex) {
-                        desc.appendText("Thrown ").appendValue(ex);
+                        desc.appendText("Thrown ")
+                            .appendValue(ex);
                     }
                     return result;
                 }
@@ -86,7 +101,9 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
                     desc
                         .appendDescriptionOf(matcher)
                         .appendText(" runs in less than ")
-                        .appendValue(millisec).appendText(" milliseconds");
+                        .appendValue(millisec)
+                        .appendText(" ")
+                        .appendText(MatchesBefore.UNIT);
                 }
             }
         );
