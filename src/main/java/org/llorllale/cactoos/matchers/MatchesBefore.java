@@ -26,8 +26,12 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.concurrent.TimeoutException;
+import org.cactoos.Func;
 import org.cactoos.func.Timed;
+import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
  * Matcher to check that scalar finishes before some timeout.
@@ -56,13 +60,35 @@ public final class MatchesBefore<T> extends MatcherEnvelope<T> {
      */
     public MatchesBefore(final long millisec, final Matcher<T> matcher) {
         super(
-        // @checkstyle IndentationCheck (6 line)
-        new Timed<>(matcher::matches, millisec),
-        desc -> desc
-            .appendDescriptionOf(matcher)
-            .appendText(" runs in less than ")
-            .appendValue(millisec).appendText(" milliseconds"),
-        matcher::describeMismatch
+            new TypeSafeDiagnosingMatcher<T>() {
+                @Override
+                protected boolean matchesSafely(
+                    final T item, final Description desc
+                ) {
+                    boolean result = false;
+                    final Func<T, Boolean> func =
+                        new Timed<>(matcher::matches, millisec);
+                    try {
+                        result = func.apply(item);
+                        matcher.describeMismatch(item, desc);
+                    } catch (final TimeoutException texc) {
+                        desc.appendText("Timeout after ")
+                            .appendValue(millisec)
+                            .appendText(" milliseconds");
+                    } catch (final Exception ex) {
+                        desc.appendText("Thrown ").appendValue(ex);
+                    }
+                    return result;
+                }
+
+                @Override
+                public void describeTo(final Description desc) {
+                    desc
+                        .appendDescriptionOf(matcher)
+                        .appendText(" runs in less than ")
+                        .appendValue(millisec).appendText(" milliseconds");
+                }
+            }
         );
     }
 }

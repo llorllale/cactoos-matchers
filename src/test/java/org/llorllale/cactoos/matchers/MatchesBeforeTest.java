@@ -29,7 +29,8 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
 import org.cactoos.text.TextOf;
-import org.junit.Ignore;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -70,11 +71,6 @@ public final class MatchesBeforeTest {
         ).affirm();
     }
 
-    // @todo #133:30min Currently MatchesBefore directly throws a
-    //  TimeoutException but instead it should populate the mismatch
-    //  message so that it can be properly tested with Mismatches.
-    //  Unignore and update this test to validate it is correctly implemented
-    @Ignore
     @Test
     public void mismatchesFromTimeout() {
         final String val = "c";
@@ -82,12 +78,30 @@ public final class MatchesBeforeTest {
             "must fail because of timeout",
             new MatchesBefore<>(10, new TextIs(val)),
             new Mismatches<>(
-                (Text) () -> {
+                () -> {
                     Thread.sleep(1000);
                     return val;
                 },
                 "Text with value \"c\" runs in less than <10L> milliseconds",
-                "Tto be determined"
+                "Timeout after <10L> milliseconds"
+            )
+        ).affirm();
+    }
+
+    @Test
+    public void mismatchesWhenExceptionThrown() {
+        final String val = "c";
+        new Assertion<>(
+            "must fail because of timeout",
+            new MatchesBefore<>(10, new TextIs(val)),
+            new Mismatches<>(
+                () -> {
+                    throw new UnsupportedOperationException();
+                },
+                "Text with value \"c\" runs in less than <10L> milliseconds",
+                "Throwablewn <java.util.concurrent.ExecutionException: "
+                    + "java.lang.RuntimeException: "
+                    + "java.lang.UnsupportedOperationException>"
             )
         ).affirm();
     }
