@@ -44,7 +44,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *       "must run in 5 seconds maximum",
  *       new TextOf("test"),
  *       new MatchesBefore(
- *           5000,
+ *           5000Open,
  *           new TextIs("test")
  *       )
  *  ).affirm();
@@ -55,58 +55,66 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  */
 @SuppressWarnings({
     "PMD.AvoidCatchingGenericException",
-    "PMD.CallSuperInConstructor",
-    "PMD.ConstructorOnlyInitializesOrCallOtherConstructors"
-    })
-public final class MatchesBefore<T> extends MatcherEnvelope<T> {
+    "PMD.ProtectedMethodInFinalClassCheck"
+})
+public final class MatchesBefore<T> extends TypeSafeDiagnosingMatcher<T> {
     /**
      * Time unit.
      */
     private static final String TIME_UNIT = "milliseconds";
 
     /**
-     * Ctor.
-     * @param millisec Timeout.
-     * @param matcher Matcher.
+     * Timeout in milliseconds.
      */
-    public MatchesBefore(final long millisec, final Matcher<T> matcher) {
-        super(
-            // @checkstyle IllegalCatchCheck (30 lines)
-            // @checkstyle AnonInnerLengthCheck (30 lines)
-            new TypeSafeDiagnosingMatcher<T>() {
+    private final long millisec;
 
-                @Override
-                protected boolean matchesSafely(
-                    final T item, final Description desc
-                ) {
-                    boolean result = false;
-                    final Func<T, Boolean> func =
-                        new Timed<>(matcher::matches, millisec);
-                    try {
-                        result = func.apply(item);
-                        matcher.describeMismatch(item, desc);
-                    } catch (final TimeoutException texc) {
-                        desc.appendText("Timeout after ")
-                            .appendValue(millisec)
-                            .appendText(" ")
-                            .appendText(MatchesBefore.TIME_UNIT);
-                    } catch (final Exception ex) {
-                        desc.appendText("Thrown ")
-                            .appendValue(ex);
-                    }
-                    return result;
-                }
+    /**
+     * The matcher.
+     */
+    private final Matcher<T> matcher;
 
-                @Override
-                public void describeTo(final Description desc) {
-                    desc
-                        .appendDescriptionOf(matcher)
-                        .appendText(" runs in less than ")
-                        .appendValue(millisec)
-                        .appendText(" ")
-                        .appendText(MatchesBefore.TIME_UNIT);
-                }
-            }
-        );
+    /**
+     * Ctor.
+     * @param mllsc Timeout.
+     * @param mtchr Matcher.
+     */
+    public MatchesBefore(final long mllsc, final Matcher<T> mtchr) {
+        super();
+        this.millisec = mllsc;
+        this.matcher = mtchr;
+    }
+
+    @Override
+    public void describeTo(final Description desc) {
+        desc
+            .appendDescriptionOf(this.matcher)
+            .appendText(" runs in less than ")
+            .appendValue(this.millisec)
+            .appendText(" ")
+            .appendText(MatchesBefore.TIME_UNIT);
+    }
+
+    // @checkstyle ProtectedMethodInFinalClassCheck (3 lines)
+    @Override
+    protected boolean matchesSafely(
+        final T item, final Description desc
+    ) {
+        boolean result = false;
+        final Func<T, Boolean> func =
+            new Timed<>(this.matcher::matches, this.millisec);
+        try {
+            result = func.apply(item);
+            this.matcher.describeMismatch(item, desc);
+        } catch (final TimeoutException texc) {
+            desc.appendText("Timeout after ")
+                .appendValue(this.millisec)
+                .appendText(" ")
+                .appendText(MatchesBefore.TIME_UNIT);
+            // @checkstyle IllegalCatchCheck (1 line)
+        } catch (final Exception ex) {
+            desc.appendText("Thrown ")
+                .appendValue(ex);
+        }
+        return result;
     }
 }
