@@ -44,7 +44,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *       "must run in 5 seconds maximum",
  *       new TextOf("test"),
  *       new MatchesBefore(
- *           5000Open,
+ *           5000,
  *           new TextIs("test")
  *       )
  *  ).affirm();
