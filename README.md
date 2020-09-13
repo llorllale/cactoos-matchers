@@ -13,7 +13,7 @@
 [![Test Coverage](https://img.shields.io/codecov/c/github/llorllale/cactoos-matchers.svg)](https://codecov.io/github/llorllale/cactoos-matchers?branch=master)
 [![SonarQube](https://img.shields.io/badge/sonar-ok-green.svg)](https://sonarcloud.io/dashboard?id=org.llorllale%3Acactoos-matchers)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## What it is
@@ -229,6 +229,7 @@ SOFTWARE.
     <td align="center"><a href="https://llorllale.github.io/"><img src="https://avatars1.githubusercontent.com/u/2019896?v=4" width="100px;" alt=""/><br /><sub><b>George Aristy</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=llorllale" title="Code">💻</a></td>
     <td align="center"><a href="http://www.yegor256.com"><img src="https://avatars3.githubusercontent.com/u/526301?v=4" width="100px;" alt=""/><br /><sub><b>Yegor Bugayenko</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=yegor256" title="Code">💻</a></td>
     <td align="center"><a href="https://proshin.org"><img src="https://avatars0.githubusercontent.com/u/3031372?v=4" width="100px;" alt=""/><br /><sub><b>Roman Proshin</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=proshin-roman" title="Code">💻</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/lazylead"><img src="https://avatars0.githubusercontent.com/u/1651114?v=4" width="100px;" alt=""/><br /><sub><b>Yurii Dubinka</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=dgroup" title="Code">💻</a></td>
   </tr>
 </table>
 
