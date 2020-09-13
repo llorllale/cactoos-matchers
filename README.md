@@ -1,4 +1,7 @@
 [![Managed by Zerocracy](https://www.0crat.com/badge/C63314D6Z.svg)](https://www.0crat.com/p/C63314D6Z)
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 [![Donate via Zerocracy](https://www.0crat.com/contrib-badge/C63314D6Z.svg)](https://www.0crat.com/contrib/C63314D6Z)
 
 [![EO principles respected here](http://www.elegantobjects.org/badge.svg)](http://www.elegantobjects.org)
@@ -189,6 +192,18 @@ Note: [Checkstyle](https://en.wikipedia.org/wiki/Checkstyle) is used as a static
 ## Contributors
   - [@llorllale](https://github.com/llorllale) as George Aristy
   - [@yegor256](https://github.com/yegor256) as Yegor Bugayenko ([Blog](http://www.yegor256.com))
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="http://www.yegor256.com"><img src="https://avatars3.githubusercontent.com/u/526301?v=4" width="100px;" alt=""/><br /><sub><b>Yegor Bugayenko</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=yegor256" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
   - [@proshin-roman](https://github.com/proshin-roman) as Roman Proshin
   - Nikita Salomatin
   - [@dgroup](https://github.com/dgroup) as Yurii Dubinka
