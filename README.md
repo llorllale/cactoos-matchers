@@ -13,7 +13,7 @@
 [![Test Coverage](https://img.shields.io/codecov/c/github/llorllale/cactoos-matchers.svg)](https://codecov.io/github/llorllale/cactoos-matchers?branch=master)
 [![SonarQube](https://img.shields.io/badge/sonar-ok-green.svg)](https://sonarcloud.io/dashboard?id=org.llorllale%3Acactoos-matchers)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-9-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## What it is
@@ -237,6 +237,7 @@ SOFTWARE.
     <td align="center"><a href="https://github.com/borysfan"><img src="https://avatars3.githubusercontent.com/u/1413251?v=4" width="100px;" alt=""/><br /><sub><b>Dominik</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=borysfan" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/scristalli"><img src="https://avatars3.githubusercontent.com/u/7326295?v=4" width="100px;" alt=""/><br /><sub><b>Stefano Cristalli</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=scristalli" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/fanifieiev"><img src="https://avatars2.githubusercontent.com/u/3167940?v=4" width="100px;" alt=""/><br /><sub><b>Fevzi Anifieiev</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=fanifieiev" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/paulodamaso"><img src="https://avatars1.githubusercontent.com/u/33915433?v=4" width="100px;" alt=""/><br /><sub><b>Paulo Lobo</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=paulodamaso" title="Code">💻</a></td>
   </tr>
 </table>
 
