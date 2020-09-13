@@ -37,24 +37,18 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle JavadocTypeCheck (500 lines)
  */
-public final class TextMatcherEnvelopeTest {
+public final class TextMatcherTest {
 
     @Test
     public void matchesAReadOnceInput() {
         final String input = "aaaa";
         new Assertion<>(
             "must match on an input that can be read only once",
-            new TextEquals(input),
+            new TextMatcher(
+                new MatcherOf<>((Text text) -> input.equals(text.asString())),
+                "Text equals to "
+            ),
             new Matches<>(new TextOf(new StringReader(input)))
         ).affirm();
-    }
-
-    private static final class TextEquals extends TextMatcherEnvelope {
-        TextEquals(final String txt) {
-            super(
-                new MatcherOf<>((Text text) -> txt.equals(text.asString())),
-                "Text equals to "
-            );
-        }
     }
 }

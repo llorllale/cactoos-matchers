@@ -37,9 +37,9 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * The Text-based {@link TypeSafeDiagnosingMatcher} envelope.
  *
  * @since 1.0.0
+ * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public abstract class TextMatcherEnvelope extends
-    TypeSafeDiagnosingMatcher<Text> {
+public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
 
     /**
      * The matcher to test.
@@ -61,7 +61,7 @@ public abstract class TextMatcherEnvelope extends
      * @param mtchr The matcher to test.
      * @param expected The description of the matcher's expected text.
      */
-    public TextMatcherEnvelope(
+    public TextMatcher(
         final Matcher<Text> mtchr, final String expected
     ) {
         this(mtchr, expected, "Text is ");
@@ -73,7 +73,7 @@ public abstract class TextMatcherEnvelope extends
      * @param expected The description of the matcher's expected text.
      * @param actual The description of the matcher's actual text.
      */
-    public TextMatcherEnvelope(
+    public TextMatcher(
         final Matcher<Text> mtchr, final String expected, final String actual
     ) {
         super();
@@ -83,16 +83,15 @@ public abstract class TextMatcherEnvelope extends
     }
 
     @Override
-    public final void describeTo(final Description desc) {
+    public void describeTo(final Description desc) {
         desc.appendText(this.expected).appendDescriptionOf(this.matcher);
     }
 
     @Override
-    protected final boolean matchesSafely(final Text text,
+    protected boolean matchesSafely(final Text text,
         final Description desc) {
         final String txt = new UncheckedText(text).asString();
         desc.appendText(this.actual).appendValue(txt);
         return this.matcher.matches(new TextOf(txt));
     }
-
 }

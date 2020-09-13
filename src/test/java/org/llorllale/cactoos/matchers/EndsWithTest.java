@@ -28,9 +28,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
@@ -40,61 +37,25 @@ import org.junit.Test;
  */
 public final class EndsWithTest {
 
-    /**
-     * Example of {@link EndsWith} usage.
-     */
     @Test
-    public void matchPositive() {
+    public void matches() {
         new Assertion<>(
             "The matcher gives positive result for the valid arguments",
-            new TextOf("I'm simple and I know it."),
-            new EndsWith("know it.")
+            new EndsWith("know it."),
+            new Matches<>(new TextOf("I'm simple and I know it."))
         ).affirm();
     }
 
-    /**
-     * Give the negative testing result for the invalid arguments.
-     */
     @Test
-    public void matchNegative() {
+    public void mismatches() {
         new Assertion<>(
             "The matcher gives negative result for the invalid arguments",
-            new EndsWith("!").matchesSafely(
-                () -> "The sentence.",
-                new StringDescription()
-            ),
-            new IsEqual<>(false)
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the actual value(s) properly in case of errors.
-     * The actual/expected section are using only when testing is failed and
-     *  we need to explain what exactly went wrong.
-     */
-    @Test
-    public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new EndsWith("").matchesSafely(new TextOf("ABC"), desc);
-        new Assertion<>(
-            "The matcher print the value which came for testing",
-            desc.toString(),
-            new IsEqual<>("Text is \"ABC\"")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the expected value(s) properly.
-     * The user has the ability to specify the description for the function.
-     */
-    @Test
-    public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new EndsWith("!").describeTo(desc);
-        new Assertion<>(
-            "The matcher print the description of the scenario",
-            desc.toString(),
-            new IsEqual<>("Text ending with \"!\"")
+            new EndsWith("!"),
+            new Mismatches<>(
+                new TextOf("The sentence."),
+                "Text ending with \"!\"",
+                "Text is \"The sentence.\""
+            )
         ).affirm();
     }
 }

@@ -28,10 +28,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -41,11 +37,8 @@ import org.junit.Test;
  */
 public final class MatchesRegexTest {
 
-    /**
-     * Example of {@link MatchesRegex} usage.
-     */
     @Test
-    public void matchPositive() {
+    public void matches() {
         new Assertion<>(
             "matches text that satisfies regex",
             new MatchesRegex("^.*know\\sit\\.$"),
@@ -53,46 +46,16 @@ public final class MatchesRegexTest {
         ).affirm();
     }
 
-    /**
-     * Give the negative testing result for the invalid arguments.
-     */
     @Test
-    public void matchNegative() {
+    public void mismatches() {
         new Assertion<>(
             "does not match text that does not conform to the regex",
             new MatchesRegex("^.*!$"),
-            new IsNot<>(new Matches<>(() -> "The sentence."))
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the actual value(s) properly in case of errors.
-     * The actual/expected section are using only when testing is failed and
-     *  we need to explain what exactly went wrong.
-     */
-    @Test
-    public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new MatchesRegex("").matchesSafely(new TextOf("ABC"), desc);
-        new Assertion<>(
-            "includes the test object in the description",
-            desc.toString(),
-            new IsEqual<>("Text is \"ABC\"")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the expected value(s) properly.
-     * The user has the ability to specify the description for the function.
-     */
-    @Test
-    public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new MatchesRegex("^.*\\.$").describeTo(desc);
-        new Assertion<>(
-            "describes the scenario",
-            desc.toString(),
-            new IsEqual<>("Text matches \"^.*\\.$\"")
+            new Mismatches<>(
+                new TextOf("The sentence."),
+                "Text matches \"^.*!$\"",
+                "Text is \"The sentence.\""
+            )
         ).affirm();
     }
 }

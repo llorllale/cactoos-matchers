@@ -45,7 +45,7 @@ public final class TextHasStringTest {
         new Assertion<>(
             "matches prefix",
             new TextHasString("123"),
-            new Matches<>(() -> "12345")
+            new Matches<>(new TextOf("12345"))
         ).affirm();
     }
 
@@ -54,7 +54,7 @@ public final class TextHasStringTest {
         new Assertion<>(
             "matches suffix",
             new TextHasString("345"),
-            new Matches<>(() -> "12345")
+            new Matches<>(new TextOf("12345"))
         ).affirm();
     }
 
@@ -63,7 +63,7 @@ public final class TextHasStringTest {
         new Assertion<>(
             "matches substring",
             new TextHasString("234"),
-            new Matches<>(() -> "12345")
+            new Matches<>(new TextOf("12345"))
         ).affirm();
     }
 

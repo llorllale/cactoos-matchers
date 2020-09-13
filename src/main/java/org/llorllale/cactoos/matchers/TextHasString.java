@@ -34,7 +34,7 @@ import org.cactoos.text.TextOf;
  *
  * @since 0.2
  */
-public final class TextHasString extends TextMatcherEnvelope {
+public final class TextHasString extends MatcherEnvelope<Text> {
 
     /**
      * Ctor.
@@ -50,11 +50,13 @@ public final class TextHasString extends TextMatcherEnvelope {
      */
     public TextHasString(final Text text) {
         super(
-            new MatcherOf<>(
-                (Text actual) -> actual.asString().contains(text.asString()),
-                text
-            ),
-            "Text with "
+            new TextMatcher(
+                new MatcherOf<>(
+                    (Text actual) -> actual.asString().contains(text.asString()),
+                    text
+                ),
+                "Text with "
+            )
         );
     }
 
