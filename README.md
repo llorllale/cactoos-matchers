@@ -180,6 +180,9 @@ public void matchExactString() {
 
 Just fork the repo and send us a pull request.
 
+Request to add yourself to the list of [contributors](#contributors) below with
+the [`@all-contributors bot`](https://allcontributors.org/docs/en/bot/usage#all-contributors-add).
+
 Make sure your branch builds without any warnings/issues:
 
 ```
@@ -189,21 +192,7 @@ mvn clean install -Pqulice
 Note: [Checkstyle](https://en.wikipedia.org/wiki/Checkstyle) is used as a static code analyze tool with
 [checks list](http://checkstyle.sourceforge.net/checks.html) in GitHub precommits.
 
-## Contributors
 
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://llorllale.github.io/"><img src="https://avatars1.githubusercontent.com/u/2019896?v=4" width="100px;" alt=""/><br /><sub><b>George Aristy</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=llorllale" title="Code">💻</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 ## License (MIT)
 
 Copyright (c) for portions of project cactoos-matchers are held by
@@ -228,3 +217,19 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://llorllale.github.io/"><img src="https://avatars1.githubusercontent.com/u/2019896?v=4" width="100px;" alt=""/><br /><sub><b>George Aristy</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=llorllale" title="Code">💻</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
