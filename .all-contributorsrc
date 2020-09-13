@@ -49,6 +49,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "victornoel",
+      "name": "Victor Noël",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/160975?v=4",
+      "profile": "http://www.irit.fr/~Victor.Noel/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,
