@@ -22,6 +22,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "proshin-roman",
+      "name": "Roman Proshin",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/3031372?v=4",
+      "profile": "https://proshin.org",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 4,
