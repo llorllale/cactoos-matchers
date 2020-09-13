@@ -13,7 +13,7 @@
 [![Test Coverage](https://img.shields.io/codecov/c/github/llorllale/cactoos-matchers.svg)](https://codecov.io/github/llorllale/cactoos-matchers?branch=master)
 [![SonarQube](https://img.shields.io/badge/sonar-ok-green.svg)](https://sonarcloud.io/dashboard?id=org.llorllale%3Acactoos-matchers)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ## What it is
@@ -240,6 +240,9 @@ SOFTWARE.
     <td align="center"><a href="https://github.com/paulodamaso"><img src="https://avatars1.githubusercontent.com/u/33915433?v=4" width="100px;" alt=""/><br /><sub><b>Paulo Lobo</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=paulodamaso" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/Vatavuk"><img src="https://avatars2.githubusercontent.com/u/2067023?v=4" width="100px;" alt=""/><br /><sub><b>Vedran Grgo Vatavuk</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=Vatavuk" title="Code">💻</a></td>
     <td align="center"><a href="https://vk.com/sharpler"><img src="https://avatars0.githubusercontent.com/u/2966206?v=4" width="100px;" alt=""/><br /><sub><b>Alexander</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=SharplEr" title="Code">💻</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="http://www.vzurauskas.com"><img src="https://avatars0.githubusercontent.com/u/18754033?v=4" width="100px;" alt=""/><br /><sub><b>vzurauskas</b></sub></a><br /><a href="https://github.com/llorllale/cactoos-matchers/commits?author=vzurauskas" title="Code">💻</a></td>
   </tr>
 </table>
 
