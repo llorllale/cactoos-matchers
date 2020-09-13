@@ -180,7 +180,7 @@ public void matchExactString() {
 
 Just fork the repo and send us a pull request.
 
-Request to add yourself to the list of [contributors](#contributors) below with
+Request to add yourself to the list of [contributors](#contributors-) below with
 the [`@all-contributors bot`](https://allcontributors.org/docs/en/bot/usage#all-contributors-add).
 
 Make sure your branch builds without any warnings/issues:
