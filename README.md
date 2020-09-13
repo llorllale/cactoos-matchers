@@ -167,7 +167,7 @@ Use `Matches` to test matchers themselves:
 public void matchExactString() {
   new Assertion<>(
     "must match the exact text",
-    textIsBlanknew TextIs("abc"),          // matcher being tested
+    new TextIs("abc"),                // matcher being tested
     new Matches<>(new TextOf("abc"))  // reference against which the matcher is tested
   ).affirm();
 }
