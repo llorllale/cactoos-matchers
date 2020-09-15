@@ -72,7 +72,6 @@
       <groupId>org.cactoos</groupId>
       <artifactId>cactoos</artifactId>
       <version>0.45</version>
-      <scope>provided</scope>
     </dependency>
     <!--
      @todo #162:30min Migrate existing tests to JUnit 5. It mainly means
@@ -153,6 +152,34 @@
   </profiles>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.2.4</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+                <includes>
+                  <include>org.cactoos:cactoos</include>
+                </includes>
+              </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>org.cactoos</pattern>
+                  <shadedPattern>
+                    org.llorllale.cactoos.shaded.org.cactoos
+                  </shadedPattern>
+                </relocation>
+              </relocations>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
