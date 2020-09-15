@@ -28,10 +28,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
@@ -41,11 +37,8 @@ import org.junit.Test;
  */
 public final class StartsWithTest {
 
-    /**
-     * Example of {@link StartsWith} usage.
-     */
     @Test
-    public void matchPositive() {
+    public void matches() {
         new Assertion<>(
             "matches text with prefix",
             new StartsWith("I'm simple"),
@@ -53,46 +46,16 @@ public final class StartsWithTest {
         ).affirm();
     }
 
-    /**
-     * Give the negative testing result for the invalid arguments.
-     */
     @Test
-    public void matchNegative() {
+    public void mismatches() {
         new Assertion<>(
             "mismatches text without the prefix",
             new StartsWith("!"),
-            new IsNot<>(new Matches<>(new TextOf("The sentence.")))
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the actual value(s) properly in case of errors.
-     * The actual/expected section are using only when testing is failed and
-     *  we need to explain what exactly went wrong.
-     */
-    @Test
-    public void describeActualValues() {
-        final Description desc = new StringDescription();
-        new StartsWith("").matchesSafely(new TextOf("ABC"), desc);
-        new Assertion<>(
-            "describes the test arg",
-            desc.toString(),
-            new IsEqual<>("Text is \"ABC\"")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the expected value(s) properly.
-     * The user has the ability to specify the description for the function.
-     */
-    @Test
-    public void describeExpectedValues() {
-        final Description desc = new StringDescription();
-        new StartsWith("!").describeTo(desc);
-        new Assertion<>(
-            "describes the expected prefix",
-            desc.toString(),
-            new IsEqual<>("Text starting with \"!\"")
+            new Mismatches<>(
+                new TextOf("The sentence."),
+                "Text starting with \"!\"",
+                "Text is \"The sentence.\""
+            )
         ).affirm();
     }
 

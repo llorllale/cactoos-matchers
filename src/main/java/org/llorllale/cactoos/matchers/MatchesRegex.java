@@ -34,7 +34,7 @@ import org.cactoos.text.TextOf;
  *
  * @since 1.0.0
  */
-public final class MatchesRegex extends TextMatcherEnvelope {
+public final class MatchesRegex extends MatcherEnvelope<Text> {
 
     /**
      * Ctor.
@@ -50,11 +50,13 @@ public final class MatchesRegex extends TextMatcherEnvelope {
      */
     public MatchesRegex(final Text regex) {
         super(
-            new MatcherOf<>(
-                (Text act) -> act.asString().matches(regex.asString()),
-                regex
-            ),
-            "Text matches "
+            new TextMatcher(
+                new MatcherOf<>(
+                    (Text act) -> act.asString().matches(regex.asString()),
+                    regex
+                ),
+                "Text matches "
+            )
         );
     }
 }

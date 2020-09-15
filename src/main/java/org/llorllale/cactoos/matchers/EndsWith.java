@@ -34,7 +34,7 @@ import org.cactoos.text.TextOf;
  *
  * @since 1.0.0
  */
-public final class EndsWith extends TextMatcherEnvelope {
+public final class EndsWith extends MatcherEnvelope<Text> {
 
     /**
      * Ctor.
@@ -50,11 +50,13 @@ public final class EndsWith extends TextMatcherEnvelope {
      */
     public EndsWith(final Text text) {
         super(
-            new MatcherOf<>(
-                (Text act) -> act.asString().endsWith(text.asString()),
-                text
-            ),
-            "Text ending with "
+            new TextMatcher(
+                new MatcherOf<>(
+                    (Text act) -> act.asString().endsWith(text.asString()),
+                    text
+                ),
+                "Text ending with "
+            )
         );
     }
 }
