@@ -46,9 +46,7 @@ import org.hamcrest.TypeSafeMatcher;
  *
  * @param <T> Type of object to match
  * @since 0.12
- * @todo #135:30min Remove all constructors except the last one so that
- *  every matcher implemented using MatcherOf take care of properly
- *  describe itself and the mismatch.
+ * @todo #165:30min Write some of the matcher's description and mismatch functions.
  */
 public final class MatcherOf<T> extends TypeSafeMatcher<T> {
 
