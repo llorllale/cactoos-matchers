@@ -163,7 +163,10 @@
               <goal>shade</goal>
             </goals>
             <configuration>
+              <!-- This confuses qulice -->
               <createDependencyReducedPom>false</createDependencyReducedPom>
+              <createSourcesJar>true</createSourcesJar>
+              <shadeSourcesContent>true</shadeSourcesContent>
               <artifactSet>
                 <includes>
                   <include>org.cactoos:cactoos</include>
