@@ -26,7 +26,6 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.Unchecked;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -73,15 +72,21 @@ import org.hamcrest.StringDescription;
  *  Matchers derived from BaseMatcher, such as IsEqual.
  */
 public final class Assertion<T> {
-    /**
-     * Whether this assertion is refuted.
-     */
-    private final Unchecked<Boolean> refuted;
 
     /**
-     * Refutation error.
+     * Message.
      */
-    private final Unchecked<AssertionError> error;
+    private final String msg;
+
+    /**
+     * Tested value.
+     */
+    private final T test;
+
+    /**
+     * Matcher.
+     */
+    private final Matcher<T> matcher;
 
     /**
      * Ctor.
@@ -92,18 +97,9 @@ public final class Assertion<T> {
     public Assertion(
         final String msg, final T test, final Matcher<T> matcher
     ) {
-        this.refuted = new Unchecked<>(() -> !matcher.matches(test));
-        this.error = new Unchecked<>(
-            () -> {
-                final Description text = new StringDescription();
-                text.appendText(msg)
-                    .appendText(String.format("%nExpected: "))
-                    .appendDescriptionOf(matcher)
-                    .appendText(String.format("%n but was: "));
-                matcher.describeMismatch(test, text);
-                return new AssertionError(text.toString());
-            }
-        );
+        this.msg = msg;
+        this.test = test;
+        this.matcher = matcher;
     }
 
     /**
@@ -111,8 +107,14 @@ public final class Assertion<T> {
      * @throws AssertionError if this assertion is refuted
      */
     public void affirm() throws AssertionError {
-        if (this.refuted.value()) {
-            throw this.error.value();
+        if (!this.matcher.matches(this.test)) {
+            final Description text = new StringDescription();
+            text.appendText(this.msg)
+                .appendText(String.format("%nExpected: "))
+                .appendDescriptionOf(this.matcher)
+                .appendText(String.format("%n but was: "));
+            this.matcher.describeMismatch(this.test, text);
+            throw new AssertionError(text.toString());
         }
     }
 }

@@ -52,7 +52,7 @@ public final class MatchesRegex extends MatcherEnvelope<Text> {
         super(
             new TextMatcher(
                 new MatcherOf<>(
-                    (Text act) -> act.asString().matches(regex.asString()),
+                    (String act) -> act.matches(regex.asString()),
                     regex
                 ),
                 "Text matches "

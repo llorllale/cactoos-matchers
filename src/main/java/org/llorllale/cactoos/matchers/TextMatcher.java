@@ -27,14 +27,13 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
-import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
- * The Text-based {@link TypeSafeDiagnosingMatcher} envelope.
+ * Generic {@link Matcher} of {@link Text}.
  *
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
@@ -44,7 +43,7 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
     /**
      * The matcher to test.
      */
-    private final Matcher<Text> matcher;
+    private final Matcher<String> matcher;
 
     /**
      * The description of the matcher's expected text.
@@ -62,7 +61,7 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
      * @param expected The description of the matcher's expected text.
      */
     public TextMatcher(
-        final Matcher<Text> mtchr, final String expected
+        final Matcher<String> mtchr, final String expected
     ) {
         this(mtchr, expected, "Text is ");
     }
@@ -74,7 +73,7 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
      * @param actual The description of the matcher's actual text.
      */
     public TextMatcher(
-        final Matcher<Text> mtchr, final String expected, final String actual
+        final Matcher<String> mtchr, final String expected, final String actual
     ) {
         super();
         this.matcher = mtchr;
@@ -88,10 +87,9 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
     }
 
     @Override
-    protected boolean matchesSafely(final Text text,
-        final Description desc) {
+    protected boolean matchesSafely(final Text text, final Description desc) {
         final String txt = new UncheckedText(text).asString();
         desc.appendText(this.actual).appendValue(txt);
-        return this.matcher.matches(new TextOf(txt));
+        return this.matcher.matches(txt);
     }
 }

@@ -52,7 +52,7 @@ public final class TextIs extends MatcherEnvelope<Text> {
         super(
             new TextMatcher(
                 new MatcherOf<>(
-                    (Text actual) -> actual.asString().equals(text.asString()),
+                    (String actual) -> actual.equals(text.asString()),
                     text
                 ),
                 "Text with value "

@@ -158,12 +158,25 @@
         <version>3.2.4</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <!--
+             @todo #159:30min This plugin execution was disabled
+              (phase was set to `package` before) because it prevents
+              cactoos from actually using cactoos-matchers since the
+              interfaces provided by cactoos (`Text`, `Func`, `Scalar`, etc)
+              and those expected by cactoos-matchers do no match!
+              Let's find a solution to this situation (not shading the
+              interfaces for example?) and re-enable this plugin. The best
+              solution should be discussed with ARC in this todo's ticket.
+            -->
+            <phase>ignore</phase>
             <goals>
               <goal>shade</goal>
             </goals>
             <configuration>
+              <!-- This confuses qulice -->
               <createDependencyReducedPom>false</createDependencyReducedPom>
+              <createSourcesJar>true</createSourcesJar>
+              <shadeSourcesContent>true</shadeSourcesContent>
               <artifactSet>
                 <includes>
                   <include>org.cactoos:cactoos</include>

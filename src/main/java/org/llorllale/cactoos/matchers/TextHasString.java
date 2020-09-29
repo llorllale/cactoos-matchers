@@ -52,7 +52,7 @@ public final class TextHasString extends MatcherEnvelope<Text> {
         super(
             new TextMatcher(
                 new MatcherOf<>(
-                    (Text actual) -> actual.asString().contains(text.asString()),
+                    (String actual) -> actual.contains(text.asString()),
                     text
                 ),
                 "Text with "

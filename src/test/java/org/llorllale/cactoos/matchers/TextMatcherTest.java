@@ -27,31 +27,25 @@
 package org.llorllale.cactoos.matchers;
 
 import java.io.StringReader;
-import org.cactoos.Text;
-import org.cactoos.text.FormattedText;
 import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
+import org.hamcrest.core.IsEqual;
 import org.junit.Test;
 
 /**
- * Tests for {@link TextMatcherEnvelope}.
+ * Tests for {@link TextMatcher}.
+ *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle JavadocTypeCheck (500 lines)
  */
 public final class TextMatcherTest {
-
     @Test
     public void matchesAReadOnceInput() {
         final String input = "aaaa";
         new Assertion<>(
             "must match on an input that can be read only once",
             new TextMatcher(
-                new MatcherOf<>((Text text) -> input.equals(text.asString()),
-                        desc -> desc.appendText(
-                                new UncheckedText("must match on an input that can be read only once").asString()
-                        ),
-                        (actual, desc) -> desc.appendValue(actual)),
+                new IsEqual<>(input),
                 "Text equals to "
             ),
             new Matches<>(new TextOf(new StringReader(input)))
