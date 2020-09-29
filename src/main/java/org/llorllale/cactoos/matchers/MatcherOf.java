@@ -46,7 +46,7 @@ import org.hamcrest.TypeSafeMatcher;
  *
  * @param <T> Type of object to match
  * @since 0.12
- * @todo #165:30min Write some of the matcher's description and mismatch functions.
+ * @todo Rewrite the Matcher's, which constructed from others constructor, to use the last constructor of MatcherOf.
  */
 public final class MatcherOf<T> extends TypeSafeMatcher<T> {
 
@@ -65,22 +65,6 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
      * object does not match to the expected one.
      */
     private final BiProc<T, Description> mismatch;
-
-    /**
-     * Ctor.
-     * @param proc The func
-     */
-    public MatcherOf(final Proc<T> proc) {
-        this(new FuncOf<>(proc, true));
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The func
-     */
-    public MatcherOf(final Func<T, Boolean> fnc) {
-        this(fnc, new UncheckedText(fnc.toString()));
-    }
 
     /**
      * Ctor.

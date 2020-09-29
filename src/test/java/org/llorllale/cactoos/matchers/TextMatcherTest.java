@@ -28,7 +28,9 @@ package org.llorllale.cactoos.matchers;
 
 import java.io.StringReader;
 import org.cactoos.Text;
+import org.cactoos.text.FormattedText;
 import org.cactoos.text.TextOf;
+import org.cactoos.text.UncheckedText;
 import org.junit.Test;
 
 /**
@@ -45,7 +47,11 @@ public final class TextMatcherTest {
         new Assertion<>(
             "must match on an input that can be read only once",
             new TextMatcher(
-                new MatcherOf<>((Text text) -> input.equals(text.asString())),
+                new MatcherOf<>((Text text) -> input.equals(text.asString()),
+                        desc -> desc.appendText(
+                                new UncheckedText("must match on an input that can be read only once").asString()
+                        ),
+                        (actual, desc) -> desc.appendValue(actual)),
                 "Text equals to "
             ),
             new Matches<>(new TextOf(new StringReader(input)))
