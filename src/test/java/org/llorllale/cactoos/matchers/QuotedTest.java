@@ -5,16 +5,16 @@ import org.junit.Test;
 
 public class QuotedTest {
     @Test
-    void convertsText() {
+    public void convertsText() {
         new Assertion<>(
                 "Can't quote a text",
                 new Quoted(new TextOf("qwerty")),
-                new TextHasString("\nqwerty\n")
+                new TextHasString("\"qwerty\"")
         ).affirm();
     }
 
     @Test
-    void convertsString() {
+    public void convertsString() {
         new Assertion<>(
                 "Can't quote a string",
                 new Quoted("qwerty"),
