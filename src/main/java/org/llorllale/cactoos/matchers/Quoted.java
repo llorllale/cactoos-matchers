@@ -6,7 +6,7 @@ import org.cactoos.text.TextOf;
 
 /**
  * Quoted text.
- * @todo Move it to cactoos.
+ * @todo #203:30m/DEV Move it to cactoos.
  */
 public class Quoted extends TextEnvelope {
     /**

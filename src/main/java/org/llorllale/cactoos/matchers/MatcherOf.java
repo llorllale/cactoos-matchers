@@ -46,7 +46,7 @@ import org.hamcrest.TypeSafeMatcher;
  *
  * @param <T> Type of object to match
  * @since 0.12
- * @todo Rewrite the Matcher's, which constructed from others constructor, to use the last constructor of MatcherOf.
+ * @todo #204:30m/DEV Rewrite the Matcher's, which constructed from others constructor, to use the last constructor of MatcherOf.
  */
 public final class MatcherOf<T> extends TypeSafeMatcher<T> {
 
