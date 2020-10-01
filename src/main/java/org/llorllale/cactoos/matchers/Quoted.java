@@ -6,7 +6,7 @@ import org.cactoos.text.TextOf;
 
 /**
  * Quoted text.
- * @todo #203:30m/DEV Move it to cactoos.
+ * @todo #203:15m/DEV Move it to cactoos basic types as quoted text. This would be reused if there is the need to quote something.
  */
 public class Quoted extends TextEnvelope {
     /**
