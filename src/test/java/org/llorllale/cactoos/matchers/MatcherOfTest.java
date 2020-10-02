@@ -47,11 +47,11 @@ public final class MatcherOfTest {
     public void matchesFunc() {
         new Assertion<>(
             "matches when arg satisfies the predicate",
-            new MatcherOf<>(x -> x > 5,
-                    desc -> desc.appendText(
-                        new UncheckedText("matches when arg satisfies the predicate").asString()
-                    ),
-                    (actual, desc) -> desc.appendValue(actual)),
+            new MatcherOf<>(
+                    x -> x > 5,
+                    desc -> desc.appendText("Must be > 5"),
+                    (actual, desc) -> desc.appendValue(actual)
+            ),
             new Matches<>(10)
         ).affirm();
     }
@@ -76,10 +76,9 @@ public final class MatcherOfTest {
     public void matcherOfProcMatchesAnyArguments() {
         new Assertion<>(
             "matches any arguments when constructed from a Proc",
-            new MatcherOf<>(new FuncOf<>(String::trim, true),
-                    desc -> desc.appendText(
-                            new UncheckedText("matches any arguments when constructed from a Proc").asString()
-                    ),
+            new MatcherOf<>(
+                    new FuncOf<>(String::trim, true),
+                    desc -> desc.appendText("Trimmed string"),
                     (actual, desc) -> desc.appendValue(actual)
                     ),
             new Matches<>("a")
