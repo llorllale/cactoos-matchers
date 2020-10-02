@@ -53,7 +53,8 @@ public final class StartsWith extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String act) -> act.startsWith(text.asString()),
-                    text
+                        desc -> desc.appendText(text.asString()),
+                        (actual, desc) -> desc.appendValue(actual)
                 ),
                 "Text starting with "
             )

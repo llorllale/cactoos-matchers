@@ -53,7 +53,8 @@ public final class EndsWith extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String act) -> act.endsWith(text.asString()),
-                    text
+                        desc -> desc.appendText(text.asString()),
+                        (actual, desc) -> desc.appendValue(actual)
                 ),
                 "Text ending with "
             )

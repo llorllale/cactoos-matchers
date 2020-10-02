@@ -53,7 +53,8 @@ public final class TextIs extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String actual) -> actual.equals(text.asString()),
-                    text
+                        desc -> desc.appendText(text.asString()),
+                        (actual, desc) -> desc.appendValue(actual)
                 ),
                 "Text with value "
             )

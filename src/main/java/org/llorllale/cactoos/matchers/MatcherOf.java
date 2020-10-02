@@ -68,21 +68,6 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
 
     /**
      * Ctor.
-     * @param fnc The func
-     * @param description The description
-     */
-    public MatcherOf(final Func<T, Boolean> fnc, final Text description) {
-        this(
-            fnc,
-            desc -> desc.appendText(
-                new FormattedText("\"%s\"", description).asString()
-            ),
-            (actual, desc) -> desc.appendValue(actual)
-        );
-    }
-
-    /**
-     * Ctor.
      * @param match Matches an actual object with expected one
      * @param description Generates a description of the object
      * @param mismatch Generates a description for situation when an

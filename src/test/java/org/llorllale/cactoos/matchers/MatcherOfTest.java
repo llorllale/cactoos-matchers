@@ -62,7 +62,8 @@ public final class MatcherOfTest {
             "mismatches when arg does not satisfy the predicate",
             new MatcherOf<>(
                 x -> x > 5,
-                new TextOf("Must be > 5")
+                    desc -> desc.appendText("Must be > 5"),
+                    (actual, desc) -> desc.appendValue(actual)
             ),
             new Mismatches<>(
                 1,

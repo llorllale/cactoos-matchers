@@ -53,7 +53,8 @@ public final class MatchesRegex extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String act) -> act.matches(regex.asString()),
-                    regex
+                        desc -> desc.appendText(regex.asString()),
+                        (actual, desc) -> desc.appendValue(actual)
                 ),
                 "Text matches "
             )

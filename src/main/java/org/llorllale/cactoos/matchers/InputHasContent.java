@@ -58,7 +58,9 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
     public InputHasContent(final Text text) {
         this(
             new MatcherOf<>(
-                (String input) -> text.asString().equals(input), text
+                (String input) -> text.asString().equals(input),
+                    desc -> desc.appendText(text.asString()),
+                    (actual, desc) -> desc.appendValue(actual)
             )
         );
     }
