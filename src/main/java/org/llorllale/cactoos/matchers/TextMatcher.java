@@ -37,6 +37,15 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
+ * @todo #165:30m Add a constructor to TextMatcher taking a Func<String, Boolean> in order to simplify this TextMatcher:
+ *     new TextMatcher(
+ *                 new MatcherOf<>(
+ *                     (String act) -> act.endsWith(text.asString()),
+ *                         desc -> desc.appendText(text.asString()),
+ *                         (actual, desc) -> desc.appendValue(actual)
+ *                 ),
+ *                 "Text ending with "
+ *             )
  */
 public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
 
