@@ -26,40 +26,28 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
 import org.cactoos.text.TextOf;
+import org.junit.Test;
 
 /**
- * Matches if a text <em>endsWith</em> this string.
- *
- * @since 1.0.0
+ * Test case for {@link Quoted}.
  */
-public final class EndsWith extends MatcherEnvelope<Text> {
-
-    /**
-     * Ctor.
-     * @param suffix The suffix to be matched against.
-     */
-    public EndsWith(final String suffix) {
-        this(new TextOf(suffix));
+public class QuotedTest {
+    @Test
+    public void convertsText() {
+        new Assertion<>(
+                "Can't quote a text",
+                new Quoted(new TextOf("qwerty")),
+                new TextHasString("\"qwerty\"")
+        ).affirm();
     }
 
-    /**
-     * Ctor.
-     * @param text The text to match against
-     */
-    public EndsWith(final Text text) {
-        super(
-            new TextMatcher(
-                new MatcherOf<>(
-                    (String act) -> act.endsWith(text.asString()),
-                        desc -> desc.appendText("ends with the word " + new Quoted(text)),
-                        (actual, desc) -> desc.appendText("does " + new Quoted(actual)+ " end with the word " +
-                                new Quoted(text))
-                ),
-                "Text ending with "
-            )
-        );
+    @Test
+    public void convertsString() {
+        new Assertion<>(
+                "Can't quote a string",
+                new Quoted("qwerty"),
+                new TextHasString("\"qwerty\"")
+        ).affirm();
     }
 }
-

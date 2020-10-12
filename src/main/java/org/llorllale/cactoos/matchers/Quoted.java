@@ -1,3 +1,4 @@
+package org.llorllale.cactoos.matchers;
 /*
  * The MIT License (MIT)
  *
@@ -24,42 +25,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package org.llorllale.cactoos.matchers;
-
 import org.cactoos.Text;
+import org.cactoos.text.TextEnvelope;
 import org.cactoos.text.TextOf;
 
 /**
- * Matches if a text <em>endsWith</em> this string.
+ * Quoted text.
  *
- * @since 1.0.0
+ * @since 0.22
+ * @todo #165:15m/DEV Move it to cactoos basic types as quoted text.
+ * This would be reused if there is the need to quote something.
  */
-public final class EndsWith extends MatcherEnvelope<Text> {
-
+public class Quoted extends TextEnvelope {
     /**
      * Ctor.
-     * @param suffix The suffix to be matched against.
+     * @param string String
      */
-    public EndsWith(final String suffix) {
-        this(new TextOf(suffix));
+    public Quoted(final String string){
+        this(new TextOf(string));
     }
 
     /**
      * Ctor.
-     * @param text The text to match against
+     * @param text Text
      */
-    public EndsWith(final Text text) {
-        super(
-            new TextMatcher(
-                new MatcherOf<>(
-                    (String act) -> act.endsWith(text.asString()),
-                        desc -> desc.appendText("ends with the word " + new Quoted(text)),
-                        (actual, desc) -> desc.appendText("does " + new Quoted(actual)+ " end with the word " +
-                                new Quoted(text))
-                ),
-                "Text ending with "
-            )
-        );
+    public Quoted(final Text text) {
+        super(new TextOf("\"" + text + "\""));
     }
 }
-

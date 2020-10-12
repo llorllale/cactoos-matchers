@@ -59,10 +59,8 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
         this(
             new MatcherOf<>(
                 (String input) -> text.asString().equals(input),
-                    desc -> desc.appendText("has content ")
-                            .appendText(text.asString()),
-                    (actual, desc) -> desc.appendText("has content ")
-                            .appendValue(actual)
+                    desc -> desc.appendText("has content " + new Quoted(text)),
+                    (input, desc) -> desc.appendText("does "+ new Quoted(input) +" have content " + new Quoted(text))
             )
         );
     }

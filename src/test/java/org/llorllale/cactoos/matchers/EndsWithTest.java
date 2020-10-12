@@ -52,7 +52,7 @@ public final class EndsWithTest {
             "The matcher gives negative result for the invalid arguments",
             new EndsWith("The sentence!"),
             new Mismatches<>(
-                new TextOf("!"),
+                new TextOf("The sentence."),
                 "Text ending with \"!\"",
                 "Text is \"The sentence.\""
             )
