@@ -45,7 +45,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *             (actual, desc) -> desc.appendValue(actual)
  *     ),
  *     "Text ending with "
- * )
+ *  )
  */
 public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
 
