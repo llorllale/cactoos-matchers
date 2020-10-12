@@ -34,7 +34,7 @@ import org.cactoos.text.TextOf;
  *
  * @since 0.22
  * @todo #165:15m/DEV Move it to cactoos basic types as quoted text.
- * This would be reused if there is the need to quote something.
+ *  This would be reused if there is the need to quote something.
  */
 public class Quoted extends TextEnvelope {
     /**
