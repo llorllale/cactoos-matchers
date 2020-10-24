@@ -28,17 +28,18 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link TextIs}.
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class TextIsEmptyTest {
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
+final class TextIsEmptyTest {
 
     @Test
-    public void match() {
+    void match() {
         new Assertion<>(
             "must match empty text",
             new TextIsEmpty(),
@@ -47,7 +48,7 @@ public final class TextIsEmptyTest {
     }
 
     @Test
-    public void noMatch() {
+    void noMatch() {
         new Assertion<>(
             "must not match text that is not empty",
             new TextIsEmpty(),
@@ -56,7 +57,7 @@ public final class TextIsEmptyTest {
     }
 
     @Test
-    public void noMatchBlankText() {
+    void noMatchBlankText() {
         new Assertion<>(
             "must not match text that is not empty",
             new TextIsEmpty(),
@@ -65,15 +66,15 @@ public final class TextIsEmptyTest {
     }
 
     @Test
-    public void noMatchMsg() {
+    void noMatchMsg() {
         new Assertion<>(
             "must not match text that is not empty",
             new TextIsEmpty(),
             new Mismatches<>(
-                    new TextOf("text"),
-                    "empty text",
-                    "\"text\""
-                )
+                new TextOf("text"),
+                "empty text",
+                "\"text\""
+            )
         ).affirm();
     }
 
