@@ -42,7 +42,7 @@ public final class TextIsEmpty extends MatcherEnvelope<Text> {
         super(
             new MatcherOf<>(
                 text -> text.asString().isEmpty(),
-                desc -> desc.appendText("is empty"),
+                desc -> desc.appendText("empty text"),
                 (text, desc) -> desc.appendValue(text)
             )
         );
