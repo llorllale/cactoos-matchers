@@ -50,7 +50,7 @@ public final class EndsWithTest {
     public void mismatches() {
         new Assertion<>(
             "The matcher gives negative result for the invalid arguments",
-            new EndsWith("The sentence!"),
+            new EndsWith("!"),
             new Mismatches<>(
                 new TextOf("The sentence."),
                 "Text ending with \"!\"",

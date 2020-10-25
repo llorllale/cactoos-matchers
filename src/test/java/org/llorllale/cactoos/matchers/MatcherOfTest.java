@@ -78,10 +78,10 @@ public final class MatcherOfTest {
         new Assertion<>(
             "matches any arguments when constructed from a Proc",
             new MatcherOf<>(
-                    new FuncOf<>(String::trim, true),
-                    desc -> desc.appendText("Trimmed string"),
-                    (actual, desc) -> desc.appendValue(actual)
-                    ),
+                new FuncOf<>(String::trim, true),
+                desc -> desc.appendText("Trimmed string"),
+                (actual, desc) -> desc.appendValue(actual)
+            ),
             new Matches<>("a")
         ).affirm();
     }

@@ -53,9 +53,9 @@ public final class MatchesRegex extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String act) -> act.matches(regex.asString()),
-                        desc -> desc.appendText("match regex " + new Quoted(regex)),
-                        (actual, desc) -> desc.appendText("does " + new Quoted(actual) + " match " +
-                                new Quoted(regex))
+                        desc -> desc.appendText("match regex ").appendText(new Quoted(regex).asString()),
+                        (actual, desc) -> desc.appendText("does ").appendText(new Quoted(actual).asString())
+                                .appendText(" match ").appendText(new Quoted(regex).asString())
                 ),
                 "Text matches "
             )

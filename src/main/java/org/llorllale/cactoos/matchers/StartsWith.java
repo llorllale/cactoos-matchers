@@ -53,9 +53,9 @@ public final class StartsWith extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String act) -> act.startsWith(text.asString()),
-                        desc -> desc.appendText("starts with the word " + new Quoted(text)),
-                        (actual, desc) -> desc.appendText("does " + new Quoted(actual)+ " start with the word " +
-                                new Quoted(text))
+                        desc -> desc.appendText("starts with the word ").appendText(new Quoted(text).asString()),
+                        (actual, desc) -> desc.appendText("does ").appendText(new Quoted(actual).asString())
+                                .appendText(" start with the word ").appendText(new Quoted(text).asString())
                 ),
                 "Text starting with "
             )

@@ -53,9 +53,9 @@ public final class EndsWith extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String act) -> act.endsWith(text.asString()),
-                        desc -> desc.appendText("ends with the word " + new Quoted(text)),
-                        (actual, desc) -> desc.appendText("does " + new Quoted(actual)+ " end with the word " +
-                                new Quoted(text))
+                        desc -> desc.appendText("ends with the word ").appendText(new Quoted(text).asString()),
+                        (actual, desc) -> desc.appendText("does ").appendText(new Quoted(actual).asString())
+                                .appendText(" end with the word ").appendText(new Quoted(text).asString())
                 ),
                 "Text ending with "
             )
