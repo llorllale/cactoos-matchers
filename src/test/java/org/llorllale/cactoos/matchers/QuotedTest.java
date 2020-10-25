@@ -46,8 +46,8 @@ public class QuotedTest {
     public void convertsString() {
         new Assertion<>(
                 "Can't quote a string",
-                new Quoted("qwerty"),
-                new TextHasString("\"qwerty\"")
+                new Quoted("ytrewq"),
+                new TextHasString("\"ytrewq\"")
         ).affirm();
     }
 }

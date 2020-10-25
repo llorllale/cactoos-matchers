@@ -53,8 +53,10 @@ public final class TextHasString extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String actual) -> actual.contains(text.asString()),
-                        desc -> desc.appendText("contains ").appendText(new Quoted(text).asString()),
-                        (actual, desc) -> desc.appendText("does").appendText(new Quoted(actual).asString())
+                        desc -> desc.appendText("contains ")
+                                .appendText(new Quoted(text).asString()),
+                        (actual, desc) -> desc.appendText("does")
+                                .appendText(new Quoted(actual).asString())
                                 .appendText(" contain ").appendText(new Quoted(text).asString())
                 ),
                 "Text with "

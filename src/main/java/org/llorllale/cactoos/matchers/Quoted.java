@@ -1,4 +1,3 @@
-package org.llorllale.cactoos.matchers;
 /*
  * The MIT License (MIT)
  *
@@ -25,6 +24,8 @@ package org.llorllale.cactoos.matchers;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package org.llorllale.cactoos.matchers;
+
 import org.cactoos.Text;
 import org.cactoos.text.TextEnvelope;
 import org.cactoos.text.TextOf;
@@ -41,7 +42,7 @@ public class Quoted extends TextEnvelope {
      * Ctor.
      * @param string String
      */
-    public Quoted(final String string){
+    public Quoted(final String string) {
         this(new TextOf(string));
     }
 

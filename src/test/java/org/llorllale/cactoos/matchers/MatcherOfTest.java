@@ -26,11 +26,8 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Proc;
 import org.cactoos.func.FuncOf;
 import org.cactoos.text.Joined;
-import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
 import org.junit.Test;
 
 /**
