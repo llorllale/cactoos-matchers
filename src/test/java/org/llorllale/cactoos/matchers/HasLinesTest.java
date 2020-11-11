@@ -27,7 +27,6 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.junit.Test;
 
@@ -74,12 +73,8 @@ public final class HasLinesTest {
             new HasLines("Tom", "Mike"),
             new Mismatches<>(
                 String.format("Tom%nJohn%n"),
-                new Joined(
-                    "\n",
-                    "",
-                    "Expected: Lines are <[Tom, Mike]>",
-                    " but was: <[Tom, John]>"
-                )
+                "Lines are <[Tom, Mike]>",
+                "<[Tom, John]>"
             )
         ).affirm();
     }
