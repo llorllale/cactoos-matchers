@@ -100,7 +100,7 @@ public final class Mismatches<X, M extends Matcher<X>> extends
         this(
             args,
             new Joined(
-                new TextOf("\n"),
+                new TextOf(System.lineSeparator()),
                 new TextOf(""),
                 new Joined(new TextOf(""), new TextOf("Expected: "), expected),
                 new Joined(new TextOf(""), new TextOf(" but was: "), actual)
