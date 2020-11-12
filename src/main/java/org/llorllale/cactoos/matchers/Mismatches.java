@@ -27,6 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
+import org.cactoos.text.FormattedText;
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.cactoos.text.UncheckedText;
@@ -100,7 +101,7 @@ public final class Mismatches<X, M extends Matcher<X>> extends
         this(
             args,
             new Joined(
-                new TextOf(System.lineSeparator()),
+                new FormattedText("%n"),
                 new TextOf(""),
                 new Joined(new TextOf(""), new TextOf("Expected: "), expected),
                 new Joined(new TextOf(""), new TextOf(" but was: "), actual)
