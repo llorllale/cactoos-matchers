@@ -26,6 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.Comparator;
 import org.cactoos.BiProc;
 import org.cactoos.Func;
 import org.cactoos.Proc;
@@ -63,8 +64,8 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
     private final Proc<Description> description;
 
     /**
-     * Generates a description for situation when an actual
-     * object does not match to the expected one.
+     * Generates a description for situation when an actual object does not
+     * match to the expected one.
      */
     private final BiProc<T, Description> mismatch;
 
@@ -103,8 +104,8 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
      * Ctor.
      * @param match Matches an actual object with expected one
      * @param description Generates a description of the object
-     * @param mismatch Generates a description for situation when an
-     *  actual object does not match to the expected one
+     * @param mismatch Generates a description for situation when an actual
+     *  object does not match to the expected one
      */
     public MatcherOf(
         final Func<T, Boolean> match,
@@ -114,6 +115,27 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
         this.match = match;
         this.description = description;
         this.mismatch = mismatch;
+    }
+
+    /**
+     * Ctor.
+     * @param expected Expected value.
+     * @param comp Comparator.
+     */
+    public MatcherOf(final T expected, final Comparator<? super T> comp) {
+        this(
+            (T x) -> comp.compare(x, expected) == 0,
+            (Description desc) -> desc
+                .appendText("equals ")
+                .appendValue(expected),
+            (T actual, Description desc) -> desc
+                .appendText("comparator returns ")
+                .appendValue(comp.compare(actual, expected))
+                .appendText(" when ")
+                .appendValue(expected)
+                .appendText(" compared to ")
+                .appendValue(actual)
+        );
     }
 
     @Override

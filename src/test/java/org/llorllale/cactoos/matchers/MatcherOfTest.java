@@ -26,6 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.Comparator;
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.junit.Test;
@@ -92,4 +93,33 @@ public final class MatcherOfTest {
             )
         ).affirm();
     }
+
+    @Test
+    public void matchesByComparator() {
+        new Assertion<>(
+            "matches when comparator returns 0",
+            new MatcherOf<>(
+                10,
+                Comparator.comparingInt(x -> Math.abs(x.intValue()))
+            ),
+            new Matches<>(-10)
+       ).affirm();
+    }
+
+    @Test
+    public void mismatchesByComparator() {
+        new Assertion<>(
+            "mismatches when arg does not satisfy comparator",
+            new MatcherOf<>(
+                123,
+                Comparator.comparingInt(x -> Math.abs(x.intValue()))
+            ),
+            new Mismatches<>(
+                1234,
+                "equals <123>",
+                "comparator returns <1> when <123> compared to <1234>"
+            )
+        ).affirm();
+    }
+
 }
