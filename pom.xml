@@ -71,7 +71,7 @@
     <dependency>
       <groupId>org.cactoos</groupId>
       <artifactId>cactoos</artifactId>
-      <version>0.45</version>
+      <version>0.48</version>
     </dependency>
     <!--
      @todo #162:30min Migrate existing tests to JUnit 5. It mainly means
@@ -198,6 +198,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.5</version>
         <configuration>
           <output>file</output>
           <outputDirectory>${project.build.directory}/coverage</outputDirectory>

@@ -26,7 +26,6 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.cactoos.Scalar;
 import org.cactoos.text.Joined;
@@ -59,10 +58,10 @@ public final class AssertionTest {
      * Assertion must be refuted if the operation being tested does not
      * match.
      *
-     * @throws IOException if something goes wrong.
+     * @throws Exception if something goes wrong.
      */
     @Test
-    public void refuteIfResultDoesNotMatch() throws IOException {
+    public void refuteIfResultDoesNotMatch() throws Exception {
         Assertions.assertThrows(
             AssertionError.class,
             () -> new Assertion<>(
