@@ -30,18 +30,18 @@ import org.cactoos.scalar.MaxOf;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test case for {@link IsNumber}.
+ * Test case for {@link NumberIs}.
  *
  * @since 1.0.0
  * @checkstyle MagicNumberCheck (500 lines)
  */
-final class IsNumberTest {
+final class NumberIsTest {
 
     @Test
     void matchesDouble() {
         new Assertion<>(
             "must match a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
+            new NumberIs(Double.POSITIVE_INFINITY),
             new Matches<>(Double.POSITIVE_INFINITY)
         ).affirm();
     }
@@ -50,7 +50,7 @@ final class IsNumberTest {
     void mismatchesDouble() {
         new Assertion<>(
             "must mismatch a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
+            new NumberIs(Double.POSITIVE_INFINITY),
             new Mismatches<>(
                 1234,
                 "equals <Infinity>",
@@ -63,7 +63,7 @@ final class IsNumberTest {
     void matchesFloat() {
         new Assertion<>(
             "must match a integer",
-            new IsNumber(10f),
+            new NumberIs(10f),
             new Matches<>(10f)
         ).affirm();
     }
@@ -72,7 +72,7 @@ final class IsNumberTest {
     void matchesLong() {
         new Assertion<>(
             "must match a long",
-            new IsNumber(10L),
+            new NumberIs(10L),
             new Matches<>(10L)
         ).affirm();
     }
@@ -81,7 +81,7 @@ final class IsNumberTest {
     void matchesInteger() {
         new Assertion<>(
             "must match an integer",
-            new IsNumber(10),
+            new NumberIs(10),
             new Matches<>(10)
         ).affirm();
     }
@@ -90,7 +90,7 @@ final class IsNumberTest {
     void matchesNumber() {
         new Assertion<>(
             "must match max value via integer",
-            new IsNumber(12),
+            new NumberIs(12),
             new Matches<>(new MaxOf(12L, 11L))
         ).affirm();
     }
