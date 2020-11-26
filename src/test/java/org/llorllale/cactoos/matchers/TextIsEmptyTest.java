@@ -27,7 +27,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -47,38 +46,28 @@ final class TextIsEmptyTest {
     }
 
     @Test
-    void noMatch() {
+    void noMatchText() {
         new Assertion<>(
             "must not match text that is not empty",
             new TextIsEmpty(),
-            new IsNot<>(new Matches<>(new TextOf("abc")))
+            new Mismatches<>(
+                new TextOf("abc"),
+                "is empty text",
+                "<abc>"
+            )
         ).affirm();
     }
 
-//    @Test
-//    void noMatchBlankText() {
-//        new Assertion<>(
-//            "must not match text that is not empty",
-//            new TextIsEmpty(),
-//            new Mismatches<>(
-//                new TextOf(" "),
-//                "empty text",
-//                " "
-//            )
-//        ).affirm();
-//    }
-//
-//    @Test
-//    void noMatchMsg() {
-//        new Assertion<>(
-//            "must not match text that is not empty",
-//            new TextIsEmpty(),
-//            new Mismatches<>(
-//                new TextOf("text"),
-//                "empty text",
-//                "\"text\""
-//            )
-//        ).affirm();
-//    }
-
+    @Test
+    void noMatchBlankText() {
+        new Assertion<>(
+            "must not match text that is not empty",
+            new TextIsEmpty(),
+            new Mismatches<>(
+                new TextOf(" "),
+                "is empty text",
+                "< >"
+            )
+        ).affirm();
+    }
 }
