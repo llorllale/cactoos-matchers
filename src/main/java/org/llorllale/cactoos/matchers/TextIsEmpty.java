@@ -27,6 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
+import org.cactoos.text.TextOf;
 
 /**
  * Matches if a text <em>isEmpty</em>.
@@ -40,12 +41,13 @@ public final class TextIsEmpty extends MatcherEnvelope<Text> {
      */
     public TextIsEmpty() {
         super(
-            new MatcherOf<>(
-                text -> text.asString().isEmpty(),
-                desc -> desc.appendText("is empty text"),
-                (text, desc) -> desc.appendValue(text)
-            )
+            new TextMatcher(
+                new MatcherOf<>(
+                    (String text) -> text.isEmpty(),
+                    new TextOf("empty text")
+                ),
+                ""
+           )
         );
     }
-
 }
