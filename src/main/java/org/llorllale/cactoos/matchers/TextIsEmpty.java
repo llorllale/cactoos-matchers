@@ -44,7 +44,7 @@ public final class TextIsEmpty extends MatcherEnvelope<Text> {
             new TextMatcher(
                 new MatcherOf<>(
                     (String text) -> text.isEmpty(),
-                    new TextOf("empty text")
+                    new TextOf("is empty")
                 ),
                 ""
            )

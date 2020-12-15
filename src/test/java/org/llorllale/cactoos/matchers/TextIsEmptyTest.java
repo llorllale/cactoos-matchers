@@ -52,7 +52,7 @@ final class TextIsEmptyTest {
             new TextIsEmpty(),
             new Mismatches<>(
                 new TextOf("abc"),
-                "\"empty text\"",
+                "\"is empty\"",
                 "Text is \"abc\""
             )
         ).affirm();
@@ -65,7 +65,7 @@ final class TextIsEmptyTest {
             new TextIsEmpty(),
             new Mismatches<>(
                 new TextOf(" "),
-                "\"empty text\"",
+                "\"is empty\"",
                 "Text is \" \""
             )
         ).affirm();
