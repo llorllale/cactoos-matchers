@@ -27,7 +27,11 @@
 
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.Text;
 import org.cactoos.text.TextOf;
+import org.hamcrest.Description;
+import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -53,6 +57,25 @@ final class MismatchesTest {
         ).affirm();
     }
 
+    /**
+     * Matcher prints the actual value(s) properly.
+     */
+    @Test
+    void describeActual() {
+        final Description description = new StringDescription();
+        new Mismatches<Text, IsText>(
+            new TextOf("e"),
+            new TextOf("Mismatches <a> with message <e>")
+        ).matchesSafely(
+            new IsText("e"), description
+        );
+        new Assertion<>(
+            "describes the matcher",
+            description.toString(),
+            new IsEqual<>("Expected: Text with value \"e\" but was: Text is \"e\"")
+        ).affirm();
+    }
+
     @Test
     void matches() {
         new Assertion<>(
@@ -61,7 +84,7 @@ final class MismatchesTest {
             new Mismatches<>(
                 new IsText("a"),
                 "Mismatches <a> with message <expected>",
-                ""
+                "Expected: Text with value \"a\" but was: Text is \"a\""
            )
         ).affirm();
     }

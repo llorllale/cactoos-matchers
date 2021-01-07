@@ -64,6 +64,16 @@ public final class Mismatches<X, M extends Matcher<X>> extends
     TypeSafeDiagnosingMatcher<M> {
 
     /**
+     * Expected key word.
+     */
+    private static final String EXPECTED = "Expected: ";
+
+    /**
+     * But was key word.
+     */
+    private static final String BUT_WAS = " but was: ";
+
+    /**
      * The testing arguments for the target matcher.
      */
     private final X args;
@@ -103,8 +113,8 @@ public final class Mismatches<X, M extends Matcher<X>> extends
             new Joined(
                 new FormattedText("%n"),
                 new TextOf(""),
-                new Joined(new TextOf(""), new TextOf("Expected: "), expected),
-                new Joined(new TextOf(""), new TextOf(" but was: "), actual)
+                new Joined(new TextOf(""), new TextOf(Mismatches.EXPECTED), expected),
+                new Joined(new TextOf(""), new TextOf(Mismatches.BUT_WAS), actual)
             )
         );
     }
@@ -128,19 +138,23 @@ public final class Mismatches<X, M extends Matcher<X>> extends
             .appendValue(this.message);
     }
 
-    // @todo #106:30min Add a description in case the mismatch fails.
-    //  And then introduce some tests to validate that the description
-    //  is properly constructed.
     @Override
     protected boolean matchesSafely(final M matcher, final Description dsc) {
         boolean mismatch;
         try {
             new Assertion<>("", this.args, matcher).affirm();
             mismatch = false;
+            dsc.appendText(Mismatches.EXPECTED);
+            matcher.describeTo(dsc);
+            dsc.appendText(Mismatches.BUT_WAS);
+            matcher.describeMismatch(this.args, dsc);
         } catch (final AssertionError err) {
             mismatch = err.getMessage().equals(
                 new UncheckedText(this.message).asString()
             );
+            if (!mismatch) {
+                dsc.appendText(err.getMessage());
+            }
         }
         return mismatch;
     }
