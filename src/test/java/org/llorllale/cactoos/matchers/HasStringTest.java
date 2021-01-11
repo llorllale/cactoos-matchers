@@ -31,20 +31,20 @@ import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
- * Test case for {@link TextHasString}.
+ * Test case for {@link HasString}.
  *
  * @since 0.29
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TextHasStringTest {
+public final class HasStringTest {
 
     @Test
     public void matchesPrefix() {
         new Assertion<>(
             "matches prefix",
-            new TextHasString("123"),
+            new HasString("123"),
             new Matches<>(new TextOf("12345"))
         ).affirm();
     }
@@ -53,7 +53,7 @@ public final class TextHasStringTest {
     public void matchesSuffix() {
         new Assertion<>(
             "matches suffix",
-            new TextHasString("345"),
+            new HasString("345"),
             new Matches<>(new TextOf("12345"))
         ).affirm();
     }
@@ -62,7 +62,7 @@ public final class TextHasStringTest {
     public void matchesInTheMiddle() {
         new Assertion<>(
             "matches substring",
-            new TextHasString("234"),
+            new HasString("234"),
             new Matches<>(new TextOf("12345"))
         ).affirm();
     }
@@ -71,7 +71,7 @@ public final class TextHasStringTest {
     public void mismatch() {
         new Assertion<>(
             "does not match text not containing the given string",
-            new TextHasString("xyz"),
+            new HasString("xyz"),
             new IsNot<>(new Matches<>(new TextOf("abc")))
         ).affirm();
     }
@@ -80,7 +80,7 @@ public final class TextHasStringTest {
     public void describesMismatch() {
         new Assertion<>(
             "describes mismatch correctly",
-            new TextHasString("xyz456"),
+            new HasString("xyz456"),
             new Mismatches<>(
                 new TextOf("abc123"),
                 "Text with \"xyz456\"",

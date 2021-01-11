@@ -34,13 +34,13 @@ import org.cactoos.text.TextOf;
  *
  * @since 0.2
  */
-public final class TextHasString extends MatcherEnvelope<Text> {
+public final class HasString extends MatcherEnvelope<Text> {
 
     /**
      * Ctor.
      * @param text The text to match against
      */
-    public TextHasString(final String text) {
+    public HasString(final String text) {
         this(new TextOf(text));
     }
 
@@ -48,7 +48,7 @@ public final class TextHasString extends MatcherEnvelope<Text> {
      * Ctor.
      * @param text The text to match against
      */
-    public TextHasString(final Text text) {
+    public HasString(final Text text) {
         super(
             new TextMatcher(
                 new MatcherOf<>(
