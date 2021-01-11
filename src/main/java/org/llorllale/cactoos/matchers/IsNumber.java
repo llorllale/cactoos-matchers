@@ -33,13 +33,13 @@ import java.util.Comparator;
  *
  * @since 1.0.0
  */
-public final class NumberIs extends MatcherEnvelope<Number> {
+public final class IsNumber extends MatcherEnvelope<Number> {
 
     /**
      * Ctor.
      * @param expected The expected value
      */
-    public NumberIs(final Number expected) {
+    public IsNumber(final Number expected) {
         super(
             new MatcherOf<>(
                 expected,
