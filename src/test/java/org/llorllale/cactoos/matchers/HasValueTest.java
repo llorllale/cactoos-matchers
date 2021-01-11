@@ -24,39 +24,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Scalar;
-import org.hamcrest.Matcher;
+import org.cactoos.scalar.Constant;
+import org.cactoos.scalar.Unchecked;
 import org.hamcrest.core.IsEqual;
+import org.junit.Test;
 
 /**
- * Matcher for the value.
+ * Test case for {@link HasValue}.
  *
- * @param <T> Type of result
- * @since 0.2
+ * @since 1.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class ScalarHasValue<T> extends MatcherEnvelope<Scalar<T>> {
+public final class HasValueTest {
 
-    /**
-     * Ctor.
-     * @param value The value to match against
-     */
-    public ScalarHasValue(final T value) {
-        this(new IsEqual<>(value));
+    @Test
+    public void matchesWithExpectedString() {
+        final String expected = "some text";
+        new Assertion<>(
+            "Must match with expected string",
+            new Unchecked<>(() -> expected),
+            new HasValue<>(expected)
+        ).affirm();
     }
 
-    /**
-     * Ctor.
-     * @param mtr Matcher of the value
-     */
-    public ScalarHasValue(final Matcher<T> mtr) {
-        super(
-            new MatcherOf<>(
-                scalar -> mtr.matches(scalar.value()),
-                desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
-                (scalar, desc) -> mtr.describeMismatch(scalar.value(), desc)
+    @Test
+    public void matchesAsExpectedWithMatcher() {
+        final String expected = "text";
+        new Assertion<>(
+            "Must match a with the given Matcher",
+            new Unchecked<>(() -> expected),
+            new HasValue<>(new IsEqual<>(expected))
+        ).affirm();
+    }
+
+    @Test
+    public void hasMatcherDescriptionForFailedTest() {
+        new Assertion<>(
+            "correctly describes a mismatch",
+            new HasValue<>(new IsEqual<>("something")),
+            new Mismatches<>(
+                new Constant<>("something else"),
+                "Scalar with \"something\"",
+                "was \"something else\""
             )
-        );
+        ).affirm();
     }
 }

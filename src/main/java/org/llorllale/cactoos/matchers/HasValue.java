@@ -24,52 +24,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.Constant;
-import org.cactoos.scalar.Unchecked;
+import org.cactoos.Scalar;
+import org.hamcrest.Matcher;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
 
 /**
- * Test case for {@link ScalarHasValue}.
+ * Matcher for the value.
  *
- * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
+ * @param <T> Type of result
+ * @since 0.2
  */
-public final class ScalarHasValueTest {
+public final class HasValue<T> extends MatcherEnvelope<Scalar<T>> {
 
-    @Test
-    public void matchesWithExpectedString() {
-        final String expected = "some text";
-        new Assertion<>(
-            "Must match with expected string",
-            new Unchecked<>(() -> expected),
-            new ScalarHasValue<>(expected)
-        ).affirm();
+    /**
+     * Ctor.
+     * @param value The value to match against
+     */
+    public HasValue(final T value) {
+        this(new IsEqual<>(value));
     }
 
-    @Test
-    public void matchesAsExpectedWithMatcher() {
-        final String expected = "text";
-        new Assertion<>(
-            "Must match a with the given Matcher",
-            new Unchecked<>(() -> expected),
-            new ScalarHasValue<>(new IsEqual<>(expected))
-        ).affirm();
-    }
-
-    @Test
-    public void hasMatcherDescriptionForFailedTest() {
-        new Assertion<>(
-            "correctly describes a mismatch",
-            new ScalarHasValue<>(new IsEqual<>("something")),
-            new Mismatches<>(
-                new Constant<>("something else"),
-                "Scalar with \"something\"",
-                "was \"something else\""
+    /**
+     * Ctor.
+     * @param mtr Matcher of the value
+     */
+    public HasValue(final Matcher<T> mtr) {
+        super(
+            new MatcherOf<>(
+                scalar -> mtr.matches(scalar.value()),
+                desc -> desc.appendText("Scalar with ").appendDescriptionOf(mtr),
+                (scalar, desc) -> mtr.describeMismatch(scalar.value(), desc)
             )
-        ).affirm();
+        );
     }
 }

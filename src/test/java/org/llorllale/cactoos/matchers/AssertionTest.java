@@ -91,7 +91,7 @@ public final class AssertionTest {
                 () -> {
                     throw new IllegalStateException();
                 },
-                new ScalarHasValue<>("no match")
+                new HasValue<>("no match")
             ).affirm()
         );
     }

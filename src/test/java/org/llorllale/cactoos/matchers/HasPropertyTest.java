@@ -50,7 +50,7 @@ public final class HasPropertyTest {
     public void positiveMatch() {
         new Assertion<>(
             "must match 'a=1'",
-            new ScalarHasValue<>(new HasProperty("a", "1")),
+            new HasValue<>(new HasProperty("a", "1")),
             new Matches<>(new PropertiesOf("a=1"))
         ).affirm();
     }
@@ -62,7 +62,7 @@ public final class HasPropertyTest {
     public void positiveMachKey() {
         new Assertion<>(
             "must match 'b=...'",
-            new ScalarHasValue<>(new HasProperty("b")),
+            new HasValue<>(new HasProperty("b")),
             new Matches<>(new PropertiesOf("b=..."))
         ).affirm();
     }
@@ -74,14 +74,14 @@ public final class HasPropertyTest {
     public void positiveFuzzyMatch() {
         new Assertion<>(
             "must match 'f=q'",
-            new ScalarHasValue<>(
+            new HasValue<>(
                 new HasProperty(
                     new IsEqualIgnoringCase("F"),
                     new IsEqualIgnoringCase("Q")
                 )
             ),
             new AllOf<>(
-                new ListOf<Matcher<? super ScalarHasValue<Properties>>>(
+                new ListOf<Matcher<? super HasValue<Properties>>>(
                     new Matches<>(new PropertiesOf("F=q")),
                     new Matches<>(new PropertiesOf("f=Q")),
                     new Matches<>(new PropertiesOf("f=q"))
@@ -99,9 +99,9 @@ public final class HasPropertyTest {
             "Scalar with has property key \"abc\", value \"1\"";
         new Assertion<>(
             "must mismatches 'abc=2' & 'xyz=1'",
-            new ScalarHasValue<>(new HasProperty("abc", "1")),
+            new HasValue<>(new HasProperty("abc", "1")),
             new AllOf<>(
-                new ListOf<Matcher<? super ScalarHasValue<Properties>>>(
+                new ListOf<Matcher<? super HasValue<Properties>>>(
                     new Mismatches<>(
                         new PropertiesOf("abc=2"),
                         expected,
@@ -124,7 +124,7 @@ public final class HasPropertyTest {
     public void describesCorrectly() {
         new Assertion<>(
             "must have a message that describes the properties",
-            new ScalarHasValue<>(new HasProperty("c", "3")),
+            new HasValue<>(new HasProperty("c", "3")),
             new Mismatches<>(
                 new PropertiesOf("b=2"),
                 "Scalar with has property key \"c\", value \"3\"",
