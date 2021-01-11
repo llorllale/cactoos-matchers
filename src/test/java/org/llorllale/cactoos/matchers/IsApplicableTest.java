@@ -30,19 +30,19 @@ import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
- * Test case for {@link FuncApplies}.
+ * Test case for {@link IsApplicable}.
  *
  * @since 1.0
  * @checkstyle JavadocMethodCheck (100 lines)
  * @checkstyle MagicNumber (100 line)
  */
-public final class FuncAppliesTest {
+public final class IsApplicableTest {
 
     @Test
     public void matchFuncs() {
         new Assertion<>(
             "matches function that produces same output from the given input",
-            new FuncApplies<>(1, 1),
+            new IsApplicable<>(1, 1),
             new Matches<>(x -> x)
         ).affirm();
     }
@@ -52,7 +52,7 @@ public final class FuncAppliesTest {
         new Assertion<>(
             // @checkstyle LineLength (1 line)
             "does not match function that produces different output from the given input",
-            new FuncApplies<>(1, 1),
+            new IsApplicable<>(1, 1),
             new IsNot<>(new Matches<>(x -> 3 * x))
         ).affirm();
     }
@@ -61,7 +61,7 @@ public final class FuncAppliesTest {
     public void describesMismatch() {
         new Assertion<>(
             "describes mismatch",
-            new FuncApplies<>(1, 1),
+            new IsApplicable<>(1, 1),
             new Mismatches<>(
                 x -> 3 * x,
                 "Func with <1>",
