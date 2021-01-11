@@ -45,7 +45,7 @@ public final class MismatchesTest {
     public void mismatches() {
         new Assertion<>(
             "Must mismatch properly",
-            new TextIs("abc"),
+            new IsText("abc"),
             new Mismatches<>(
                 new TextOf("def"),
                 "Text with value \"abc\"",
@@ -60,7 +60,7 @@ public final class MismatchesTest {
             "Must fail to mismatch",
             new Mismatches<>(new TextOf("a"), new TextOf("expected")),
             new Mismatches<>(
-                new TextIs("a"),
+                new IsText("a"),
                 "Mismatches <a> with message <expected>",
                 ""
            )

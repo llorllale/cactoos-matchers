@@ -51,7 +51,7 @@ public final class MatchesBeforeTest {
             new TextOf(val),
             new MatchesBefore<>(
                 1000,
-                new TextIs(val)
+                new IsText(val)
             )
         ).affirm();
     }
@@ -60,7 +60,7 @@ public final class MatchesBeforeTest {
     public void mismatchesFromMatcher() {
         new Assertion<>(
             "must fail because of matcher",
-            new MatchesBefore<>(1000, new TextIs("a")),
+            new MatchesBefore<>(1000, new IsText("a")),
             new Mismatches<>(
                 new TextOf("b"),
                 "Text with value \"a\" runs in less than <1000L> milliseconds",
@@ -74,7 +74,7 @@ public final class MatchesBeforeTest {
         final String val = "c";
         new Assertion<>(
             "must fail because of timeout",
-            new MatchesBefore<>(10, new TextIs(val)),
+            new MatchesBefore<>(10, new IsText(val)),
             new Mismatches<>(
                 () -> {
                     Thread.sleep(1000);
@@ -91,7 +91,7 @@ public final class MatchesBeforeTest {
         final String val = "c";
         new Assertion<>(
             "description must contain exception happened inside Text",
-            new MatchesBefore<>(20, new TextIs(val)),
+            new MatchesBefore<>(20, new IsText(val)),
             new Mismatches<>(
                 () -> {
                     throw new UnsupportedOperationException();

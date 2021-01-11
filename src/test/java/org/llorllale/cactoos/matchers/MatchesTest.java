@@ -49,7 +49,7 @@ public final class MatchesTest {
     public void matches() {
         new Assertion<>(
             "Matcher TextIs(abc) gives positive result for Text(abc)",
-            new TextIs("abc"),
+            new IsText("abc"),
             new Matches<>(new TextOf("abc"))
         ).affirm();
     }
@@ -61,7 +61,7 @@ public final class MatchesTest {
     public void matchStatus() {
         new Assertion<>(
             "Matcher TextIs(abc) gives negative result for Text(def)",
-            new Matches<>(new TextOf("def")).matches(new TextIs("abc")),
+            new Matches<>(new TextOf("def")).matches(new IsText("abc")),
             new IsEqual<>(false)
         ).affirm();
     }
@@ -72,8 +72,8 @@ public final class MatchesTest {
     @Test
     public void describeActual() {
         final Description description = new StringDescription();
-        new Matches<Text, TextIs>(new TextOf("expected")).matchesSafely(
-            new TextIs("actual"), description
+        new Matches<Text, IsText>(new TextOf("expected")).matchesSafely(
+            new IsText("actual"), description
         );
         new Assertion<>(
             "describes the matcher",

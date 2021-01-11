@@ -50,7 +50,7 @@ public final class AssertionTest {
         new Assertion<>(
             "must affirm the assertion if the test's result is as expected",
             new TextOf(expected),
-            new TextIs(expected)
+            new IsText(expected)
         ).affirm();
     }
 
@@ -67,7 +67,7 @@ public final class AssertionTest {
             () -> new Assertion<>(
                 "must refute the assertion if the test's result is not as expected",
                 new TextOf("test"),
-                new TextIs("no match")
+                new IsText("no match")
             ).affirm(),
             new Joined(
                 System.lineSeparator(),

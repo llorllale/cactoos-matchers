@@ -31,18 +31,18 @@ import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
- * Tests for {@link TextIs}.
+ * Tests for {@link IsText}.
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class TextIsTest {
+public final class IsTextTest {
 
     @Test
     public void match() {
         final String input = "abcde";
         new Assertion<>(
             "must match identical text",
-            new TextIs(input),
+            new IsText(input),
             new Matches<>(new TextOf(input))
         ).affirm();
     }
@@ -51,7 +51,7 @@ public final class TextIsTest {
     public void noMatch() {
         new Assertion<>(
             "must not match text that is not identical",
-            new TextIs("xyz"),
+            new IsText("xyz"),
             new IsNot<>(new Matches<>(new TextOf("abcd")))
         ).affirm();
     }

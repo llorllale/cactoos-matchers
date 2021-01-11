@@ -80,7 +80,7 @@ public final class HasSizeTest {
         new Assertion<>(
             "describes mismatch",
             new TextOf(description.toString()),
-            new TextIs(
+            new IsText(
                 new UncheckedText(
                     new FormattedText("has size <%d>", 0)
                 ).asString()
