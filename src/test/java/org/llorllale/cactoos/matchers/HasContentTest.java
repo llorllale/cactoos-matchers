@@ -34,20 +34,20 @@ import org.hamcrest.core.IsNot;
 import org.junit.Test;
 
 /**
- * Test case for {@link InputHasContent}.
+ * Test case for {@link HasContent}.
  *
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class InputHasContentTest {
+public final class HasContentTest {
 
     @Test
     public void matchesInputContent() {
         final String text = "Hello World!";
         new Assertion<>(
             "matches input with equal contents",
-            new InputHasContent(text),
+            new HasContent(text),
             new Matches<>(new InputOf(text))
         ).affirm();
     }
@@ -56,7 +56,7 @@ public final class InputHasContentTest {
     public void mismatchInputContent() {
         new Assertion<>(
             "does not match input with different contents",
-            new InputHasContent("hello"),
+            new HasContent("hello"),
             new IsNot<>(new Matches<>(new InputOf("world")))
         ).affirm();
     }
@@ -64,7 +64,7 @@ public final class InputHasContentTest {
     @Test
     public void describesMismatch() {
         final Description description = new StringDescription();
-        new InputHasContent("world").describeMismatchSafely(
+        new HasContent("world").describeMismatchSafely(
             new InputOf("hello"), description
         );
         new Assertion<>(
@@ -77,7 +77,7 @@ public final class InputHasContentTest {
     @Test
     public void describesExpectedValues() {
         final Description description = new StringDescription();
-        new InputHasContent("world").describeTo(description);
+        new HasContent("world").describeTo(description);
         new Assertion<>(
             "includes the specified contents when describing itself",
             description.toString(),

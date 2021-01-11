@@ -41,13 +41,13 @@ import org.hamcrest.Matcher;
  *  See ScalarHasValueTest for an example of a satisfactory result.
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class InputHasContent extends MatcherEnvelope<Input> {
+public final class HasContent extends MatcherEnvelope<Input> {
 
     /**
      * Ctor.
      * @param text The text to match against
      */
-    public InputHasContent(final String text) {
+    public HasContent(final String text) {
         this(new TextOf(text));
     }
 
@@ -55,7 +55,7 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      * Ctor.
      * @param text The text to match against
      */
-    public InputHasContent(final Text text) {
+    public HasContent(final Text text) {
         this(
             new MatcherOf<>(
                 (String input) -> text.asString().equals(input), text
@@ -67,7 +67,7 @@ public final class InputHasContent extends MatcherEnvelope<Input> {
      * Ctor.
      * @param mtr Matcher of the text
      */
-    public InputHasContent(final Matcher<String> mtr) {
+    public HasContent(final Matcher<String> mtr) {
         super(
             new MatcherOf<>(
                 input -> mtr.matches(new TextOf(input).asString()),
