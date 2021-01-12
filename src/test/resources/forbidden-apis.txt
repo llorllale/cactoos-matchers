@@ -1,8 +1,7 @@
 @defaultMessage Do not use static methods
 org.hamcrest.Matchers
 
-@defaultMessage Please do not use org.junit.Assert class. Use org.llorllale.cactoos.matchers.Assertion instead.
-org.junit.Assert
+@defaultMessage Please do not use org.junit.jupiter.api.Assertions class. Use org.llorllale.cactoos.matchers.Assertion instead.
 org.junit.jupiter.api.Assertions
 
 @defaultMessage Please do not use org.hamcrest.MatcherAssert class. Use org.llorllale.cactoos.matchers.Assertion instead.
