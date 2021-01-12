@@ -28,7 +28,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link TextHasString}.
@@ -38,10 +38,10 @@ import org.junit.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class TextHasStringTest {
+final class TextHasStringTest {
 
     @Test
-    public void matchesPrefix() {
+    void matchesPrefix() {
         new Assertion<>(
             "matches prefix",
             new TextHasString("123"),
@@ -50,7 +50,7 @@ public final class TextHasStringTest {
     }
 
     @Test
-    public void matchesSuffix() {
+    void matchesSuffix() {
         new Assertion<>(
             "matches suffix",
             new TextHasString("345"),
@@ -59,7 +59,7 @@ public final class TextHasStringTest {
     }
 
     @Test
-    public void matchesInTheMiddle() {
+    void matchesInTheMiddle() {
         new Assertion<>(
             "matches substring",
             new TextHasString("234"),
@@ -68,7 +68,7 @@ public final class TextHasStringTest {
     }
 
     @Test
-    public void mismatch() {
+    void mismatch() {
         new Assertion<>(
             "does not match text not containing the given string",
             new TextHasString("xyz"),
@@ -77,7 +77,7 @@ public final class TextHasStringTest {
     }
 
     @Test
-    public void describesMismatch() {
+    void describesMismatch() {
         new Assertion<>(
             "describes mismatch correctly",
             new TextHasString("xyz456"),

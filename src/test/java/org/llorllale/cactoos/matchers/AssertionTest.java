@@ -31,8 +31,8 @@ import org.cactoos.Scalar;
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Assertion}.
@@ -40,12 +40,12 @@ import org.junit.jupiter.api.Assertions;
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class AssertionTest {
+final class AssertionTest {
     /**
      * Assertion can be affirmed if the operation being tested matches.
      */
     @Test
-    public void affirmIfResultMatches() {
+    void affirmIfResultMatches() {
         final String expected = "abc123";
         new Assertion<>(
             "must affirm the assertion if the test's result is as expected",
@@ -61,7 +61,7 @@ public final class AssertionTest {
      * @throws Exception if something goes wrong.
      */
     @Test
-    public void refuteIfResultDoesNotMatch() throws Exception {
+    void refuteIfResultDoesNotMatch() throws Exception {
         Assertions.assertThrows(
             AssertionError.class,
             () -> new Assertion<>(
@@ -83,7 +83,7 @@ public final class AssertionTest {
      * unexpected error.
      */
     @Test
-    public void refuteIfErrorDoesNotMatch() {
+    void refuteIfErrorDoesNotMatch() {
         Assertions.assertThrows(
             IllegalStateException.class,
             () -> new Assertion<Scalar<String>>(
@@ -101,7 +101,7 @@ public final class AssertionTest {
      * expected error.
      */
     @Test
-    public void affirmIfErrorMatches() {
+    void affirmIfErrorMatches() {
         new Assertion<>(
             "must affirm the assertion if the test throws the expected error",
             () -> {
@@ -115,7 +115,7 @@ public final class AssertionTest {
      * The scalar within Assertion executed is only once.
      */
     @Test
-    public void scalarIsExecutedOnce() {
+    void scalarIsExecutedOnce() {
         final AtomicInteger quantity = new AtomicInteger(0);
         new Assertion<>(
             "must match the exception",

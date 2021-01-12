@@ -28,17 +28,17 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link TextIs}.
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class TextIsTest {
+final class TextIsTest {
 
     @Test
-    public void match() {
+    void match() {
         final String input = "abcde";
         new Assertion<>(
             "must match identical text",
@@ -48,7 +48,7 @@ public final class TextIsTest {
     }
 
     @Test
-    public void noMatch() {
+    void noMatch() {
         new Assertion<>(
             "must not match text that is not identical",
             new TextIs("xyz"),

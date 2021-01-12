@@ -35,7 +35,7 @@ import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link HasSize}.
@@ -44,10 +44,10 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCoupling (2 lines)
  */
-public final class HasSizeTest {
+final class HasSizeTest {
 
     @Test
-    public void matchesIterableSize() {
+    void matchesIterableSize() {
         new Assertion<>(
             "matches iterable with given size",
             new HasSize(2),
@@ -56,7 +56,7 @@ public final class HasSizeTest {
     }
 
     @Test
-    public void doesNotMatchIterableSize() {
+    void doesNotMatchIterableSize() {
         new Assertion<>(
             "does not match an iterable with a different size",
             new IsNot<>(new HasSize(2)),
@@ -65,7 +65,7 @@ public final class HasSizeTest {
     }
 
     @Test
-    public void matchesEmptyCollection() {
+    void matchesEmptyCollection() {
         new Assertion<>(
             "matches empty iterable if given size arg is 0",
             new HasSize(0),
@@ -74,7 +74,7 @@ public final class HasSizeTest {
     }
 
     @Test
-    public void describesMismatch() {
+    void describesMismatch() {
         final Description description = new StringDescription();
         new HasSize(2).describeMismatchSafely(new ListOf<>(), description);
         new Assertion<>(

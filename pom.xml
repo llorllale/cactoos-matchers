@@ -73,23 +73,6 @@
       <artifactId>cactoos</artifactId>
       <version>0.48</version>
     </dependency>
-    <!--
-     @todo #162:30min Migrate existing tests to JUnit 5. It mainly means
-      changing the imports and move from Ignore to Disabled annotation as
-      well as replace rules with corresponding annotations. Once this is done
-      remove the dependency for junit 4 and junit-vintage-engine below.
-    -->
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-core</artifactId>

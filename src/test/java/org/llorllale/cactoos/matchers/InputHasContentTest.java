@@ -31,7 +31,7 @@ import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link InputHasContent}.
@@ -40,10 +40,10 @@ import org.junit.Test;
  * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class InputHasContentTest {
+final class InputHasContentTest {
 
     @Test
-    public void matchesInputContent() {
+    void matchesInputContent() {
         final String text = "Hello World!";
         new Assertion<>(
             "matches input with equal contents",
@@ -53,7 +53,7 @@ public final class InputHasContentTest {
     }
 
     @Test
-    public void mismatchInputContent() {
+    void mismatchInputContent() {
         new Assertion<>(
             "does not match input with different contents",
             new InputHasContent("hello"),
@@ -62,7 +62,7 @@ public final class InputHasContentTest {
     }
 
     @Test
-    public void describesMismatch() {
+    void describesMismatch() {
         final Description description = new StringDescription();
         new InputHasContent("world").describeMismatchSafely(
             new InputOf("hello"), description
@@ -75,7 +75,7 @@ public final class InputHasContentTest {
     }
 
     @Test
-    public void describesExpectedValues() {
+    void describesExpectedValues() {
         final Description description = new StringDescription();
         new InputHasContent("world").describeTo(description);
         new Assertion<>(

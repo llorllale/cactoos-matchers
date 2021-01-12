@@ -28,20 +28,20 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link HasLines}.
  *
  * @since 1.0.0
  */
-public final class HasLinesTest {
+final class HasLinesTest {
 
     /**
      * Example of {@link HasLines} behavior for positive results.
      */
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "matches lines containing the given strings",
             new HasLines("A", "C"),
@@ -53,7 +53,7 @@ public final class HasLinesTest {
      * Example of {@link HasLines} behavior for positive results.
      */
     @Test
-    public void matchesWithText() {
+    void matchesWithText() {
         new Assertion<>(
             "matches lines containing the given Text",
             new HasLines(new TextOf("A"), new TextOf("D")),
@@ -67,7 +67,7 @@ public final class HasLinesTest {
      *  - The matcher should explain the mismatch between comparing objects.
      */
     @Test
-    public void failed() {
+    void failed() {
         new Assertion<>(
             "must not match lines that do not contain the given strings",
             new HasLines("Tom", "Mike"),
