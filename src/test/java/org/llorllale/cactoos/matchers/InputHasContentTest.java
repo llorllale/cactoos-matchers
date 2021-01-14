@@ -37,7 +37,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link InputHasContent}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class InputHasContentTest {

@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link IsBlank}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class IsBlankTest {

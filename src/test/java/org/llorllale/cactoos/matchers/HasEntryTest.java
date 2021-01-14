@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link HasEntry}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (200 lines)
  */
 @SuppressWarnings("unchecked")
 final class HasEntryTest {

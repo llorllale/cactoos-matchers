@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
  * Tests for {@link TextMatcher}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle JavadocTypeCheck (500 lines)
  */
 final class TextMatcherTest {

@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link Mismatches}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 final class MismatchesTest {
 

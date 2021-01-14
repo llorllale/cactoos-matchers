@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MatcherOf}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */

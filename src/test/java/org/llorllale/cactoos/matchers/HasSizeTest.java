@@ -41,7 +41,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link HasSize}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCoupling (2 lines)
  */
 final class HasSizeTest {

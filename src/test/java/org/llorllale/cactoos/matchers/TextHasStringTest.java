@@ -34,7 +34,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link TextHasString}.
  *
  * @since 0.29
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")

@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
 /**
  * Tests for {@link TextIs}.
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 final class TextIsTest {
 

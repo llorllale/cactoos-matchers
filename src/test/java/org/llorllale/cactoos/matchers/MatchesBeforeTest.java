@@ -35,7 +35,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link MatchesBefore}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 line)
  */
 final class MatchesBeforeTest {

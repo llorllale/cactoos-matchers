@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link FuncApplies}.
  *
  * @since 1.0
- * @checkstyle JavadocMethodCheck (100 lines)
  * @checkstyle MagicNumber (100 line)
  */
 final class FuncAppliesTest {

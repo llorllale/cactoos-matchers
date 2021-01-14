@@ -40,7 +40,6 @@ import org.junit.jupiter.api.Test;
  *
  * @since 1.0.0
  * @checkstyle StringLiteralsConcatenationCheck (200 lines)
- * @checkstyle JavadocMethodCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class ThrowsTest {
