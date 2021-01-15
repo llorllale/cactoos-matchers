@@ -144,8 +144,10 @@ public final class Mismatches<X, M extends Matcher<X>> extends
         try {
             new Assertion<>("", this.args, matcher).affirm();
             mismatch = false;
+            dsc.appendText(String.format("%n"));
             dsc.appendText(Mismatches.EXPECTED);
             matcher.describeTo(dsc);
+            dsc.appendText(String.format("%n"));
             dsc.appendText(Mismatches.BUT_WAS);
             matcher.describeMismatch(this.args, dsc);
         } catch (final AssertionError err) {

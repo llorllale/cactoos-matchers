@@ -38,6 +38,7 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link Mismatches}.
  *
  * @since 1.0.0
+ * @checkstyle JavadocMethodCheck (500 lines)
  */
 final class MismatchesTest {
 
@@ -58,6 +59,46 @@ final class MismatchesTest {
     }
 
     /**
+     * Matcher prints nothing when mismatches with right message.
+     */
+    @Test
+    void mismatchesWithRightMessage() {
+        final Description description = new StringDescription();
+        new Mismatches<Text, IsText>(
+            new TextOf("e"),
+            "Text with value \"actual\"",
+            "Text is \"e\""
+        ).matchesSafely(
+            new IsText("actual"), description
+        );
+        new Assertion<>(
+            "no description when mismatches with right message",
+            description.toString(),
+            new IsEqual<>("")
+        ).affirm();
+    }
+
+    /**
+     * Matcher prints description when mismatches with wrong message.
+     */
+    @Test
+    void mismatchesWithWrongMessage() {
+        final Description description = new StringDescription();
+        new Mismatches<Text, IsText>(
+            new TextOf("c"),
+            "Text with value \"c\"",
+            "Text is \"c\""
+        ).matchesSafely(
+            new IsText("expec"), description
+        );
+        new Assertion<>(
+            "describes when mismatches with the wrong message",
+            description.toString(),
+            new IsEqual<>("\nExpected: Text with value \"expec\"\n but was: Text is \"c\"")
+        ).affirm();
+    }
+
+    /**
      * Matcher prints the actual value(s) properly.
      */
     @Test
@@ -72,7 +113,7 @@ final class MismatchesTest {
         new Assertion<>(
             "describes the matcher",
             description.toString(),
-            new IsEqual<>("Expected: Text with value \"e\" but was: Text is \"e\"")
+            new IsEqual<>("\nExpected: Text with value \"e\"\n but was: Text is \"e\"")
         ).affirm();
     }
 
@@ -84,7 +125,7 @@ final class MismatchesTest {
             new Mismatches<>(
                 new IsText("a"),
                 "Mismatches <a> with message <expected>",
-                "Expected: Text with value \"a\" but was: Text is \"a\""
+                "\nExpected: Text with value \"a\"\n but was: Text is \"a\""
            )
         ).affirm();
     }
