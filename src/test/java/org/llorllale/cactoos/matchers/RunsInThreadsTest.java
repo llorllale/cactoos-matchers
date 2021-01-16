@@ -32,23 +32,22 @@ import org.cactoos.Func;
 import org.cactoos.func.Repeated;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link RunsInThreads}.
  *
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle ClassDataAbstractionCoupling (2 lines)
  */
-public final class RunsInThreadsTest {
+final class RunsInThreadsTest {
 
     /**
      * Twenty threads will each attempt to increment a counter 100 times with
      * a safe function.
      */
     @Test
-    public void matchPositive() {
+    void matchPositive() {
         final AtomicInteger counter = new AtomicInteger(0);
         final int threads = 20;
         final int attempts = 100;
@@ -69,7 +68,7 @@ public final class RunsInThreadsTest {
      * an unsafe function.
      */
     @Test
-    public void matchNegative() {
+    void matchNegative() {
         final AtomicInteger counter = new AtomicInteger(0);
         final int threads = 20;
         final int attempts = 100;

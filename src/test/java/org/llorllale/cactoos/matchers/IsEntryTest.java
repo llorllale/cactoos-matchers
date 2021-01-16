@@ -29,7 +29,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.map.MapEntry;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link IsEntry}.
@@ -37,12 +37,12 @@ import org.junit.Test;
  * @since 1.0.0
  * @checkstyle ClassDataAbstractionCoupling (100 lines)
  */
-public final class IsEntryTest {
+final class IsEntryTest {
     /**
      * Negative case.
      */
     @Test
-    public void doesNotMatchEntry() {
+    void doesNotMatchEntry() {
         new Assertion<>(
             "must not match the entry",
             new IsEntry<>(
@@ -61,7 +61,7 @@ public final class IsEntryTest {
      * Positive case.
      */
     @Test
-    public void matchesEntry() {
+    void matchesEntry() {
         new Assertion<>(
             "must match the entry",
             new IsEntry<>(
@@ -76,7 +76,7 @@ public final class IsEntryTest {
      * Test for mismatch description readability.
      */
     @Test
-    public void describesCorrectly() {
+    void describesCorrectly() {
         new Assertion<>(
             "must mismatch with a description",
             new IsEntry<>("c", "3"),

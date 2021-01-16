@@ -32,7 +32,7 @@ import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Matches}.
@@ -40,13 +40,13 @@ import org.junit.Test;
  * @since 1.0.0
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class MatchesTest {
+final class MatchesTest {
 
     /**
      * Example of {@link Matches} usage.
      */
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "Matcher TextIs(abc) gives positive result for Text(abc)",
             new IsText("abc"),
@@ -58,7 +58,7 @@ public final class MatchesTest {
      * Gives negative testing result for the invalid arguments.
      */
     @Test
-    public void matchStatus() {
+    void matchStatus() {
         new Assertion<>(
             "Matcher TextIs(abc) gives negative result for Text(def)",
             new Matches<>(new TextOf("def")).matches(new IsText("abc")),
@@ -70,7 +70,7 @@ public final class MatchesTest {
      * Matcher prints the actual value(s) properly.
      */
     @Test
-    public void describeActual() {
+    void describeActual() {
         final Description description = new StringDescription();
         new Matches<Text, IsText>(new TextOf("expected")).matchesSafely(
             new IsText("actual"), description
@@ -86,7 +86,7 @@ public final class MatchesTest {
      * Matcher prints the expected value(s) properly.
      */
     @Test
-    public void describeExpected() {
+    void describeExpected() {
         final Description description = new StringDescription();
         new Matches<>(new TextOf("expected")).describeTo(description);
         new Assertion<>(

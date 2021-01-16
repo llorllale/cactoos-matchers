@@ -29,18 +29,17 @@ package org.llorllale.cactoos.matchers;
 import java.io.StringReader;
 import org.cactoos.text.TextOf;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link TextMatcher}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle JavadocTypeCheck (500 lines)
  */
-public final class TextMatcherTest {
+final class TextMatcherTest {
     @Test
-    public void matchesAReadOnceInput() {
+    void matchesAReadOnceInput() {
         final String input = "aaaa";
         new Assertion<>(
             "must match on an input that can be read only once",

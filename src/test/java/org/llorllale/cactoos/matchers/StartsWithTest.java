@@ -28,17 +28,17 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link StartsWith}.
  *
  * @since 1.0.0
  */
-public final class StartsWithTest {
+final class StartsWithTest {
 
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "matches text with prefix",
             new StartsWith("I'm simple"),
@@ -47,7 +47,7 @@ public final class StartsWithTest {
     }
 
     @Test
-    public void mismatches() {
+    void mismatches() {
         new Assertion<>(
             "mismatches text without the prefix",
             new StartsWith("!"),

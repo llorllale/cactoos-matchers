@@ -30,18 +30,17 @@ package org.llorllale.cactoos.matchers;
 import org.cactoos.scalar.Constant;
 import org.cactoos.scalar.Unchecked;
 import org.hamcrest.core.IsEqual;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link HasValue}.
  *
  * @since 1.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 public final class HasValueTest {
 
     @Test
-    public void matchesWithExpectedString() {
+    void matchesWithExpectedString() {
         final String expected = "some text";
         new Assertion<>(
             "Must match with expected string",
@@ -51,7 +50,7 @@ public final class HasValueTest {
     }
 
     @Test
-    public void matchesAsExpectedWithMatcher() {
+    void matchesAsExpectedWithMatcher() {
         final String expected = "text";
         new Assertion<>(
             "Must match a with the given Matcher",
@@ -61,7 +60,7 @@ public final class HasValueTest {
     }
 
     @Test
-    public void hasMatcherDescriptionForFailedTest() {
+    void hasMatcherDescriptionForFailedTest() {
         new Assertion<>(
             "correctly describes a mismatch",
             new HasValue<>(new IsEqual<>("something")),

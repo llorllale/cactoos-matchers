@@ -28,23 +28,22 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.list.ListOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for{@link HasValues}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class HasValuesTest {
+final class HasValuesTest {
 
     /**
      * Example of {@link HasValues} usage.
      */
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "matches iterable containing the given element",
             new HasValues<>(2),
@@ -56,7 +55,7 @@ public final class HasValuesTest {
      * Give the positive testing result for the valid arguments.
      */
     @Test
-    public void matchSafely() {
+    void matchSafely() {
         new Assertion<>(
             "matches iterable containing the given tuple",
             new HasValues<>("a", "b"),
@@ -65,7 +64,7 @@ public final class HasValuesTest {
     }
 
     @Test
-    public void mismatches() {
+    void mismatches() {
         new Assertion<>(
             "must throw an exception that describes the values",
             new HasValues<>(5),

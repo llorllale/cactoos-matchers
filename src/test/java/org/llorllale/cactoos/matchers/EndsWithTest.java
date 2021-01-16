@@ -28,17 +28,17 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link EndsWith}.
  *
  * @since 1.0.0
  */
-public final class EndsWithTest {
+final class EndsWithTest {
 
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "The matcher gives positive result for the valid arguments",
             new EndsWith("know it."),
@@ -47,7 +47,7 @@ public final class EndsWithTest {
     }
 
     @Test
-    public void mismatches() {
+    void mismatches() {
         new Assertion<>(
             "The matcher gives negative result for the invalid arguments",
             new EndsWith("!"),

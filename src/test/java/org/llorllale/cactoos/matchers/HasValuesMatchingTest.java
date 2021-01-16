@@ -28,22 +28,21 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.list.ListOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link HasValuesMatching}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  */
-public final class HasValuesMatchingTest {
+final class HasValuesMatchingTest {
 
     /**
      * Example of {@link HasValues} usage.
      */
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "matches iterable with any elements that satisfy predicate",
             new HasValuesMatching<>(value -> value == 3),
@@ -52,7 +51,7 @@ public final class HasValuesMatchingTest {
     }
 
     @Test
-    public void mismatches() {
+    void mismatches() {
         new Assertion<>(
             "must throw an exception that describes the values",
             new HasValuesMatching<>(value -> value > 5),

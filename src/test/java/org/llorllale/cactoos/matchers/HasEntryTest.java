@@ -29,22 +29,21 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link HasEntry}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (200 lines)
  */
 @SuppressWarnings("unchecked")
-public final class HasEntryTest {
+final class HasEntryTest {
 
     /**
      * Example of {@link HasEntry} usage.
      */
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "must match an entry in the map",
             new HasEntry<>("a", 1),
@@ -58,7 +57,7 @@ public final class HasEntryTest {
     }
 
     @Test
-    public void doesNotMatchAMissingEntry() {
+    void doesNotMatchAMissingEntry() {
         new Assertion<>(
             "must not match a missing entry in the map",
             new HasEntry<>("c", 1),
@@ -71,7 +70,7 @@ public final class HasEntryTest {
     }
 
     @Test
-    public void doesNotMatchAnIncorrectEntry() {
+    void doesNotMatchAnIncorrectEntry() {
         new Assertion<>(
             "must not match an existing entry in the map",
             new HasEntry<>("b", 1),

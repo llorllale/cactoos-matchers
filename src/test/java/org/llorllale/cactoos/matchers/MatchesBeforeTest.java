@@ -29,22 +29,21 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MatchesBefore}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 line)
  */
-public final class MatchesBeforeTest {
+final class MatchesBeforeTest {
 
     /**
      * Example of {@link MatchesBefore} usage.
      */
     @Test
-    public void matches() {
+    void matches() {
         final String val = "test";
         new Assertion<>(
             "must run in 1000 milliseconds maximum",
@@ -57,7 +56,7 @@ public final class MatchesBeforeTest {
     }
 
     @Test
-    public void mismatchesFromMatcher() {
+    void mismatchesFromMatcher() {
         new Assertion<>(
             "must fail because of matcher",
             new MatchesBefore<>(1000, new IsText("a")),
@@ -70,7 +69,7 @@ public final class MatchesBeforeTest {
     }
 
     @Test
-    public void mismatchesFromTimeout() {
+    void mismatchesFromTimeout() {
         final String val = "c";
         new Assertion<>(
             "must fail because of timeout",
@@ -87,7 +86,7 @@ public final class MatchesBeforeTest {
     }
 
     @Test
-    public void mismatchesWhenExceptionThrown() {
+    void mismatchesWhenExceptionThrown() {
         final String val = "c";
         new Assertion<>(
             "description must contain exception happened inside Text",

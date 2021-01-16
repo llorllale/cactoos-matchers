@@ -27,19 +27,18 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link IsApplicable}.
  *
  * @since 1.0
- * @checkstyle JavadocMethodCheck (100 lines)
  * @checkstyle MagicNumber (100 line)
  */
 public final class IsApplicableTest {
 
     @Test
-    public void matchFuncs() {
+    void matchFuncs() {
         new Assertion<>(
             "matches function that produces same output from the given input",
             new IsApplicable<>(1, 1),
@@ -48,7 +47,7 @@ public final class IsApplicableTest {
     }
 
     @Test
-    public void mismatchFuncs() {
+    void mismatchFuncs() {
         new Assertion<>(
             // @checkstyle LineLength (1 line)
             "does not match function that produces different output from the given input",
@@ -58,7 +57,7 @@ public final class IsApplicableTest {
     }
 
     @Test
-    public void describesMismatch() {
+    void describesMismatch() {
         new Assertion<>(
             "describes mismatch",
             new IsApplicable<>(1, 1),

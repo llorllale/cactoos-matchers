@@ -28,21 +28,20 @@
 package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link IsTrue}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class IsTrueTest {
+final class IsTrueTest {
 
     /**
      * Example of {@link IsTrue} usage.
      */
     @Test
-    public void matchPositive() {
+    void matchPositive() {
         new Assertion<>(
             "matches 'true'",
             new IsTrue(),
@@ -54,7 +53,7 @@ public final class IsTrueTest {
      * Give the negative testing result for the invalid arguments.
      */
     @Test
-    public void matchNegative() {
+    void matchNegative() {
         new Assertion<>(
             "mismatches 'false'",
             new IsTrue(),
@@ -63,7 +62,7 @@ public final class IsTrueTest {
     }
 
     @Test
-    public void describesCorrectly() {
+    void describesCorrectly() {
         new Assertion<>(
             "must throw an exception that describes the values",
             new IsTrue(),

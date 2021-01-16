@@ -29,20 +29,19 @@ package org.llorllale.cactoos.matchers;
 import java.util.Comparator;
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MatcherOf}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-public final class MatcherOfTest {
+final class MatcherOfTest {
 
     @Test
-    public void matchesFunc() {
+    void matchesFunc() {
         new Assertion<>(
             "matches when arg satisfies the predicate",
             new MatcherOf<>(x -> x > 5),
@@ -51,7 +50,7 @@ public final class MatcherOfTest {
     }
 
     @Test
-    public void mismatchesFunc() {
+    void mismatchesFunc() {
         new Assertion<>(
             "mismatches when arg does not satisfy the predicate",
             new MatcherOf<>(
@@ -67,7 +66,7 @@ public final class MatcherOfTest {
     }
 
     @Test
-    public void matcherOfProcMatchesAnyArguments() {
+    void matcherOfProcMatchesAnyArguments() {
         new Assertion<>(
             "matches any arguments when constructed from a Proc",
             new MatcherOf<>(String::trim),
@@ -76,7 +75,7 @@ public final class MatcherOfTest {
     }
 
     @Test
-    public void mismatches() {
+    void mismatches() {
         final Integer expected = 42;
         final Integer provided = 43;
         new Assertion<>(
@@ -95,7 +94,7 @@ public final class MatcherOfTest {
     }
 
     @Test
-    public void matchesByComparator() {
+    void matchesByComparator() {
         new Assertion<>(
             "matches when comparator returns 0",
             new MatcherOf<>(
@@ -107,7 +106,7 @@ public final class MatcherOfTest {
     }
 
     @Test
-    public void mismatchesByComparator() {
+    void mismatchesByComparator() {
         new Assertion<>(
             "mismatches when arg does not satisfy comparator",
             new MatcherOf<>(

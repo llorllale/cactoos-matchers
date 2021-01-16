@@ -28,17 +28,17 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link MatchesRegex}.
  *
  * @since 1.0.0
  */
-public final class MatchesRegexTest {
+final class MatchesRegexTest {
 
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "matches text that satisfies regex",
             new MatchesRegex("^.*know\\sit\\.$"),
@@ -47,7 +47,7 @@ public final class MatchesRegexTest {
     }
 
     @Test
-    public void mismatches() {
+    void mismatches() {
         new Assertion<>(
             "does not match text that does not conform to the regex",
             new MatchesRegex("^.*!$"),

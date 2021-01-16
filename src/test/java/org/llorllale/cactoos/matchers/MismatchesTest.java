@@ -28,21 +28,20 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Mismatches}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class MismatchesTest {
+final class MismatchesTest {
 
     /**
      * Example of {@link Mismatches} usage.
      */
     @Test
-    public void mismatches() {
+    void mismatches() {
         new Assertion<>(
             "Must mismatch properly",
             new IsText("abc"),
@@ -55,7 +54,7 @@ public final class MismatchesTest {
     }
 
     @Test
-    public void matches() {
+    void matches() {
         new Assertion<>(
             "Must fail to mismatch",
             new Mismatches<>(new TextOf("a"), new TextOf("expected")),

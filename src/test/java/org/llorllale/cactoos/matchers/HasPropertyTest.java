@@ -33,7 +33,7 @@ import org.cactoos.scalar.PropertiesOf;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
 import org.hamcrest.text.IsEqualIgnoringCase;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link HasProperty}.
@@ -41,13 +41,13 @@ import org.junit.Test;
  * @since 1.0.0
  * @checkstyle ClassDataAbstractionCoupling (100 lines)
  */
-public final class HasPropertyTest {
+final class HasPropertyTest {
 
     /**
      * Simple positive case.
      */
     @Test
-    public void positiveMatch() {
+    void positiveMatch() {
         new Assertion<>(
             "must match 'a=1'",
             new HasValue<>(new HasProperty("a", "1")),
@@ -59,7 +59,7 @@ public final class HasPropertyTest {
      * Simple positive case only for key.
      */
     @Test
-    public void positiveMachKey() {
+    void positiveMachKey() {
         new Assertion<>(
             "must match 'b=...'",
             new HasValue<>(new HasProperty("b")),
@@ -71,7 +71,7 @@ public final class HasPropertyTest {
      * Positive case with Matchers.
      */
     @Test
-    public void positiveFuzzyMatch() {
+    void positiveFuzzyMatch() {
         new Assertion<>(
             "must match 'f=q'",
             new HasValue<>(
@@ -94,7 +94,7 @@ public final class HasPropertyTest {
      * Negative case.
      */
     @Test
-    public void negativeMatch() {
+    void negativeMatch() {
         final String expected =
             "Scalar with has property key \"abc\", value \"1\"";
         new Assertion<>(
@@ -121,7 +121,7 @@ public final class HasPropertyTest {
      * Test for mismatch description readability.
      */
     @Test
-    public void describesCorrectly() {
+    void describesCorrectly() {
         new Assertion<>(
             "must have a message that describes the properties",
             new HasValue<>(new HasProperty("c", "3")),

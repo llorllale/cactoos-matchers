@@ -27,19 +27,18 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link IsBlank}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class IsBlankTest {
+final class IsBlankTest {
 
     @Test
-    public void blank() {
+    void blank() {
         new Assertion<>(
             "matches empty string",
             new IsBlank(),
@@ -48,7 +47,7 @@ public final class IsBlankTest {
     }
 
     @Test
-    public void notBlank() {
+    void notBlank() {
         new Assertion<>(
             "does not match non-empty string",
             new IsBlank(),
@@ -61,7 +60,7 @@ public final class IsBlankTest {
     }
 
     @Test
-    public void nonBlankMessage() {
+    void nonBlankMessage() {
         new Assertion<>(
             "describes itself in terms of the text being matched against",
             new IsBlank(),

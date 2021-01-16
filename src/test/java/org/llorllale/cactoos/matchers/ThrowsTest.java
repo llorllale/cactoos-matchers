@@ -33,23 +33,22 @@ import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
 import org.hamcrest.core.IsNot;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Throws}.
  *
  * @since 1.0.0
  * @checkstyle StringLiteralsConcatenationCheck (200 lines)
- * @checkstyle JavadocMethodCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class ThrowsTest {
+final class ThrowsTest {
 
     /**
      * Example of {@link Throws} usage.
      */
     @Test
-    public void matchPositive() {
+    void matchPositive() {
         new Assertion<>(
             "matches scalar that throws the expected exception",
             new Throws<>("No object(s) found.", IllegalArgumentException.class),
@@ -62,7 +61,7 @@ public final class ThrowsTest {
     }
 
     @Test
-    public void matchNegative() {
+    void matchNegative() {
         new Assertion<>(
             "mismatches scalar that doesn't throw any exception",
             new Throws<>("illegal arg", IllegalArgumentException.class),
@@ -71,7 +70,7 @@ public final class ThrowsTest {
     }
 
     @Test
-    public void matchesSubtype() {
+    void matchesSubtype() {
         new Assertion<>(
             "matches scalar that throws a subtype of the expected exception",
             new Throws<>("", IOException.class),
@@ -84,7 +83,7 @@ public final class ThrowsTest {
     }
 
     @Test
-    public void mismatchException() {
+    void mismatchException() {
         new Assertion<>(
             // @checkstyle LineLength (1 line)
             "mismatches if exception thrown is not subtype of expected exception",
@@ -100,7 +99,7 @@ public final class ThrowsTest {
     }
 
     @Test
-    public void describeActualValues() {
+    void describeActualValues() {
         final Description description = new StringDescription();
         new Throws<>("NPE", Exception.class).matchesSafely(
             () -> {
@@ -119,7 +118,7 @@ public final class ThrowsTest {
     }
 
     @Test
-    public void describeExpectedValues() {
+    void describeExpectedValues() {
         final Description description = new StringDescription();
         new Throws<>("NPE", NullPointerException.class).describeTo(description);
         new Assertion<>(
@@ -133,7 +132,7 @@ public final class ThrowsTest {
     }
 
     @Test
-    public void noMessageMatchesException() {
+    void noMessageMatchesException() {
         new Assertion<>(
             "must match if message is not present",
             new Throws<>(IllegalArgumentException.class),
@@ -146,7 +145,7 @@ public final class ThrowsTest {
     }
 
     @Test
-    public void describeExpectedValuesNoMessage() {
+    void describeExpectedValuesNoMessage() {
         final Description description = new StringDescription();
         new Throws<>(NullPointerException.class).describeTo(description);
         new Assertion<>(
