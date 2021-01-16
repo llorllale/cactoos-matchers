@@ -27,14 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.iterable.IterableOfBooleans;
-import org.cactoos.iterable.IterableOfInts;
 import org.cactoos.list.ListOf;
-import org.cactoos.text.FormattedText;
-import org.cactoos.text.TextOf;
-import org.cactoos.text.UncheckedText;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -55,15 +48,6 @@ final class HasSizeTest {
     }
 
     @Test
-    void doesNotMatchIterableSize() {
-        new Assertion<>(
-            "does not match an iterable with a different size",
-            new IsNot<>(new HasSize(2)),
-            new Matches<>(new IterableOfInts(1))
-        ).affirm();
-    }
-
-    @Test
     void matchesEmptyCollection() {
         new Assertion<>(
             "matches empty iterable if given size arg is 0",
@@ -73,16 +57,14 @@ final class HasSizeTest {
     }
 
     @Test
-    void describesMismatch() {
-        final Description description = new StringDescription();
-        new HasSize(2).describeMismatchSafely(new ListOf<>(), description);
+    void mismatches() {
         new Assertion<>(
-            "describes mismatch",
-            new TextOf(description.toString()),
-            new IsText(
-                new UncheckedText(
-                    new FormattedText("has size <%d>", 0)
-                ).asString()
+            "mismatches empty iterable if given size arg is 2",
+            new HasSize(2),
+            new Mismatches<>(
+                new ListOf<>(),
+                "has size <2>",
+                "has size <0>"
             )
         ).affirm();
     }

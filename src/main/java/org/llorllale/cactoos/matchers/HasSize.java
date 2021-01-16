@@ -40,14 +40,14 @@ public final class HasSize extends MatcherEnvelope<Iterable<?>> {
      * Ctor.
      * @param size The expected size of {@link Iterable}
      */
-    public HasSize(final Integer size) {
+    public HasSize(final int size) {
         super(
             new MatcherOf<>(
-                input -> new LengthOf(input).intValue() == size,
+                input -> new LengthOf(input).value().intValue() == size,
                 desc -> desc.appendText("has size ")
                     .appendValue(size),
                 (input, desc) -> desc.appendText("has size ")
-                    .appendValue(new LengthOf(input).intValue())
+                    .appendValue(new LengthOf(input).value().intValue())
             )
         );
     }
