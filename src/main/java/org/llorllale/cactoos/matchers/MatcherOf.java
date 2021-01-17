@@ -26,17 +26,12 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import java.util.Comparator;
 import org.cactoos.BiProc;
 import org.cactoos.Func;
 import org.cactoos.Proc;
-import org.cactoos.Text;
-import org.cactoos.func.FuncOf;
 import org.cactoos.func.UncheckedFunc;
 import org.cactoos.proc.UncheckedBiProc;
 import org.cactoos.proc.UncheckedProc;
-import org.cactoos.text.FormattedText;
-import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 
@@ -47,9 +42,6 @@ import org.hamcrest.TypeSafeMatcher;
  *
  * @param <T> Type of object to match
  * @since 0.12
- * @todo #135:30min Remove all constructors except the last one so that
- *  every matcher implemented using MatcherOf take care of properly
- *  describe itself and the mismatch.
  */
 public final class MatcherOf<T> extends TypeSafeMatcher<T> {
 
@@ -71,37 +63,6 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
 
     /**
      * Ctor.
-     * @param proc The func
-     */
-    public MatcherOf(final Proc<T> proc) {
-        this(new FuncOf<>(proc, true));
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The func
-     */
-    public MatcherOf(final Func<T, Boolean> fnc) {
-        this(fnc, new UncheckedText(fnc.toString()));
-    }
-
-    /**
-     * Ctor.
-     * @param fnc The func
-     * @param description The description
-     */
-    public MatcherOf(final Func<T, Boolean> fnc, final Text description) {
-        this(
-            fnc,
-            desc -> desc.appendText(
-                new FormattedText("\"%s\"", description).asString()
-            ),
-            (actual, desc) -> desc.appendValue(actual)
-        );
-    }
-
-    /**
-     * Ctor.
      * @param match Matches an actual object with expected one
      * @param description Generates a description of the object
      * @param mismatch Generates a description for situation when an actual
@@ -115,27 +76,6 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
         this.match = match;
         this.description = description;
         this.mismatch = mismatch;
-    }
-
-    /**
-     * Ctor.
-     * @param expected Expected value.
-     * @param comp Comparator.
-     */
-    public MatcherOf(final T expected, final Comparator<? super T> comp) {
-        this(
-            (T x) -> comp.compare(x, expected) == 0,
-            (Description desc) -> desc
-                .appendText("equals ")
-                .appendValue(expected),
-            (T actual, Description desc) -> desc
-                .appendText("comparator returns ")
-                .appendValue(comp.compare(actual, expected))
-                .appendText(" when ")
-                .appendValue(expected)
-                .appendText(" compared to ")
-                .appendValue(actual)
-        );
     }
 
     @Override

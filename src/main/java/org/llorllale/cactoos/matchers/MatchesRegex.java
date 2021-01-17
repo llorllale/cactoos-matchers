@@ -51,11 +51,9 @@ public final class MatchesRegex extends MatcherEnvelope<Text> {
     public MatchesRegex(final Text regex) {
         super(
             new TextMatcher(
-                new MatcherOf<>(
-                    (String act) -> act.matches(regex.asString()),
-                    regex
-                ),
-                "Text matches "
+                regex,
+                (act, txt) -> act.matches(txt),
+                "Text matches"
             )
         );
     }

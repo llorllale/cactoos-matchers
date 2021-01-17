@@ -28,6 +28,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Input;
 import org.cactoos.Text;
+import org.cactoos.text.FormattedText;
 import org.cactoos.text.TextOf;
 import org.hamcrest.Matcher;
 
@@ -54,11 +55,20 @@ public final class HasContent extends MatcherEnvelope<Input> {
     /**
      * Ctor.
      * @param text The text to match against
+     * @todo #165:30min We need an InputMatcher similar to {@link TextMatcher} that would
+     *  be in charge of caching the value of the {@link Input} so that it is ready only once
+     *  per invocation of the {@link Matcher}.
      */
     public HasContent(final Text text) {
         this(
             new MatcherOf<>(
-                (String input) -> text.asString().equals(input), text
+                input -> text.asString().equals(input),
+                desc -> desc.appendText(
+                    new FormattedText("\"%s\"", text).asString()
+                ),
+                (act, desc) -> desc
+                    .appendText("has content ")
+                    .appendValue(act)
             )
         );
     }
@@ -74,9 +84,10 @@ public final class HasContent extends MatcherEnvelope<Input> {
                 desc -> desc
                     .appendText("has content ")
                     .appendDescriptionOf(mtr),
-                (input, desc) -> desc
-                    .appendText("has content ")
-                    .appendValue(new TextOf(input).asString())
+                (input, desc) -> mtr.describeMismatch(
+                    new TextOf(input).toString(),
+                    desc
+                )
             )
         );
     }

@@ -30,7 +30,6 @@ import org.cactoos.io.InputOf;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -56,7 +55,11 @@ public final class HasContentTest {
         new Assertion<>(
             "does not match input with different contents",
             new HasContent("hello"),
-            new IsNot<>(new Matches<>(new InputOf("world")))
+            new Mismatches<>(
+                new InputOf("world"),
+                "has content \"hello\"",
+                "has content \"world\""
+            )
         ).affirm();
     }
 

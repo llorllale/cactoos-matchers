@@ -26,9 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import java.util.Comparator;
 import org.cactoos.text.Joined;
-import org.cactoos.text.TextOf;
+import org.hamcrest.StringDescription;
+import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,13 +38,18 @@ import org.junit.jupiter.api.Test;
  * @checkstyle MagicNumberCheck (500 lines)
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MatcherOfTest {
 
     @Test
     void matchesFunc() {
         new Assertion<>(
             "matches when arg satisfies the predicate",
-            new MatcherOf<>(x -> x > 5),
+            new MatcherOf<>(
+                x -> x > 5,
+                desc -> desc.appendText("Must be > 5"),
+                (actual, desc) -> desc.appendValue(actual)
+            ),
             new Matches<>(10)
         ).affirm();
     }
@@ -54,23 +59,15 @@ final class MatcherOfTest {
         new Assertion<>(
             "mismatches when arg does not satisfy the predicate",
             new MatcherOf<>(
-                x -> x > 5,
-                new TextOf("Must be > 5")
+                x -> x > 7,
+                desc -> desc.appendText("\"Must be > 7\""),
+                (actual, desc) -> desc.appendValue(actual)
             ),
             new Mismatches<>(
                 1,
-                "\"Must be > 5\"",
+                "\"Must be > 7\"",
                 "<1>"
             )
-        ).affirm();
-    }
-
-    @Test
-    void matcherOfProcMatchesAnyArguments() {
-        new Assertion<>(
-            "matches any arguments when constructed from a Proc",
-            new MatcherOf<>(String::trim),
-            new Matches<>("a")
         ).affirm();
     }
 
@@ -94,31 +91,17 @@ final class MatcherOfTest {
     }
 
     @Test
-    void matchesByComparator() {
+    void describesMismatchSafely() {
+        final StringDescription dsc = new StringDescription();
+        new MatcherOf<String>(
+            x -> x.equals("hello"),
+            desc -> desc.appendText("hello"),
+            (act, desc) -> desc.appendText(act)
+        ).describeMismatchSafely("world", dsc);
         new Assertion<>(
-            "matches when comparator returns 0",
-            new MatcherOf<>(
-                10,
-                Comparator.comparingInt(x -> Math.abs(x.intValue()))
-            ),
-            new Matches<>(-10)
-       ).affirm();
-    }
-
-    @Test
-    void mismatchesByComparator() {
-        new Assertion<>(
-            "mismatches when arg does not satisfy comparator",
-            new MatcherOf<>(
-                123,
-                Comparator.comparingInt(x -> Math.abs(x.intValue()))
-            ),
-            new Mismatches<>(
-                1234,
-                "equals <123>",
-                "comparator returns <1> when <123> compared to <1234>"
-            )
+            "describes mismatch safely",
+            dsc.toString(),
+            new IsEqual<>("world")
         ).affirm();
     }
-
 }

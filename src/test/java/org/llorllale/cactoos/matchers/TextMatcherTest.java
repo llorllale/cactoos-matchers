@@ -36,7 +36,9 @@ import org.junit.jupiter.api.Test;
  *
  * @since 1.0.0
  * @checkstyle JavadocTypeCheck (500 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class TextMatcherTest {
     @Test
     void matchesAReadOnceInput() {
@@ -48,6 +50,47 @@ final class TextMatcherTest {
                 "Text equals to "
             ),
             new Matches<>(new TextOf(new StringReader(input)))
+        ).affirm();
+    }
+
+    @Test
+    void mismatches() {
+        new Assertion<>(
+            "mismatches text without the prefix",
+            new TextMatcher(
+                new TextOf("!"),
+                (act, txt) -> act.startsWith(txt),
+                "Text starting with"
+            ),
+            new Mismatches<>(
+                new TextOf("The sentence."),
+                "Text starting with \"!\"",
+                "Text is \"The sentence.\""
+            )
+        ).affirm();
+    }
+
+    @Test
+    void matchesFromMatcher() {
+        new Assertion<>(
+            "must match with matcher",
+            new TextMatcher(
+                new IsBlank()
+            ),
+            new Matches<>(new TextOf(""))
+        ).affirm();
+    }
+
+    @Test
+    void matchesFromFunc() {
+        new Assertion<>(
+            "must match with function",
+            new TextMatcher(
+                new TextOf("I am"),
+                (act, txt) -> act.startsWith(txt),
+                "Text starts with"
+            ),
+            new Matches<>(new TextOf("I am happy."))
         ).affirm();
     }
 }

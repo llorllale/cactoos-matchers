@@ -51,13 +51,10 @@ public final class HasString extends MatcherEnvelope<Text> {
     public HasString(final Text text) {
         super(
             new TextMatcher(
-                new MatcherOf<>(
-                    (String actual) -> actual.contains(text.asString()),
-                    text
-                ),
-                "Text with "
+                text,
+                (act, txt) -> act.contains(txt),
+                "Text with"
             )
         );
     }
-
 }

@@ -51,11 +51,9 @@ public final class IsText extends MatcherEnvelope<Text> {
     public IsText(final Text text) {
         super(
             new TextMatcher(
-                new MatcherOf<>(
-                    (String actual) -> actual.equals(text.asString()),
-                    text
-                ),
-                "Text with value "
+                text,
+                (act, txt) -> act.equals(txt),
+                "Text with value"
             )
         );
     }

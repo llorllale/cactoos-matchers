@@ -36,18 +36,33 @@ import java.util.Comparator;
 public final class IsNumber extends MatcherEnvelope<Number> {
 
     /**
+     * Comparator of numbers.
+     */
+    private static final Comparator<Number> FNC =
+        Comparator
+            .comparing(Number::doubleValue)
+            .thenComparing(Number::intValue)
+            .thenComparing(Number::longValue)
+            .thenComparing(Number::floatValue);
+
+    /**
      * Ctor.
      * @param expected The expected value
+     * @todo #165:30min Introduce a ComparatorMatcher that encapsulates comparison logic here.
+     *  It would only take a {@code Comparator<X>} and an expected X for example.
      */
     public IsNumber(final Number expected) {
         super(
             new MatcherOf<>(
-                expected,
-                Comparator
-                    .comparing(Number::doubleValue)
-                    .thenComparing(Number::intValue)
-                    .thenComparing(Number::longValue)
-                    .thenComparing(Number::floatValue)
+                actual -> IsNumber.FNC.compare(actual, expected) == 0,
+                desc -> desc.appendText("equals ").appendValue(expected),
+                (actual, desc) -> desc
+                    .appendText("comparator returns ")
+                    .appendValue(IsNumber.FNC.compare(actual, expected))
+                    .appendText(" when ")
+                    .appendValue(expected)
+                    .appendText(" compared to ")
+                    .appendValue(actual)
             )
         );
     }

@@ -26,7 +26,9 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.BiFunc;
 import org.cactoos.Text;
+import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -46,50 +48,66 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
     private final Matcher<String> matcher;
 
     /**
-     * The description of the matcher's expected text.
-     */
-    private final String expected;
-
-    /**
      * The description of the matcher's actual text.
      */
     private final String actual;
 
     /**
      * Ctor.
-     * @param mtchr The matcher to test.
+     * @param text The text to match against.
+     * @param func Function that compares actual to expected value.
      * @param expected The description of the matcher's expected text.
      */
     public TextMatcher(
-        final Matcher<String> mtchr, final String expected
+        final Text text,
+        final BiFunc<String, String, Boolean> func,
+        final String expected
     ) {
-        this(mtchr, expected, "Text is ");
+        this(
+            new MatcherOf<>(
+                act -> func.apply(act, text.asString()),
+                desc -> desc.appendText(
+                    new FormattedText("%s \"%s\"", expected, text).asString()
+                ),
+                (act, desc) -> desc.appendValue(act)
+            )
+        );
     }
 
     /**
      * Ctor.
      * @param mtchr The matcher to test.
-     * @param expected The description of the matcher's expected text.
+     */
+    public TextMatcher(final Matcher<String> mtchr) {
+        this(mtchr, "Text is ");
+    }
+
+    /**
+     * Ctor.
+     * @param mtchr The matcher to test.
      * @param actual The description of the matcher's actual text.
      */
-    public TextMatcher(
-        final Matcher<String> mtchr, final String expected, final String actual
-    ) {
+    public TextMatcher(final Matcher<String> mtchr, final String actual) {
         super();
         this.matcher = mtchr;
-        this.expected = expected;
         this.actual = actual;
     }
 
     @Override
     public void describeTo(final Description desc) {
-        desc.appendText(this.expected).appendDescriptionOf(this.matcher);
+        desc.appendDescriptionOf(this.matcher);
     }
 
     @Override
     protected boolean matchesSafely(final Text text, final Description desc) {
         final String txt = new UncheckedText(text).asString();
-        desc.appendText(this.actual).appendValue(txt);
-        return this.matcher.matches(txt);
+        final boolean matches = this.matcher.matches(txt);
+        desc.appendText(this.actual);
+        if (matches) {
+            desc.appendValue(txt);
+        } else {
+            this.matcher.describeMismatch(txt, desc);
+        }
+        return matches;
     }
 }
