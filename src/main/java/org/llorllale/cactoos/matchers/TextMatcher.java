@@ -28,11 +28,10 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.BiFunc;
 import org.cactoos.Text;
-import org.cactoos.text.FormattedText;
 import org.cactoos.text.UncheckedText;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Generic {@link Matcher} of {@link Text}.
@@ -40,17 +39,12 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
+public final class TextMatcher extends TypeSafeMatcher<Text> {
 
     /**
      * The matcher to test.
      */
     private final Matcher<String> matcher;
-
-    /**
-     * The description of the matcher's actual text.
-     */
-    private final String actual;
 
     /**
      * Ctor.
@@ -63,13 +57,34 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
         final BiFunc<String, String, Boolean> func,
         final String expected
     ) {
+        this(text, func, expected, "Text with value");
+    }
+
+    /**
+     * Ctor.
+     * @param text The text to match against.
+     * @param func Function that compares actual to expected value.
+     * @param expected The prefix of the matcher's expected text.
+     * @param actual The prefix of the actual text.
+     * @checkstyle ParameterNumberCheck (2 lines)
+     */
+    public TextMatcher(
+        final Text text,
+        final BiFunc<String, String, Boolean> func,
+        final String expected,
+        final String actual
+    ) {
         this(
             new MatcherOf<>(
                 act -> func.apply(act, text.asString()),
-                desc -> desc.appendText(
-                    new FormattedText("%s \"%s\"", expected, text).asString()
-                ),
-                (act, desc) -> desc.appendValue(act)
+                desc -> desc
+                    .appendText(expected)
+                    .appendText(" ")
+                    .appendValue(text.asString()),
+                (act, desc) -> desc
+                    .appendText(actual)
+                    .appendText(" ")
+                    .appendValue(act)
             )
         );
     }
@@ -79,18 +94,8 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
      * @param mtchr The matcher to test.
      */
     public TextMatcher(final Matcher<String> mtchr) {
-        this(mtchr, "Text is ");
-    }
-
-    /**
-     * Ctor.
-     * @param mtchr The matcher to test.
-     * @param actual The description of the matcher's actual text.
-     */
-    public TextMatcher(final Matcher<String> mtchr, final String actual) {
         super();
         this.matcher = mtchr;
-        this.actual = actual;
     }
 
     @Override
@@ -99,15 +104,12 @@ public final class TextMatcher extends TypeSafeDiagnosingMatcher<Text> {
     }
 
     @Override
-    protected boolean matchesSafely(final Text text, final Description desc) {
-        final String txt = new UncheckedText(text).asString();
-        final boolean matches = this.matcher.matches(txt);
-        desc.appendText(this.actual);
-        if (matches) {
-            desc.appendValue(txt);
-        } else {
-            this.matcher.describeMismatch(txt, desc);
-        }
-        return matches;
+    protected boolean matchesSafely(final Text text) {
+        return this.matcher.matches(new UncheckedText(text).asString());
+    }
+
+    @Override
+    protected void describeMismatchSafely(final Text text, final Description desc) {
+        this.matcher.describeMismatch(new UncheckedText(text).asString(), desc);
     }
 }

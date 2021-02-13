@@ -45,10 +45,7 @@ final class TextMatcherTest {
         final String input = "aaaa";
         new Assertion<>(
             "must match on an input that can be read only once",
-            new TextMatcher(
-                new IsEqual<>(input),
-                "Text equals to "
-            ),
+            new TextMatcher(new IsEqual<>(input)),
             new Matches<>(new TextOf(new StringReader(input)))
         ).affirm();
     }
@@ -65,7 +62,7 @@ final class TextMatcherTest {
             new Mismatches<>(
                 new TextOf("The sentence."),
                 "Text starting with \"!\"",
-                "Text is \"The sentence.\""
+                "Text with value \"The sentence.\""
             )
         ).affirm();
     }
@@ -74,9 +71,7 @@ final class TextMatcherTest {
     void matchesFromMatcher() {
         new Assertion<>(
             "must match with matcher",
-            new TextMatcher(
-                new IsBlank()
-            ),
+            new TextMatcher(new IsBlank()),
             new Matches<>(new TextOf(""))
         ).affirm();
     }

@@ -53,7 +53,7 @@ public final class HasString extends MatcherEnvelope<Text> {
             new TextMatcher(
                 text,
                 (act, txt) -> act.contains(txt),
-                "Text with"
+                "Text containing"
             )
         );
     }

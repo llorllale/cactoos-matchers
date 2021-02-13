@@ -40,6 +40,7 @@ import org.junit.jupiter.api.Test;
  * @since 1.0.0
  * @checkstyle JavadocMethodCheck (500 lines)
  */
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MismatchesTest {
 
     /**
@@ -53,7 +54,7 @@ final class MismatchesTest {
             new Mismatches<>(
                 new TextOf("def"),
                 "Text with value \"abc\"",
-                "Text is \"def\""
+                "Text with value \"def\""
             )
         ).affirm();
     }
@@ -67,7 +68,7 @@ final class MismatchesTest {
         new Mismatches<Text, IsText>(
             new TextOf("e"),
             "Text with value \"actual\"",
-            "Text is \"e\""
+            "Text with value \"e\""
         ).matchesSafely(
             new IsText("actual"), description
         );
@@ -87,14 +88,14 @@ final class MismatchesTest {
         new Mismatches<Text, IsText>(
             new TextOf("c"),
             "Text with value \"c\"",
-            "Text is \"c\""
+            "Text with value \"c\""
         ).matchesSafely(
             new IsText("expec"), description
         );
         new Assertion<>(
             "describes when mismatches with the wrong message",
             description.toString(),
-            new IsEqual<>("\nExpected: Text with value \"expec\"\n but was: Text is \"c\"")
+            new IsEqual<>("\nExpected: Text with value \"expec\"\n but was: Text with value \"c\"")
         ).affirm();
     }
 
@@ -113,7 +114,7 @@ final class MismatchesTest {
         new Assertion<>(
             "describes the matcher",
             description.toString(),
-            new IsEqual<>("\nExpected: Text with value \"e\"\n but was: Text is \"e\"")
+            new IsEqual<>("\nExpected: Text with value \"e\"\n but was: Text with value \"e\"")
         ).affirm();
     }
 
@@ -125,7 +126,7 @@ final class MismatchesTest {
             new Mismatches<>(
                 new IsText("a"),
                 "Mismatches <a> with message <expected>",
-                "\nExpected: Text with value \"a\"\n but was: Text is \"a\""
+                "\nExpected: Text with value \"a\"\n but was: Text with value \"a\""
            )
         ).affirm();
     }
