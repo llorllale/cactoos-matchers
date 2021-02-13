@@ -54,7 +54,7 @@ final class IsBlankTest {
             new Mismatches<>(
                 "-.$%",
                 "is blank",
-                "\"-.$%\""
+                "was \"-.$%\""
             )
         ).affirm();
     }
@@ -67,7 +67,7 @@ final class IsBlankTest {
             new Mismatches<>(
                 "text",
                 "is blank",
-                "\"text\""
+                "was \"text\""
             )
         ).affirm();
     }

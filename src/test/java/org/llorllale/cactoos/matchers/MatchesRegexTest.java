@@ -54,7 +54,7 @@ final class MatchesRegexTest {
             new Mismatches<>(
                 new TextOf("The sentence."),
                 "Text matches \"^.*!$\"",
-                "Text with value \"The sentence.\""
+                "was Text with value \"The sentence.\""
             )
         ).affirm();
     }

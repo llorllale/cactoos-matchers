@@ -77,8 +77,8 @@ final class RunsInThreadsTest {
             new RunsInThreads<>(counter, threads),
             new Mismatches<>(
                 new Repeated<>(new Unsafe(), attempts),
-                "Runs in <20> threads successfuly",
-                "Ran successfuly in <0> threads"
+                "runs in <20> threads successfuly",
+                "ran successfuly in <0> threads"
             )
         ).affirm();
         new Assertion<>(

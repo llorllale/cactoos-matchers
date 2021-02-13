@@ -103,8 +103,12 @@ public final class HasLines extends MatcherEnvelope<String> {
         super(
             new MatcherOf<>(
                 actual -> match.apply(split.apply(actual), expected),
-                desc -> desc.appendText("Lines are ").appendValue(expected),
-                (actual, desc) -> desc.appendValue(split.apply(actual))
+                desc -> desc
+                    .appendText("lines are ")
+                    .appendValue(expected),
+                (actual, desc) -> desc
+                    .appendText("lines were ")
+                    .appendValue(split.apply(actual))
             )
         );
     }

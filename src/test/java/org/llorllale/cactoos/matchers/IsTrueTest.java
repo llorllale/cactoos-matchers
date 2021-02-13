@@ -27,7 +27,6 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -49,18 +48,6 @@ final class IsTrueTest {
         ).affirm();
     }
 
-    /**
-     * Give the negative testing result for the invalid arguments.
-     */
-    @Test
-    void matchNegative() {
-        new Assertion<>(
-            "mismatches 'false'",
-            new IsTrue(),
-            new IsNot<>(new Matches<>(false))
-        ).affirm();
-    }
-
     @Test
     void describesCorrectly() {
         new Assertion<>(
@@ -69,7 +56,7 @@ final class IsTrueTest {
             new Mismatches<>(
                 false,
                 "<true>",
-                "<false>"
+                "was <false>"
             )
         ).affirm();
     }

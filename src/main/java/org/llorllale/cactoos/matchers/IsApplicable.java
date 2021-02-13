@@ -61,9 +61,11 @@ public final class IsApplicable<X, Y> extends MatcherEnvelope<Func<X, Y>> {
                 func -> mtr.matches(
                     new UncheckedFunc<>(func).apply(input)
                 ),
-                desc -> desc.appendText("Func with ")
+                desc -> desc
+                    .appendText("Func output matches ")
                     .appendDescriptionOf(mtr),
-                (func, desc) -> desc.appendText("Func with ")
+                (func, desc) -> desc
+                    .appendText("Func returned ")
                     .appendValue(func.apply(input))
             )
         );

@@ -73,8 +73,8 @@ final class HasLinesTest {
             new HasLines("Tom", "Mike"),
             new Mismatches<>(
                 String.format("Tom%nJohn%n"),
-                "Lines are <[Tom, Mike]>",
-                "<[Tom, John]>"
+                "lines are <[Tom, Mike]>",
+                "lines were <[Tom, John]>"
             )
         ).affirm();
     }

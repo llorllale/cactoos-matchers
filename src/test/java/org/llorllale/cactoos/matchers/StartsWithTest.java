@@ -54,7 +54,7 @@ final class StartsWithTest {
             new Mismatches<>(
                 new TextOf("The sentence."),
                 "Text starting with \"!\"",
-                "Text with value \"The sentence.\""
+                "was Text with value \"The sentence.\""
             )
         ).affirm();
     }

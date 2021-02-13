@@ -57,8 +57,8 @@ final class HasValuesMatchingTest {
             new HasValuesMatching<>(value -> value > 5),
             new Mismatches<>(
                 new ListOf<>(1, 2, 3),
-                "The function matches at least 1 element.",
-                "No any elements from [1, 2, 3] matches by the function"
+                "matches at least 1 element",
+                "no match in <[1, 2, 3]>"
             )
         ).affirm();
     }

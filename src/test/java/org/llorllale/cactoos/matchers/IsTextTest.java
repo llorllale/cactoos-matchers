@@ -53,7 +53,7 @@ public final class IsTextTest {
             new Mismatches<>(
                 new TextOf("abcd"),
                 "Text with value \"xyz\"",
-                "Text with value \"abcd\""
+                "was Text with value \"abcd\""
             )
         ).affirm();
     }

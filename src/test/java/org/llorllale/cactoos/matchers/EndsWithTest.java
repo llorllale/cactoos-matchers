@@ -54,7 +54,7 @@ final class EndsWithTest {
             new Mismatches<>(
                 new TextOf("The sentence."),
                 "Text ending with \"!\"",
-                "Text with value \"The sentence.\""
+                "was Text with value \"The sentence.\""
             )
         ).affirm();
     }

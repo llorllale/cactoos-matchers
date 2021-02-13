@@ -113,7 +113,7 @@ public final class RunsInThreads<T> extends TypeSafeDiagnosingMatcher<Func<T, Bo
         service.shutdown();
         if (matching != this.total) {
             desc
-                .appendText("Ran successfuly in ")
+                .appendText("ran successfuly in ")
                 .appendValue(matching)
                 .appendText(" threads");
         }
@@ -123,7 +123,7 @@ public final class RunsInThreads<T> extends TypeSafeDiagnosingMatcher<Func<T, Bo
     @Override
     public void describeTo(final Description description) {
         description
-            .appendText("Runs in ")
+            .appendText("runs in ")
             .appendValue(this.total)
             .appendText(" threads successfuly");
     }

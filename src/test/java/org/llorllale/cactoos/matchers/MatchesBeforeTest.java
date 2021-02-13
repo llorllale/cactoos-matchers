@@ -62,7 +62,7 @@ final class MatchesBeforeTest {
             new Mismatches<>(
                 new TextOf("b"),
                 "Text with value \"a\" runs in less than <1000L> milliseconds",
-                "Text with value \"b\""
+                "was Text with value \"b\""
             )
         ).affirm();
     }

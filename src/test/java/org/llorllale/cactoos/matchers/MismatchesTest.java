@@ -27,18 +27,14 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
+import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
  * Test case for {@link Mismatches}.
  *
  * @since 1.0.0
- * @checkstyle JavadocMethodCheck (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class MismatchesTest {
@@ -54,80 +50,76 @@ final class MismatchesTest {
             new Mismatches<>(
                 new TextOf("def"),
                 "Text with value \"abc\"",
-                "Text with value \"def\""
+                "was Text with value \"def\""
             )
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints nothing when mismatches with right message.
-     */
-    @Test
-    void mismatchesWithRightMessage() {
-        final Description description = new StringDescription();
-        new Mismatches<Text, IsText>(
-            new TextOf("e"),
-            "Text with value \"actual\"",
-            "Text with value \"e\""
-        ).matchesSafely(
-            new IsText("actual"), description
-        );
-        new Assertion<>(
-            "no description when mismatches with right message",
-            description.toString(),
-            new IsEqual<>("")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints description when mismatches with wrong message.
-     */
-    @Test
-    void mismatchesWithWrongMessage() {
-        final Description description = new StringDescription();
-        new Mismatches<Text, IsText>(
-            new TextOf("c"),
-            "Text with value \"c\"",
-            "Text with value \"c\""
-        ).matchesSafely(
-            new IsText("expec"), description
-        );
-        new Assertion<>(
-            "describes when mismatches with the wrong message",
-            description.toString(),
-            new IsEqual<>("\nExpected: Text with value \"expec\"\n but was: Text with value \"c\"")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the actual value(s) properly.
-     */
-    @Test
-    void describeActual() {
-        final Description description = new StringDescription();
-        new Mismatches<Text, IsText>(
-            new TextOf("e"),
-            new TextOf("Mismatches <a> with message <e>")
-        ).matchesSafely(
-            new IsText("e"), description
-        );
-        new Assertion<>(
-            "describes the matcher",
-            description.toString(),
-            new IsEqual<>("\nExpected: Text with value \"e\"\n but was: Text with value \"e\"")
         ).affirm();
     }
 
     @Test
     void matches() {
         new Assertion<>(
-            "Must fail to mismatch",
-            new Mismatches<>(new TextOf("a"), new TextOf("expected")),
+            "Must mismatch",
             new Mismatches<>(
-                new IsText("a"),
-                "Mismatches <a> with message <expected>",
-                "\nExpected: Text with value \"a\"\n but was: Text with value \"a\""
-           )
+                new TextOf("def"),
+                "Text with value \"abc\"",
+                "was Text with value \"def\""
+            ),
+            new Matches<>(new IsText("abc"))
+        ).affirm();
+    }
+
+    @Test
+    void mismatchesWithWrongMatcher() {
+        new Assertion<>(
+            "Must mismatch",
+            new Mismatches<>(
+                new TextOf("def"),
+                "Text with value \"abc\"",
+                "was Text with value \"def\""
+            ),
+            new Mismatches<>(
+                new IsText("def"),
+                new Joined(
+                    System.lineSeparator(),
+                    "mismatches <def> with message",
+                    "<<<",
+                    "Expected: Text with value \"abc\"",
+                    "     but: was Text with value \"def\"",
+                    ">>>"
+                ),
+                new TextOf("matched <def>")
+            )
+        ).affirm();
+    }
+
+    @Test
+    void mismatchesWithWrongMessage() {
+        new Assertion<>(
+            "Must mismatch",
+            new Mismatches<>(
+                new TextOf("def"),
+                "Text with value \"abc\"",
+                "was Text with value \"def\""
+            ),
+            new Mismatches<>(
+                new IsText("ghi"),
+                new Joined(
+                    System.lineSeparator(),
+                    "mismatches <def> with message",
+                    "<<<",
+                    "Expected: Text with value \"abc\"",
+                    "     but: was Text with value \"def\"",
+                    ">>>"
+                ),
+                new Joined(
+                    System.lineSeparator(),
+                    "mismatched with message",
+                    "<<<",
+                    "Expected: Text with value \"ghi\"",
+                    "     but: was Text with value \"def\"",
+                    ">>>"
+                )
+            )
         ).affirm();
     }
 }

@@ -27,6 +27,7 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
+import org.cactoos.text.Concatenated;
 import org.cactoos.text.FormattedText;
 import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
@@ -54,24 +55,20 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @param <X> Type of item.
  * @param <M> Type of tested matcher.
  * @since 1.0.0
- * @todo #106:30min Add extra tests for this class to validate all
- *  the different constructors (also add a constructor taking message
- *  as a String) and ensure they are coherent with how Assertion is
- *  working and throwing errors.
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
 public final class Mismatches<X, M extends Matcher<X>> extends
     TypeSafeDiagnosingMatcher<M> {
 
     /**
-     * Expected key word.
+     * Multiline start.
      */
-    private static final String EXPECTED = "Expected: ";
+    private static final String ML_START = "<<<";
 
     /**
-     * But was key word.
+     * Multiline end.
      */
-    private static final String BUT_WAS = " but was: ";
+    private static final String ML_END = ">>>";
 
     /**
      * The testing arguments for the target matcher.
@@ -113,8 +110,8 @@ public final class Mismatches<X, M extends Matcher<X>> extends
             new Joined(
                 new FormattedText("%n"),
                 new TextOf(""),
-                new Joined(new TextOf(""), new TextOf(Mismatches.EXPECTED), expected),
-                new Joined(new TextOf(""), new TextOf(Mismatches.BUT_WAS), actual)
+                new Concatenated(new TextOf("Expected: "), expected),
+                new Concatenated(new TextOf("     but: "), actual)
             )
         );
     }
@@ -124,7 +121,7 @@ public final class Mismatches<X, M extends Matcher<X>> extends
      * @param args The testing arguments for the matcher.
      * @param message The expected mismatch message.
      */
-    public Mismatches(final X args, final Text message) {
+    private Mismatches(final X args, final Text message) {
         super();
         this.args = args;
         this.message = message;
@@ -132,10 +129,14 @@ public final class Mismatches<X, M extends Matcher<X>> extends
 
     @Override
     public void describeTo(final Description desc) {
-        desc.appendText("Mismatches ")
+        desc.appendText("mismatches ")
             .appendValue(this.args)
-            .appendText(" with message ")
-            .appendValue(this.message);
+            .appendText(" with message")
+            .appendText(System.lineSeparator())
+            .appendText(Mismatches.ML_START)
+            .appendText(new UncheckedText(this.message).asString())
+            .appendText(System.lineSeparator())
+            .appendText(Mismatches.ML_END);
     }
 
     @Override
@@ -144,18 +145,21 @@ public final class Mismatches<X, M extends Matcher<X>> extends
         try {
             new Assertion<>("", this.args, matcher).affirm();
             mismatch = false;
-            dsc.appendText(String.format("%n"));
-            dsc.appendText(Mismatches.EXPECTED);
-            matcher.describeTo(dsc);
-            dsc.appendText(String.format("%n"));
-            dsc.appendText(Mismatches.BUT_WAS);
-            matcher.describeMismatch(this.args, dsc);
+            dsc
+                .appendText("matched ")
+                .appendValue(this.args);
         } catch (final AssertionError err) {
             mismatch = err.getMessage().equals(
                 new UncheckedText(this.message).asString()
             );
             if (!mismatch) {
-                dsc.appendText(err.getMessage());
+                dsc
+                    .appendText("mismatched with message")
+                    .appendText(System.lineSeparator())
+                    .appendText(Mismatches.ML_START)
+                    .appendText(err.getMessage())
+                    .appendText(System.lineSeparator())
+                    .appendText(Mismatches.ML_END);
             }
         }
         return mismatch;

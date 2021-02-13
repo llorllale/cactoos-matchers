@@ -57,7 +57,7 @@ public final class TextMatcher extends TypeSafeMatcher<Text> {
         final BiFunc<String, String, Boolean> func,
         final String expected
     ) {
-        this(text, func, expected, "Text with value");
+        this(text, func, expected, "was Text with value");
     }
 
     /**

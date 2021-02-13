@@ -66,10 +66,6 @@ import org.hamcrest.StringDescription;
  * @todo #18:30min Replace all uses of MatcherAssert.assertThat() with
  *  Assertion, and ban all overloads of the former in forbidden-apis.txt.
  *  We should also look into banning common matchers like Matchers.is(), etc.
- * @todo #67:30min Assertion should rely on mismatch description when forming
- *  error message (as assertThat does). Currently 'was' is being used by this
- *  class as part of description, it causes duplication of the word with
- *  Matchers derived from BaseMatcher, such as IsEqual.
  */
 public final class Assertion<T> {
 
@@ -109,10 +105,13 @@ public final class Assertion<T> {
     public void affirm() throws AssertionError {
         if (!this.matcher.matches(this.test)) {
             final Description text = new StringDescription();
-            text.appendText(this.msg)
-                .appendText(String.format("%nExpected: "))
+            text
+                .appendText(this.msg)
+                .appendText(System.lineSeparator())
+                .appendText("Expected: ")
                 .appendDescriptionOf(this.matcher)
-                .appendText(String.format("%n but was: "));
+                .appendText(System.lineSeparator())
+                .appendText("     but: ");
             this.matcher.describeMismatch(this.test, text);
             throw new AssertionError(text.toString());
         }

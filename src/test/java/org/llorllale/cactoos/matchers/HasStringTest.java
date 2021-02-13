@@ -73,7 +73,7 @@ public final class HasStringTest {
             new Mismatches<>(
                 new TextOf("abc123"),
                 "Text containing \"xyz456\"",
-                "Text with value \"abc123\""
+                "was Text with value \"abc123\""
             )
         ).affirm();
     }

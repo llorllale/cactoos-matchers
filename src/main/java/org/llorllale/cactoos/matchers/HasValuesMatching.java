@@ -28,8 +28,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Func;
 import org.cactoos.scalar.Or;
-import org.cactoos.text.FormattedText;
-import org.cactoos.text.TextOf;
 
 /**
  * Matcher to check that {@link Iterable} has elements matched by particular
@@ -57,13 +55,10 @@ public final class HasValuesMatching<X> extends MatcherEnvelope<Iterable<X>> {
         super(
             new MatcherOf<>(
                 actual -> new Or(fnc, actual).value(),
-                desc -> desc.appendText("The function matches at least 1 element."),
-                (actual, desc) -> desc.appendText(
-                    new FormattedText(
-                        "No any elements from [%s] matches by the function",
-                        new TextOf(actual)
-                    ).asString()
-                )
+                desc -> desc.appendText("matches at least 1 element"),
+                (actual, desc) -> desc
+                    .appendText("no match in ")
+                    .appendValue(actual)
             )
         );
     }

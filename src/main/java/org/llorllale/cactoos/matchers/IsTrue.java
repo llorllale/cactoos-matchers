@@ -40,7 +40,7 @@ public final class IsTrue extends MatcherEnvelope<Boolean> {
             new MatcherOf<>(
                 bool -> bool,
                 desc -> desc.appendValue(true),
-                (bool, desc) -> desc.appendValue(bool)
+                (bool, desc) -> desc.appendText("was ").appendValue(bool)
             )
         );
     }

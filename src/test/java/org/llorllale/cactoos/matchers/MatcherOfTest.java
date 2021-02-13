@@ -26,7 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.text.Joined;
+import org.cactoos.text.Concatenated;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -82,8 +82,8 @@ final class MatcherOfTest {
             ),
             new Mismatches<>(
                 provided,
-                new Joined("", "<", expected.toString(), ">"),
-                new Joined("", "<", provided.toString(), ">")
+                new Concatenated("<", expected.toString(), ">"),
+                new Concatenated("<", provided.toString(), ">")
             )
         ).affirm();
     }

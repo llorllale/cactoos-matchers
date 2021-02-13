@@ -53,8 +53,8 @@ final class IsApplicableTest {
             new IsApplicable<>(1, 1),
             new Mismatches<>(
                 new FuncOf<>(x -> 3 * x),
-                "Func with <1>",
-                "Func with <3>"
+                "Func output matches <1>",
+                "Func returned <3>"
             )
         ).affirm();
     }

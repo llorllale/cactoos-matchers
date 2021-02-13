@@ -71,7 +71,7 @@ final class HasValuesTest {
             new Mismatches<>(
                 new ListOf<>(1, 2, 3),
                 "contains <5>",
-                "<1, 2, 3>"
+                "was <[1, 2, 3]>"
             )
         ).affirm();
     }

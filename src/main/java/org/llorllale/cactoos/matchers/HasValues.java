@@ -28,7 +28,6 @@ package org.llorllale.cactoos.matchers;
 
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
-import org.cactoos.text.TextOf;
 
 /**
  * Matcher to check that {@link Iterable} has particular elements.
@@ -63,9 +62,10 @@ public final class HasValues<X> extends MatcherEnvelope<Iterable<X>> {
         super(
             new MatcherOf<>(
                 actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
-                desc -> desc.appendText("contains ")
-                    .appendValue(new TextOf(expected)),
-                (actual, desc) -> desc.appendValue(new TextOf(actual))
+                desc -> desc.appendText("contains ").appendValue(expected),
+                (actual, desc) -> desc
+                    .appendText("was ")
+                    .appendValue(actual)
             )
         );
     }
