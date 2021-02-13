@@ -27,11 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
 import org.cactoos.text.TextOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -46,7 +42,7 @@ final class MatchesTest {
      * Example of {@link Matches} usage.
      */
     @Test
-    void matches() {
+    void example() {
         new Assertion<>(
             "Matcher TextIs(abc) gives positive result for Text(abc)",
             new IsText("abc"),
@@ -54,45 +50,28 @@ final class MatchesTest {
         ).affirm();
     }
 
+    @Test
+    void matches() {
+        new Assertion<>(
+            "Matcher TextIs(abc) gives positive result for Text(abc)",
+            new Matches<>(new TextOf("abc")),
+            new Matches<>(new IsText("abc"))
+        ).affirm();
+    }
+
     /**
      * Gives negative testing result for the invalid arguments.
      */
     @Test
-    void matchStatus() {
+    void mismatches() {
         new Assertion<>(
             "Matcher TextIs(abc) gives negative result for Text(def)",
-            new Matches<>(new TextOf("def")).matches(new IsText("abc")),
-            new IsEqual<>(false)
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the actual value(s) properly.
-     */
-    @Test
-    void describeActual() {
-        final Description description = new StringDescription();
-        new Matches<Text, IsText>(new TextOf("expected")).matchesSafely(
-            new IsText("actual"), description
-        );
-        new Assertion<>(
-            "describes the matcher",
-            description.toString(),
-            new IsEqual<>("Text with value \"actual\"")
-        ).affirm();
-    }
-
-    /**
-     * Matcher prints the expected value(s) properly.
-     */
-    @Test
-    void describeExpected() {
-        final Description description = new StringDescription();
-        new Matches<>(new TextOf("expected")).describeTo(description);
-        new Assertion<>(
-            "describes the expected value",
-            description.toString(),
-            new IsEqual<>("<expected>")
+            new Matches<>(new TextOf("def")),
+            new Mismatches<>(
+                new IsText("abc"),
+                "<def>",
+                "Text with value \"abc\""
+            )
         ).affirm();
     }
 }

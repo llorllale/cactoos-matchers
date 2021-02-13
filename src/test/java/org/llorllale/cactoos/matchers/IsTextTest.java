@@ -27,7 +27,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -51,7 +50,11 @@ public final class IsTextTest {
         new Assertion<>(
             "must not match text that is not identical",
             new IsText("xyz"),
-            new IsNot<>(new Matches<>(new TextOf("abcd")))
+            new Mismatches<>(
+                new TextOf("abcd"),
+                "Text with value \"xyz\"",
+                "Text with value \"abcd\""
+            )
         ).affirm();
     }
 }

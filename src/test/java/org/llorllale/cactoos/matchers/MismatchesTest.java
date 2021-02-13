@@ -47,7 +47,7 @@ final class MismatchesTest {
      * Example of {@link Mismatches} usage.
      */
     @Test
-    void mismatches() {
+    void example() {
         new Assertion<>(
             "Must mismatch properly",
             new IsText("abc"),

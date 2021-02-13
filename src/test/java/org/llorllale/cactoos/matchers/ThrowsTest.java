@@ -29,6 +29,7 @@ package org.llorllale.cactoos.matchers;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import org.cactoos.scalar.ScalarOf;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
@@ -39,7 +40,11 @@ import org.junit.jupiter.api.Test;
  * Test case for {@link Throws}.
  *
  * @since 1.0.0
+ * @todo #20:30min Replace all the tests in this file that are
+ *  directly calling the match and mismatch methods of Throws
+ *  with tests that uses Mismatches instead.
  * @checkstyle StringLiteralsConcatenationCheck (200 lines)
+ * @checkstyle ClassDataAbstractionCouplingCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class ThrowsTest {
@@ -53,9 +58,11 @@ final class ThrowsTest {
             "matches scalar that throws the expected exception",
             new Throws<>("No object(s) found.", IllegalArgumentException.class),
             new Matches<>(
-                () -> {
-                    throw new IllegalArgumentException("No object(s) found.");
-                }
+                new ScalarOf<>(
+                    () -> {
+                        throw new IllegalArgumentException("No object(s) found.");
+                    }
+                )
             )
         ).affirm();
     }
@@ -75,9 +82,11 @@ final class ThrowsTest {
             "matches scalar that throws a subtype of the expected exception",
             new Throws<>("", IOException.class),
             new Matches<>(
-                () -> {
-                    throw new FileNotFoundException("");
-                }
+                new ScalarOf<>(
+                    () -> {
+                        throw new FileNotFoundException("");
+                    }
+                )
             )
         ).affirm();
     }
@@ -90,9 +99,11 @@ final class ThrowsTest {
             new Throws<>("", IOException.class),
             new IsNot<>(
                 new Matches<>(
-                    () -> {
-                        throw new IllegalArgumentException("");
-                    }
+                    new ScalarOf<>(
+                        () -> {
+                            throw new IllegalArgumentException("");
+                        }
+                    )
                 )
             )
         ).affirm();
@@ -137,9 +148,11 @@ final class ThrowsTest {
             "must match if message is not present",
             new Throws<>(IllegalArgumentException.class),
             new Matches<>(
-                () -> {
-                    throw new IllegalArgumentException("No object(s) found.");
-                }
+                new ScalarOf<>(
+                    () -> {
+                        throw new IllegalArgumentException("No object(s) found.");
+                    }
+                )
             )
         ).affirm();
     }

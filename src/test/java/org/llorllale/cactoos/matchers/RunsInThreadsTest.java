@@ -75,10 +75,10 @@ final class RunsInThreadsTest {
         new Assertion<>(
             "does not match Func that is not thread-safe",
             new RunsInThreads<>(counter, threads),
-            new IsNot<>(
-                new Matches<>(
-                    new Repeated<>(new Unsafe(), attempts)
-                )
+            new Mismatches<>(
+                new Repeated<>(new Unsafe(), attempts),
+                "Runs in <20> threads successfuly",
+                "Ran successfuly in <0> threads"
             )
         ).affirm();
         new Assertion<>(

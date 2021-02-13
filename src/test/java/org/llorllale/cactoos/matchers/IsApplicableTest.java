@@ -26,7 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.core.IsNot;
+import org.cactoos.func.FuncOf;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,34 +35,24 @@ import org.junit.jupiter.api.Test;
  * @since 1.0
  * @checkstyle MagicNumber (100 line)
  */
-public final class IsApplicableTest {
+final class IsApplicableTest {
 
     @Test
-    void matchFuncs() {
+    void matches() {
         new Assertion<>(
             "matches function that produces same output from the given input",
             new IsApplicable<>(1, 1),
-            new Matches<>(x -> x)
+            new Matches<>(new FuncOf<>(x -> x))
         ).affirm();
     }
 
     @Test
-    void mismatchFuncs() {
-        new Assertion<>(
-            // @checkstyle LineLength (1 line)
-            "does not match function that produces different output from the given input",
-            new IsApplicable<>(1, 1),
-            new IsNot<>(new Matches<>(x -> 3 * x))
-        ).affirm();
-    }
-
-    @Test
-    void describesMismatch() {
+    void mismatches() {
         new Assertion<>(
             "describes mismatch",
             new IsApplicable<>(1, 1),
             new Mismatches<>(
-                x -> 3 * x,
+                new FuncOf<>(x -> 3 * x),
                 "Func with <1>",
                 "Func with <3>"
             )

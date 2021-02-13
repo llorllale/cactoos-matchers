@@ -26,16 +26,16 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Matcher Envelope.
  * @param <T> The type of the Matcher.
  * @since 1.0.0
  */
-public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
+public abstract class MatcherEnvelope<T> extends BaseMatcher<T> {
 
     /**
      * The matcher to test.
@@ -57,13 +57,12 @@ public abstract class MatcherEnvelope<T> extends TypeSafeMatcher<T> {
     }
 
     @Override
-    protected final void describeMismatchSafely(final T item,
-        final Description desc) {
-        this.origin.describeMismatch(item, desc);
+    public final boolean matches(final Object actual) {
+        return this.origin.matches(actual);
     }
 
     @Override
-    protected final boolean matchesSafely(final T item) {
-        return this.origin.matches(item);
+    public final void describeMismatch(final Object item, final Description description) {
+        this.origin.describeMismatch(item, description);
     }
 }

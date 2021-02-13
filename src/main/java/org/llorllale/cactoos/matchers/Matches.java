@@ -28,7 +28,7 @@ package org.llorllale.cactoos.matchers;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.TypeSafeMatcher;
 
 /**
  * Matcher to test {@link org.hamcrest.Matcher} objects.
@@ -52,8 +52,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Matches<X, M extends Matcher<X>> extends
-    TypeSafeDiagnosingMatcher<M> {
+public final class Matches<X, M extends Matcher<X>> extends TypeSafeMatcher<M> {
 
     /**
      * The testing arguments for the target matcher.
@@ -75,8 +74,12 @@ public final class Matches<X, M extends Matcher<X>> extends
     }
 
     @Override
-    protected boolean matchesSafely(final M matcher, final Description dsc) {
-        matcher.describeTo(dsc);
+    protected boolean matchesSafely(final M matcher) {
         return matcher.matches(this.args);
+    }
+
+    @Override
+    protected void describeMismatchSafely(final M matcher, final Description dsc) {
+        matcher.describeTo(dsc);
     }
 }

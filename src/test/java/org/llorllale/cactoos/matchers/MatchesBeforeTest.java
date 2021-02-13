@@ -27,7 +27,6 @@
 
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +45,7 @@ final class MatchesBeforeTest {
     void matches() {
         final String val = "test";
         new Assertion<>(
-            "must run in 1000 milliseconds maximum",
+            "Must run in 1000 milliseconds maximum",
             new TextOf(val),
             new MatchesBefore<>(
                 1000,
@@ -58,7 +57,7 @@ final class MatchesBeforeTest {
     @Test
     void mismatchesFromMatcher() {
         new Assertion<>(
-            "must fail because of matcher",
+            "Must fail because of matcher",
             new MatchesBefore<>(1000, new IsText("a")),
             new Mismatches<>(
                 new TextOf("b"),
@@ -72,13 +71,15 @@ final class MatchesBeforeTest {
     void mismatchesFromTimeout() {
         final String val = "c";
         new Assertion<>(
-            "must fail because of timeout",
+            "Must fail because of timeout",
             new MatchesBefore<>(10, new IsText(val)),
             new Mismatches<>(
-                () -> {
-                    Thread.sleep(1000);
-                    return val;
-                },
+                new TextOf(
+                    () -> {
+                        Thread.sleep(1000);
+                        return val;
+                    }
+                ),
                 "Text with value \"c\" runs in less than <10L> milliseconds",
                 "Timeout after <10L> milliseconds"
             )
@@ -86,25 +87,24 @@ final class MatchesBeforeTest {
     }
 
     @Test
-    void mismatchesWhenExceptionThrown() {
-        final String val = "c";
+    void propagatesException() {
         new Assertion<>(
-            "description must contain exception happened inside Text",
-            new MatchesBefore<>(20, new IsText(val)),
-            new Mismatches<>(
-                () -> {
-                    throw new UnsupportedOperationException();
-                },
-                new TextOf(
-                    "Text with value \"c\" runs in less than <20L> milliseconds"
-                ),
-                new Joined(
-                    " ",
-                    "Thrown <java.util.concurrent.ExecutionException:",
-                    "java.lang.RuntimeException:",
-                    "java.lang.UnsupportedOperationException>"
-                )
-            )
+            "Must propagate runtime exception as-is",
+            () -> {
+                new Assertion<String>(
+                    "Must fail",
+                    "ignored",
+                    new MatchesBefore<>(
+                        10, new Verifies<>(
+                            str -> {
+                                throw new IllegalArgumentException();
+                            }
+                        )
+                    )
+                ).affirm();
+                return "discarded";
+            },
+            new Throws<>(IllegalStateException.class)
         ).affirm();
     }
 }

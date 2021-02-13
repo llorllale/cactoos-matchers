@@ -27,7 +27,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.TextOf;
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -68,15 +67,6 @@ public final class HasStringTest {
 
     @Test
     void mismatch() {
-        new Assertion<>(
-            "does not match text not containing the given string",
-            new HasString("xyz"),
-            new IsNot<>(new Matches<>(new TextOf("abc")))
-        ).affirm();
-    }
-
-    @Test
-    void describesMismatch() {
         new Assertion<>(
             "describes mismatch correctly",
             new HasString("xyz456"),

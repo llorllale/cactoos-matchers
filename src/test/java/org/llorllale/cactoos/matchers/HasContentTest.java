@@ -27,9 +27,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.io.InputOf;
-import org.hamcrest.Description;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -37,7 +34,6 @@ import org.junit.jupiter.api.Test;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public final class HasContentTest {
 
     @Test
@@ -62,29 +58,4 @@ public final class HasContentTest {
             )
         ).affirm();
     }
-
-    @Test
-    void describesMismatch() {
-        final Description description = new StringDescription();
-        new HasContent("world").describeMismatchSafely(
-            new InputOf("hello"), description
-        );
-        new Assertion<>(
-            "includes the specified contents when describing a mismatch",
-            description.toString(),
-            new IsEqual<>("has content \"hello\"")
-        ).affirm();
-    }
-
-    @Test
-    void describesExpectedValues() {
-        final Description description = new StringDescription();
-        new HasContent("world").describeTo(description);
-        new Assertion<>(
-            "includes the specified contents when describing itself",
-            description.toString(),
-            new IsEqual<>("has content \"world\"")
-        ).affirm();
-    }
-
 }

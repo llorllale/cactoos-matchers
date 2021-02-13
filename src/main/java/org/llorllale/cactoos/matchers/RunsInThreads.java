@@ -27,17 +27,18 @@
 package org.llorllale.cactoos.matchers;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.cactoos.Func;
-import org.cactoos.scalar.And;
-import org.cactoos.scalar.Unchecked;
+import org.cactoos.iterable.Mapped;
+import org.cactoos.scalar.SumOf;
+import org.cactoos.scalar.Ternary;
 import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 /**
  * Matcher for {@link Func} that must run in multiple threads.
@@ -46,7 +47,7 @@ import org.hamcrest.TypeSafeMatcher;
  * @since 0.24
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class RunsInThreads<T> extends TypeSafeMatcher<Func<T, Boolean>> {
+public final class RunsInThreads<T> extends TypeSafeDiagnosingMatcher<Func<T, Boolean>> {
 
     /**
      * Input.
@@ -86,12 +87,15 @@ public final class RunsInThreads<T> extends TypeSafeMatcher<Func<T, Boolean>> {
     }
 
     @Override
-    public boolean matchesSafely(final Func<T, Boolean> func) {
+    public boolean matchesSafely(
+        final Func<T, Boolean> func,
+        final Description desc
+    ) {
         final ExecutorService service = Executors.newFixedThreadPool(
             this.total
         );
         final CountDownLatch latch = new CountDownLatch(1);
-        final Collection<Future<Boolean>> futures = new ArrayList<>(this.total);
+        final List<Future<Boolean>> futures = new ArrayList<>(this.total);
         final Callable<Boolean> task = () -> {
             latch.await();
             return func.apply(this.input);
@@ -100,18 +104,27 @@ public final class RunsInThreads<T> extends TypeSafeMatcher<Func<T, Boolean>> {
             futures.add(service.submit(task));
         }
         latch.countDown();
-        final boolean matches = new Unchecked<>(
-            new And(
-                (Func<Future<Boolean>, Boolean>) Future::get,
+        final int matching = new SumOf(
+            new Mapped<>(
+                f -> new Ternary<>(f.get(), 1, 0).value(),
                 futures
             )
-        ).value();
+        ).intValue();
         service.shutdown();
-        return matches;
+        if (matching != this.total) {
+            desc
+                .appendText("Ran successfuly in ")
+                .appendValue(matching)
+                .appendText(" threads");
+        }
+        return matching == this.total;
     }
 
     @Override
     public void describeTo(final Description description) {
-        description.appendText("failed");
+        description
+            .appendText("Runs in ")
+            .appendValue(this.total)
+            .appendText(" threads successfuly");
     }
 }

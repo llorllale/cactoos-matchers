@@ -59,7 +59,7 @@ final class HasPropertyTest {
      * Simple positive case only for key.
      */
     @Test
-    void positiveMachKey() {
+    void positiveMatchKey() {
         new Assertion<>(
             "must match 'b=...'",
             new HasValue<>(new HasProperty("b")),

@@ -27,8 +27,6 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.text.Joined;
-import org.hamcrest.StringDescription;
-import org.hamcrest.core.IsEqual;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -87,21 +85,6 @@ final class MatcherOfTest {
                 new Joined("", "<", expected.toString(), ">"),
                 new Joined("", "<", provided.toString(), ">")
             )
-        ).affirm();
-    }
-
-    @Test
-    void describesMismatchSafely() {
-        final StringDescription dsc = new StringDescription();
-        new MatcherOf<String>(
-            x -> x.equals("hello"),
-            desc -> desc.appendText("hello"),
-            (act, desc) -> desc.appendText(act)
-        ).describeMismatchSafely("world", dsc);
-        new Assertion<>(
-            "describes mismatch safely",
-            dsc.toString(),
-            new IsEqual<>("world")
         ).affirm();
     }
 }

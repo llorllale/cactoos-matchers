@@ -27,7 +27,6 @@
 package org.llorllale.cactoos.matchers;
 
 import java.util.concurrent.TimeoutException;
-import org.cactoos.Func;
 import org.cactoos.func.Timed;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -53,10 +52,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @param <T> Type of the scalar's value
  * @since 1.0.0
  */
-@SuppressWarnings({
-    "PMD.AvoidCatchingGenericException",
-    "PMD.ProtectedMethodInFinalClassCheck"
-})
+@SuppressWarnings("PMD.AvoidCatchingGenericException")
 public final class MatchesBefore<T> extends TypeSafeDiagnosingMatcher<T> {
     /**
      * Time unit.
@@ -99,12 +95,12 @@ public final class MatchesBefore<T> extends TypeSafeDiagnosingMatcher<T> {
     protected boolean matchesSafely(
         final T item, final Description desc
     ) {
-        boolean result = false;
-        final Func<T, Boolean> func =
-            new Timed<>(this.matcher::matches, this.millisec);
+        boolean matches = false;
         try {
-            result = func.apply(item);
-            this.matcher.describeMismatch(item, desc);
+            matches = new Timed<>(this.matcher::matches, this.millisec).apply(item);
+            if (!matches) {
+                this.matcher.describeMismatch(item, desc);
+            }
         } catch (final TimeoutException texc) {
             desc.appendText("Timeout after ")
                 .appendValue(this.millisec)
@@ -112,9 +108,8 @@ public final class MatchesBefore<T> extends TypeSafeDiagnosingMatcher<T> {
                 .appendText(MatchesBefore.TIME_UNIT);
             // @checkstyle IllegalCatchCheck (1 line)
         } catch (final Exception ex) {
-            desc.appendText("Thrown ")
-                .appendValue(ex);
+            throw new IllegalStateException(ex);
         }
-        return result;
+        return matches;
     }
 }

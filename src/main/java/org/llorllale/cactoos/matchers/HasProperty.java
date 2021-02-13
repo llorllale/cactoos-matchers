@@ -55,7 +55,7 @@ public final class HasProperty extends MatcherEnvelope<Properties> {
      * @param key Literal key.
      * @param value Literal value.
      */
-    HasProperty(final String key, final String value) {
+    public HasProperty(final String key, final String value) {
         this(new IsEqual<>(key), new IsEqual<>(value));
     }
 

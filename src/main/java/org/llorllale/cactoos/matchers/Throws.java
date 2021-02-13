@@ -108,8 +108,10 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
     @SuppressWarnings(
         { "PMD.AvoidCatchingGenericException", "PMD.AvoidCatchingThrowable" }
     )
-    protected boolean matchesSafely(final Scalar<T> obj,
-        final Description dsc) {
+    protected boolean matchesSafely(
+        final Scalar<T> obj,
+        final Description dsc
+    ) {
         // @checkstyle IllegalCatchCheck (20 lines)
         boolean matches;
         try {
@@ -117,16 +119,16 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
             matches = false;
             dsc.appendText("The exception wasn't thrown.");
         } catch (final Throwable cause) {
-            dsc
-                .appendText("Exception has type '")
-                .appendText(cause.getClass().getName())
-                .appendText("' and message '")
-                .appendText(cause.getMessage())
-                .appendText("'");
             if (this.type.isAssignableFrom(cause.getClass())
                 && this.msg.matches(cause.getMessage())) {
                 matches = true;
             } else {
+                dsc
+                    .appendText("Exception has type '")
+                    .appendText(cause.getClass().getName())
+                    .appendText("' and message '")
+                    .appendText(cause.getMessage())
+                    .appendText("'");
                 matches = false;
             }
         }
