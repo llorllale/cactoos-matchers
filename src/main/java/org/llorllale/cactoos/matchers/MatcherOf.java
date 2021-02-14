@@ -48,7 +48,7 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
     /**
      * Matches an actual object with expected one.
      */
-    private final Func<T, Boolean> match;
+    private final Func<? super T, Boolean> match;
 
     /**
      * Generates a description of the object.
@@ -59,7 +59,7 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
      * Generates a description for situation when an actual object does not
      * match to the expected one.
      */
-    private final BiProc<T, Description> mismatch;
+    private final BiProc<? super T, Description> mismatch;
 
     /**
      * Ctor.
@@ -69,9 +69,9 @@ public final class MatcherOf<T> extends TypeSafeMatcher<T> {
      *  object does not match to the expected one
      */
     public MatcherOf(
-        final Func<T, Boolean> match,
+        final Func<? super T, Boolean> match,
         final Proc<Description> description,
-        final BiProc<T, Description> mismatch
+        final BiProc<? super T, Description> mismatch
     ) {
         this.match = match;
         this.description = description;
