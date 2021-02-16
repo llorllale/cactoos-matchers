@@ -31,7 +31,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.cactoos.Func;
 import org.cactoos.func.Repeated;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -83,8 +82,8 @@ final class RunsInThreadsTest {
         ).affirm();
         new Assertion<>(
             "counter must not be incremented by all threads",
-            counter.get(),
-            new IsNot<>(new IsEqual<>(threads * attempts))
+            counter.get() < threads * attempts,
+            new IsEqual<>(true)
         ).affirm();
     }
 

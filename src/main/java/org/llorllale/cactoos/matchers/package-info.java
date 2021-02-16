@@ -28,10 +28,6 @@
 /**
  * An extension of cactoos with object-oriented hamcrest matchers.
  *
- * @todo #136:30m Replace the combination of IsNot and Matches with Mismatches.
- *  This combination does not check textual output of Matcher, only boolean
- *  value. It's up for discussion if checking the output is too exhaustive or
- *  not, leave a comment to this task clarify that.
  * @since 0.14
  */
 package org.llorllale.cactoos.matchers;

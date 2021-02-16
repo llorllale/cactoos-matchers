@@ -49,9 +49,9 @@ final class IsTrueTest {
     }
 
     @Test
-    void describesCorrectly() {
+    void matchNegative() {
         new Assertion<>(
-            "must throw an exception that describes the values",
+            "mismatches 'false'",
             new IsTrue(),
             new Mismatches<>(
                 false,

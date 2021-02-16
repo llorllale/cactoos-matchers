@@ -33,7 +33,6 @@ import org.cactoos.scalar.ScalarOf;
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
 import org.hamcrest.core.IsEqual;
-import org.hamcrest.core.IsNot;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -72,7 +71,14 @@ final class ThrowsTest {
         new Assertion<>(
             "mismatches scalar that doesn't throw any exception",
             new Throws<>("illegal arg", IllegalArgumentException.class),
-            new IsNot<>(new Matches<>(() -> "no exception"))
+            new Mismatches<>(
+                new ScalarOf<>(
+                    () -> "no exception"
+                ),
+                "Exception has type 'java.lang.IllegalArgumentException'"
+                    + " and message matches \"illegal arg\"",
+                "The exception wasn't thrown."
+            )
         ).affirm();
     }
 
@@ -97,14 +103,16 @@ final class ThrowsTest {
             // @checkstyle LineLength (1 line)
             "mismatches if exception thrown is not subtype of expected exception",
             new Throws<>("", IOException.class),
-            new IsNot<>(
-                new Matches<>(
-                    new ScalarOf<>(
-                        () -> {
-                            throw new IllegalArgumentException("");
-                        }
-                    )
-                )
+            new Mismatches<>(
+                new ScalarOf<>(
+                    () -> {
+                        throw new IllegalArgumentException("");
+                    }
+                ),
+                "Exception has type 'java.io.IOException'"
+                    + " and message matches \"\"",
+                "Exception has type 'java.lang.IllegalArgumentException'"
+                    + " and message ''"
             )
         ).affirm();
     }
