@@ -25,4 +25,5 @@ release:
     gpg --allow-secret-key-import --no-tty --batch --import /home/r/secring.gpg
     mvn versions:set "-DnewVersion=${tag}" --settings ../settings.xml
     git commit -am "${tag}"
-    mvn clean deploy -Psonar -Pqulice -Psonatype --errors --settings ../settings.xml
+    # Sonar is disabled (was -Psonar) because sonarcloud.io only support Java 11+
+    mvn clean deploy -Pqulice -Psonatype --errors --settings ../settings.xml
