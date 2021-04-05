@@ -10,10 +10,7 @@ jobs:
     name: Tests
     strategy:
       matrix:
-        # @todo #83:30min Add windows-2019 to the test matrix after fixing quite a few errors happening on windows.
-        #  Don't forget to add it to the list of required status checks in the repo's settings.
-        #  See errors in the build log: https://github.com/llorllale/cactoos-matchers/runs/1082946792.
-        os: [ubuntu-18.04, macOS-10.15]
+        os: [ubuntu-18.04, macOS-10.15, windows-2019]
         java: [8, 11, 15]
     runs-on: ${{ matrix.os }}
     steps:
