@@ -27,24 +27,61 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Func;
+import org.hamcrest.Matcher;
 
 /**
- * Matches if an object verifies the {@link Func}.
+ * Matches if an object satisfies the {@link Func}.
  *
  * @param <T> Type of the matched value
  * @since 1.0.0
  */
-public final class Verifies<T> extends MatcherEnvelope<T> {
+public final class Satisfies<T> extends MatcherEnvelope<T> {
     /**
      * Ctor.
      * @param func Function to verify
      */
-    public Verifies(final Func<? super T, Boolean> func) {
+    public Satisfies(final Func<? super T, Boolean> func) {
+        this(new IsTrue(), "func application", func);
+    }
+
+    /**
+     * Ctor.
+     * @param matcher Matcher for feature
+     * @param extractor Extractor for feature
+     * @param <U> Feature type
+     */
+    public <U> Satisfies(
+        final Matcher<? super U> matcher,
+        final Func<? super T, ? extends U> extractor
+    ) {
+        this(matcher, "feature", extractor);
+    }
+
+    /**
+     * Ctor.
+     * @param matcher Matcher for feature
+     * @param fdesc Description for feature
+     * @param extractor Extractor for feature
+     * @param <U> Feature type
+     */
+    public <U> Satisfies(
+        final Matcher<? super U> matcher, final String fdesc,
+        final Func<? super T, ? extends U> extractor
+    ) {
         super(
             new MatcherOf<>(
-                func,
-                desc -> desc.appendText("verifies"),
-                (obj, desc) -> desc.appendText("was ").appendValue(obj)
+                obj -> matcher.matches(extractor.apply(obj)),
+                desc -> desc
+                    .appendText(fdesc)
+                    .appendText(" satisfies ")
+                    .appendDescriptionOf(matcher),
+                (obj, desc) -> {
+                    desc.appendText(fdesc)
+                        .appendText(" on ")
+                        .appendValue(obj)
+                        .appendText(" ");
+                    matcher.describeMismatch(extractor.apply(obj), desc);
+                }
             )
         );
     }

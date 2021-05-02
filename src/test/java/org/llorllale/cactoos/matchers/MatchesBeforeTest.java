@@ -95,7 +95,7 @@ final class MatchesBeforeTest {
                     "Must fail",
                     "ignored",
                     new MatchesBefore<>(
-                        10, new Verifies<>(
+                        10, new Satisfies<>(
                             str -> {
                                 throw new IllegalArgumentException();
                             }
