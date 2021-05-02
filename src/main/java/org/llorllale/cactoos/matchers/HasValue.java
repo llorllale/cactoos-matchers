@@ -36,7 +36,7 @@ import org.hamcrest.core.IsEqual;
  * @param <T> Type of result
  * @since 0.2
  */
-public final class HasValue<T> extends MatcherEnvelope<Scalar<T>> {
+public final class HasValue<T> extends MatcherEnvelope<Scalar<? extends T>> {
 
     /**
      * Ctor.
@@ -50,7 +50,7 @@ public final class HasValue<T> extends MatcherEnvelope<Scalar<T>> {
      * Ctor.
      * @param mtr Matcher of the value
      */
-    public HasValue(final Matcher<T> mtr) {
+    public HasValue(final Matcher<? super T> mtr) {
         super(
             new MatcherOf<>(
                 scalar -> mtr.matches(scalar.value()),

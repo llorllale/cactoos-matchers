@@ -52,7 +52,7 @@ import org.hamcrest.core.IsEqual;
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
+public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<? extends T>> {
 
     /**
      * The expected exception message.
@@ -109,7 +109,7 @@ public final class Throws<T> extends TypeSafeDiagnosingMatcher<Scalar<T>> {
         { "PMD.AvoidCatchingGenericException", "PMD.AvoidCatchingThrowable" }
     )
     protected boolean matchesSafely(
-        final Scalar<T> obj,
+        final Scalar<? extends T> obj,
         final Description dsc
     ) {
         // @checkstyle IllegalCatchCheck (20 lines)

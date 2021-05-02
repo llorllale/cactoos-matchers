@@ -41,7 +41,6 @@ import org.cactoos.text.Split;
  *  separator.
  *
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
 public final class HasLines extends MatcherEnvelope<String> {
 
@@ -76,7 +75,7 @@ public final class HasLines extends MatcherEnvelope<String> {
      * @param lns The expected lines to be present.
      */
     public HasLines(
-        final BiFunc<Collection<String>, Collection<String>, Boolean> fnc,
+        final BiFunc<? super Collection<String>, ? super Collection<String>, Boolean> fnc,
         final Scalar<String> sep,
         final Collection<String> lns
     ) {
@@ -96,9 +95,9 @@ public final class HasLines extends MatcherEnvelope<String> {
      * @param split The function to split the text which came for testing.
      */
     private HasLines(
-        final BiFunc<Collection<String>, Collection<String>, Boolean> match,
+        final BiFunc<? super Collection<String>, ? super Collection<String>, Boolean> match,
         final Collection<String> expected,
-        final Func<String, Collection<String>> split
+        final Func<? super String, ? extends Collection<String>> split
     ) {
         super(
             new MatcherOf<>(

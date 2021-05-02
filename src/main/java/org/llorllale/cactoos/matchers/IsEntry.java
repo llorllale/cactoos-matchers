@@ -40,7 +40,7 @@ import org.hamcrest.core.IsEqual;
  * @param <V> Type of value
  * @since 1.0.0
  */
-public final class IsEntry<K, V> extends MatcherEnvelope<Map.Entry<K, V>> {
+public final class IsEntry<K, V> extends MatcherEnvelope<Map.Entry<? extends K, ? extends V>> {
 
     /**
      * Ctor.
@@ -58,7 +58,7 @@ public final class IsEntry<K, V> extends MatcherEnvelope<Map.Entry<K, V>> {
      * @param key Matcher for key.
      * @param value Matcher for value.
      */
-    public IsEntry(final Matcher<K> key, final Matcher<V> value) {
+    public IsEntry(final Matcher<? super K> key, final Matcher<? super V> value) {
         super(
             new MatcherOf<>(
                 entry -> new And(

@@ -48,11 +48,10 @@ import org.hamcrest.TypeSafeMatcher;
  * </pre>
  *
  * @param <X> Type of item.
- * @param <M> Type of tested matcher.
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Matches<X, M extends Matcher<X>> extends TypeSafeMatcher<M> {
+public final class Matches<X> extends TypeSafeMatcher<Matcher<? super X>> {
 
     /**
      * The testing arguments for the target matcher.
@@ -74,12 +73,12 @@ public final class Matches<X, M extends Matcher<X>> extends TypeSafeMatcher<M> {
     }
 
     @Override
-    protected boolean matchesSafely(final M matcher) {
+    protected boolean matchesSafely(final Matcher<? super X> matcher) {
         return matcher.matches(this.args);
     }
 
     @Override
-    protected void describeMismatchSafely(final M matcher, final Description dsc) {
+    protected void describeMismatchSafely(final Matcher<? super X> matcher, final Description dsc) {
         matcher.describeTo(dsc);
     }
 }

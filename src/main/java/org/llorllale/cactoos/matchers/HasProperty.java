@@ -83,7 +83,7 @@ public final class HasProperty extends MatcherEnvelope<Properties> {
      *
      * @param entr Entry matcher.
      */
-    private HasProperty(final Matcher<Map.Entry<String, String>> entr) {
+    private HasProperty(final Matcher<? super Map.Entry<String, String>> entr) {
         super(
             new MatcherOf<>(
                 properties -> new HasValuesMatching<>(

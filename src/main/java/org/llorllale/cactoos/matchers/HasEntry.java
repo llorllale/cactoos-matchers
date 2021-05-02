@@ -49,7 +49,7 @@ import org.cactoos.scalar.Ternary;
  * @param <V> Type of value.
  * @since 1.0.0
  */
-public final class HasEntry<K, V> extends MatcherEnvelope<Map<K, V>> {
+public final class HasEntry<K, V> extends MatcherEnvelope<Map<? extends K, ? extends V>> {
     /**
      * Ctor.
      * @param key The expected key.

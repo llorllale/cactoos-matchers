@@ -67,14 +67,14 @@ public final class MatchesBefore<T> extends TypeSafeDiagnosingMatcher<T> {
     /**
      * The matcher.
      */
-    private final Matcher<T> matcher;
+    private final Matcher<? super T> matcher;
 
     /**
      * Ctor.
      * @param mllsc Timeout.
      * @param mtchr Matcher.
      */
-    public MatchesBefore(final long mllsc, final Matcher<T> mtchr) {
+    public MatchesBefore(final long mllsc, final Matcher<? super T> mtchr) {
         super();
         this.millisec = mllsc;
         this.matcher = mtchr;

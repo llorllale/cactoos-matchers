@@ -82,7 +82,7 @@ public final class Assertion<T> {
     /**
      * Matcher.
      */
-    private final Matcher<T> matcher;
+    private final Matcher<? super T> matcher;
 
     /**
      * Ctor.
@@ -91,7 +91,7 @@ public final class Assertion<T> {
      * @param matcher Tester.
      */
     public Assertion(
-        final String msg, final T test, final Matcher<T> matcher
+        final String msg, final T test, final Matcher<? super T> matcher
     ) {
         this.msg = msg;
         this.test = test;

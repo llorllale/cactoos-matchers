@@ -45,13 +45,13 @@ import org.cactoos.scalar.Or;
  * @param <X> Type of item.
  * @since 1.0.0
  */
-public final class HasValuesMatching<X> extends MatcherEnvelope<Iterable<X>> {
+public final class HasValuesMatching<X> extends MatcherEnvelope<Iterable<? extends X>> {
     /**
      * Ctor.
      * @param fnc The function to match at least one element within the
      *  {@link Iterable}.
      */
-    public HasValuesMatching(final Func<X, Boolean> fnc) {
+    public HasValuesMatching(final Func<? super X, Boolean> fnc) {
         super(
             new MatcherOf<>(
                 actual -> new Or(fnc, actual).value(),

@@ -47,7 +47,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  * @since 0.24
  * @checkstyle JavadocMethodCheck (500 lines)
  */
-public final class RunsInThreads<T> extends TypeSafeDiagnosingMatcher<Func<T, Boolean>> {
+public final class RunsInThreads<T> extends TypeSafeDiagnosingMatcher<Func<? super T, Boolean>> {
 
     /**
      * Input.
@@ -88,7 +88,7 @@ public final class RunsInThreads<T> extends TypeSafeDiagnosingMatcher<Func<T, Bo
 
     @Override
     public boolean matchesSafely(
-        final Func<T, Boolean> func,
+        final Func<? super T, Boolean> func,
         final Description desc
     ) {
         final ExecutorService service = Executors.newFixedThreadPool(

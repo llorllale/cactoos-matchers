@@ -39,7 +39,7 @@ import org.hamcrest.core.IsEqual;
  * @since 0.2
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class IsApplicable<X, Y> extends MatcherEnvelope<Func<X, Y>> {
+public final class IsApplicable<X, Y> extends MatcherEnvelope<Func<? super X, ? extends Y>> {
 
     /**
      * Ctor.
@@ -55,7 +55,7 @@ public final class IsApplicable<X, Y> extends MatcherEnvelope<Func<X, Y>> {
      * @param input Input for the function
      * @param mtr Matcher of the text
      */
-    public IsApplicable(final X input, final Matcher<Y> mtr) {
+    public IsApplicable(final X input, final Matcher<? super Y> mtr) {
         super(
             new MatcherOf<>(
                 func -> mtr.matches(

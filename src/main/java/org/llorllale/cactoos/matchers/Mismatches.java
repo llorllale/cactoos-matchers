@@ -53,12 +53,11 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
  *  }</pre>
  *
  * @param <X> Type of item.
- * @param <M> Type of tested matcher.
  * @since 1.0.0
  * @checkstyle ProtectedMethodInFinalClassCheck (200 lines)
  */
-public final class Mismatches<X, M extends Matcher<X>> extends
-    TypeSafeDiagnosingMatcher<M> {
+public final class Mismatches<X> extends
+    TypeSafeDiagnosingMatcher<Matcher<? super X>> {
 
     /**
      * Multiline start.
@@ -140,7 +139,10 @@ public final class Mismatches<X, M extends Matcher<X>> extends
     }
 
     @Override
-    protected boolean matchesSafely(final M matcher, final Description dsc) {
+    protected boolean matchesSafely(
+        final Matcher<? super X> matcher,
+        final Description dsc
+    ) {
         boolean mismatch;
         try {
             new Assertion<>("", this.args, matcher).affirm();

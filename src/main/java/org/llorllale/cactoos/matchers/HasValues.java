@@ -44,7 +44,7 @@ import org.cactoos.list.ListOf;
  * @param <X> Type of item.
  * @since 1.0.0
  */
-public final class HasValues<X> extends MatcherEnvelope<Iterable<X>> {
+public final class HasValues<X> extends MatcherEnvelope<Iterable<? extends X>> {
     /**
      * Ctor.
      * @param expected The expected values within unit test.
@@ -58,7 +58,7 @@ public final class HasValues<X> extends MatcherEnvelope<Iterable<X>> {
      * Ctor.
      * @param expected The expected values within unit test.
      */
-    public HasValues(final Iterable<X> expected) {
+    public HasValues(final Iterable<? extends X> expected) {
         super(
             new MatcherOf<>(
                 actual -> new ListOf<>(actual).containsAll(new ListOf<>(expected)),
