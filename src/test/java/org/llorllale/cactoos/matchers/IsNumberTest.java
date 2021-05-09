@@ -53,8 +53,8 @@ final class IsNumberTest {
             new IsNumber(Double.POSITIVE_INFINITY),
             new Mismatches<>(
                 1234,
-                "equals <Infinity>",
-                "comparator returns <-1> when <Infinity> compared to <1234>"
+                "a value equal to <Infinity> when compared by <NumberComparator{}>",
+                "<1234> was less than <Infinity> when compared by <NumberComparator{}>"
             )
         ).affirm();
     }
