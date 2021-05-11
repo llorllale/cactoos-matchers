@@ -59,7 +59,7 @@ final class NumberComparator implements Comparator<Number>, Serializable {
     /**
      * Ctor.
      */
-    public NumberComparator() {
+    NumberComparator() {
         this(
             Comparator
                 .comparing(Number::doubleValue)
