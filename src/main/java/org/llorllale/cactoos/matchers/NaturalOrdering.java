@@ -50,6 +50,6 @@ final class NaturalOrdering<T extends Comparable<? super T>> implements
 
     @Override
     public String toString() {
-        return "NaturalOrdering{}";
+        return "NaturalOrdering";
     }
 }

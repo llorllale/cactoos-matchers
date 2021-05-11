@@ -54,8 +54,8 @@ final class IsGreaterThanOrEqualToTest {
             new IsGreaterThanOrEqualTo<>(0),
             new Mismatches<>(
                 -1,
-                "a value equal to or greater than <0> when compared by <NaturalOrdering{}>",
-                "<-1> was less than <0> when compared by <NaturalOrdering{}>"
+                "a value equal to or greater than <0> when compared by <NaturalOrdering>",
+                "<-1> was less than <0> when compared by <NaturalOrdering>"
             )
         ).affirm();
     }

@@ -52,8 +52,8 @@ final class IsEqualToTest {
             new IsEqualTo<>(0),
             new Mismatches<>(
                 1,
-                "a value equal to <0> when compared by <NaturalOrdering{}>",
-                "<1> was greater than <0> when compared by <NaturalOrdering{}>"
+                "a value equal to <0> when compared by <NaturalOrdering>",
+                "<1> was greater than <0> when compared by <NaturalOrdering>"
             )
         ).affirm();
     }
