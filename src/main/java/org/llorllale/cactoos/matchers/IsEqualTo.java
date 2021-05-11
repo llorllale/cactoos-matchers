@@ -50,7 +50,7 @@ public final class IsEqualTo<T extends Comparable<? super T>> extends
      * @param comparator The comparator.
      * @param expected The expected value
      */
-    public IsEqualTo(final Comparator<T> comparator, final T expected) {
+    public IsEqualTo(final Comparator<? super T> comparator, final T expected) {
         super(
             ComparatorMatcherBuilder
                 .comparedBy(comparator)
