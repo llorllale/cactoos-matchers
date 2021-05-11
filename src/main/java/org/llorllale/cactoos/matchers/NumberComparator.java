@@ -34,6 +34,7 @@ import java.util.Comparator;
  *
  * @since 1.0.0
  */
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
 final class NumberComparator implements Comparator<Number>, Serializable {
 
     /**
