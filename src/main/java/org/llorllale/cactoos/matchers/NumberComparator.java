@@ -44,20 +44,38 @@ final class NumberComparator implements Comparator<Number>, Serializable {
     /**
      * Comparator of numbers.
      */
-    private static final Comparator<Number> FNC =
-        Comparator
-            .comparing(Number::doubleValue)
-            .thenComparing(Number::intValue)
-            .thenComparing(Number::longValue)
-            .thenComparing(Number::floatValue);
+    private final transient Comparator<? super Number> comparator;
+
+    /**
+     * Ctor.
+     * @param comparator Comparator.
+     */
+    private NumberComparator(
+        final Comparator<? super Number> comparator
+    ) {
+        this.comparator = comparator;
+    }
+
+    /**
+     * Ctor.
+     */
+    public NumberComparator() {
+        this(
+            Comparator
+                .comparing(Number::doubleValue)
+                .thenComparing(Number::intValue)
+                .thenComparing(Number::longValue)
+                .thenComparing(Number::floatValue)
+        );
+    }
 
     @Override
     public int compare(final Number first, final Number second) {
-        return FNC.compare(first, second);
+        return this.comparator.compare(first, second);
     }
 
     @Override
     public String toString() {
-        return "NumberComparator{}";
+        return "NumberComparator";
     }
 }
