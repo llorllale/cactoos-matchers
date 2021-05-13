@@ -30,19 +30,19 @@ import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link IsLessThan}.
+ * Test for {@link IsComparableLessThan}.
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-final class IsLessThanTest {
+final class IsComparableLessThanTest {
     @Test
     void matches() {
         new Assertion<>(
             "Must match",
             Integer.MIN_VALUE,
             new AllOf<>(
-                new IsLessThan<>(0),
-                new IsLessThan<>(-1)
+                new IsComparableLessThan<>(0),
+                new IsComparableLessThan<>(-1)
             )
         ).affirm();
     }
@@ -51,7 +51,7 @@ final class IsLessThanTest {
     void mismatches() {
         new Assertion<>(
             "Must mismatch",
-            new IsLessThan<>(0),
+            new IsComparableLessThan<>(0),
             new Mismatches<>(
                 1,
                 "a value less than <0> when compared by <NaturalOrdering>",

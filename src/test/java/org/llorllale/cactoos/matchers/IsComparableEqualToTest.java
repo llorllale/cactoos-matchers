@@ -26,28 +26,37 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.comparator.ComparatorMatcherBuilder;
+import org.junit.jupiter.api.Test;
 
 /**
- * Is {@link Comparable} object greater than.
+ * Test for {@link IsComparableEqualTo}.
  *
- * @param <T> Underlying type.
  * @since 1.0.0
  */
-public final class IsGreaterThan<T extends Comparable<? super T>> extends
-    MatcherEnvelope<T> {
+@SuppressWarnings("unchecked")
+final class IsComparableEqualToTest {
 
-    /**
-     * Ctor.
-     *
-     * @param expected The expected value
-     */
-    public IsGreaterThan(final T expected) {
-        super(
-            ComparatorMatcherBuilder
-                .comparedBy(new NaturalOrdering<T>())
-                .greaterThan(expected)
-        );
+    @Test
+    void matches() {
+        new Assertion<>(
+            "Must match",
+            0,
+            new IsComparableEqualTo<>(0)
+        ).affirm();
+    }
+
+    @Test
+    void mismatches() {
+        new Assertion<>(
+            "Must mismatch",
+            new IsComparableEqualTo<>(0),
+            new Mismatches<>(
+                1,
+                "a value equal to <0> when compared by <NaturalOrdering>",
+                "<1> was greater than <0> when compared by <NaturalOrdering>"
+            )
+        ).affirm();
     }
 
 }
+

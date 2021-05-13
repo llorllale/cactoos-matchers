@@ -34,13 +34,13 @@ import org.hamcrest.comparator.ComparatorMatcherBuilder;
  * @param <T> Underlying type.
  * @since 1.0.0
  */
-public final class IsLessThan<T extends Comparable<? super T>> extends
+public final class IsComparableLessThan<T extends Comparable<? super T>> extends
     MatcherEnvelope<T> {
     /**
      * Ctor.
      * @param expected The expected value
      */
-    public IsLessThan(final T expected) {
+    public IsComparableLessThan(final T expected) {
         super(
             ComparatorMatcherBuilder
                 .comparedBy(new NaturalOrdering<T>())

@@ -26,40 +26,36 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.core.AllOf;
-import org.junit.jupiter.api.Test;
+import java.util.Comparator;
+import org.hamcrest.comparator.ComparatorMatcherBuilder;
 
 /**
- * Test for {@link IsLessThanOrEqualTo}.
+ * Is {@link Comparable} equal to.
  *
+ * @param <T> Underlying type.
  * @since 1.0.0
  */
-@SuppressWarnings("unchecked")
-final class IsLessThanOrEqualToOrEqualToTest {
-
-    @Test
-    void matches() {
-        new Assertion<>(
-            "Must match",
-            0,
-            new AllOf<>(
-                new IsLessThanOrEqualTo<>(0),
-                new IsLessThanOrEqualTo<>(1)
-            )
-        ).affirm();
+public final class IsComparableEqualTo<T extends Comparable<? super T>> extends
+    MatcherEnvelope<T> {
+    /**
+     * Ctor.
+     * @param expected The expected value
+     */
+    public IsComparableEqualTo(final T expected) {
+        this(new NaturalOrdering<>(), expected);
     }
 
-    @Test
-    void mismatches() {
-        new Assertion<>(
-            "Must mismatch",
-            new IsLessThanOrEqualTo<>(0),
-            new Mismatches<>(
-                1,
-                "a value less than or equal to <0> when compared by <NaturalOrdering>",
-                "<1> was greater than <0> when compared by <NaturalOrdering>"
-            )
-        ).affirm();
+    /**
+     * Ctor.
+     * @param comparator The comparator.
+     * @param expected The expected value
+     */
+    public IsComparableEqualTo(final Comparator<? super T> comparator, final T expected) {
+        super(
+            ComparatorMatcherBuilder
+                .comparedBy(comparator)
+                .comparesEqualTo(expected)
+        );
     }
 
 }

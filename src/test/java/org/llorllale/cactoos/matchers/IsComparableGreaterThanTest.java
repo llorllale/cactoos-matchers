@@ -30,19 +30,19 @@ import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for {@link IsGreaterThan}.
+ * Test for {@link IsComparableGreaterThan}.
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-final class IsGreaterThanTest {
+final class IsComparableGreaterThanTest {
     @Test
     void matches() {
         new Assertion<>(
             "Must match",
             1,
             new AllOf<>(
-                new IsGreaterThan<>(0),
-                new IsGreaterThan<>(-1)
+                new IsComparableGreaterThan<>(0),
+                new IsComparableGreaterThan<>(-1)
             )
         ).affirm();
     }
@@ -51,7 +51,7 @@ final class IsGreaterThanTest {
     void mismatches() {
         new Assertion<>(
             "Must mismatch",
-            new IsGreaterThan<>(0),
+            new IsComparableGreaterThan<>(0),
             new Mismatches<>(
                 -1,
                 "a value greater than <0> when compared by <NaturalOrdering>",
