@@ -50,23 +50,6 @@ final class IsBytesTest {
     }
 
     @Test
-    void mismatchesWhenThrows() {
-        new Assertion<>(
-            "Must mismatch",
-            new IsBytes(65, 66, 67),
-            new Mismatches<>(
-                new BytesOf(
-                    (Text) () -> {
-                        throw new UnsupportedOperationException("ok");
-                    }
-                ),
-                "<65, 66, 67>",
-                "thrown <java.lang.UnsupportedOperationException: ok>"
-            )
-        ).affirm();
-    }
-
-    @Test
     void mismatches() {
         new Assertion<>(
             "Must mismatch",

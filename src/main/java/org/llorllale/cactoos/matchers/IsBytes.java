@@ -26,9 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.stream.IntStream;
 import org.cactoos.Bytes;
 import org.cactoos.bytes.BytesOf;
 import org.cactoos.bytes.UncheckedBytes;
@@ -67,22 +65,6 @@ public final class IsBytes extends TypeSafeDiagnosingMatcher<Bytes> {
 
     /**
      * Ctor.
-     * @param ints The bytes to match against
-     */
-    public IsBytes(final int... ints) {
-        this(
-            IntStream
-                .of(ints)
-                .collect(
-                    () -> ByteBuffer.allocate(ints.length),
-                    (bts, value) -> bts.put((byte) value),
-                    ByteBuffer::put
-                ).array()
-        );
-    }
-
-    /**
-     * Ctor.
      * @param string The string to match against
      */
     public IsBytes(final String string) {
@@ -103,35 +85,19 @@ public final class IsBytes extends TypeSafeDiagnosingMatcher<Bytes> {
     }
 
     @Override
-    @SuppressWarnings(
-        {"PMD.AvoidCatchingGenericException", "PMD.AvoidCatchingThrowable"}
-    )
     protected boolean matchesSafely(
         final Bytes item, final Description description
     ) {
-        // @checkstyle IllegalCatchCheck (100 lines)
-        boolean res = true;
-        byte[] presented = new byte[0];
-        try {
-            presented = item.asBytes();
-        } catch (final Exception ex) {
-            description
-                .appendText("thrown ")
-                .appendValue(ex);
-            res = false;
+        final byte[] presented = new UncheckedBytes(item).asBytes();
+        final byte[] expected = this.bytes.asBytes();
+        final boolean result;
+        if (!Arrays.equals(presented, expected)) {
+            description.appendValue(new IterableOfBytes(presented));
+            result = false;
+        } else {
+            result = true;
         }
-        if (res) {
-            final byte[] expected = this.bytes.asBytes();
-            res = Arrays.equals(
-                presented, expected
-            );
-            if (!res) {
-                description.appendValue(
-                    new IterableOfBytes(presented)
-                );
-            }
-        }
-        return res;
+        return result;
     }
 
 }
