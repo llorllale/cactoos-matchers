@@ -91,11 +91,11 @@ public final class IsBytes extends TypeSafeDiagnosingMatcher<Bytes> {
         final byte[] presented = new UncheckedBytes(item).asBytes();
         final byte[] expected = this.bytes.asBytes();
         final boolean result;
-        if (!Arrays.equals(presented, expected)) {
+        if (Arrays.equals(presented, expected)) {
+            result = true;
+        } else {
             description.appendValue(new IterableOfBytes(presented));
             result = false;
-        } else {
-            result = true;
         }
         return result;
     }

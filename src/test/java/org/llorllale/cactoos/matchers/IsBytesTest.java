@@ -26,7 +26,6 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.Text;
 import org.cactoos.bytes.BytesOf;
 import org.cactoos.bytes.HexOf;
 import org.cactoos.text.TextOf;
@@ -37,13 +36,12 @@ import org.junit.jupiter.api.Test;
  * @since 1.0.0
  * @checkstyle MagicNumberCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 final class IsBytesTest {
 
     @Test
     void matchesExactly() {
         new Assertion<>(
-            "Must match",
+            "Must match with chars",
             new BytesOf("ABC"),
             new IsBytes('A', 'B', 'C')
         ).affirm();
@@ -52,7 +50,7 @@ final class IsBytesTest {
     @Test
     void mismatches() {
         new Assertion<>(
-            "Must mismatch",
+            "Must mismatch with bytes",
             new IsBytes((byte) 65, (byte) 66, (byte) 67),
             new Mismatches<>(
                 new BytesOf("abc"),
@@ -65,7 +63,7 @@ final class IsBytesTest {
     @Test
     void matchesAsString() {
         new Assertion<>(
-            "Must match",
+            "Must match with String",
             new HexOf(new TextOf("6465616462656166")),
             new IsBytes("deadbeaf")
         ).affirm();
