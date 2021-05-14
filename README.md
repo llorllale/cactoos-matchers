@@ -98,11 +98,9 @@ public void csvLineHasCorrectFormat() throws Exception {
 public void textIsBlank(){
   new Assertion<>(
     "must be blank",
-    new UncheckedText(    
-      new TextOf(
-        new File("file.txt")
-      )
-    ).asString(),
+    new TextOf(
+      new File("file.txt")
+    ),
     new IsBlank()
   ).affirm();
 }
