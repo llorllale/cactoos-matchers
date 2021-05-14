@@ -27,6 +27,7 @@
 
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.text.TextOf;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -42,7 +43,7 @@ final class IsBlankTest {
         new Assertion<>(
             "matches empty string",
             new IsBlank(),
-            new Matches<>("")
+            new Matches<>(new TextOf(""))
         ).affirm();
     }
 
@@ -52,9 +53,9 @@ final class IsBlankTest {
             "does not match non-empty string",
             new IsBlank(),
             new Mismatches<>(
-                "-.$%",
+                new TextOf("-.$%"),
                 "is blank",
-                "was \"-.$%\""
+                "was <-.$%>"
             )
         ).affirm();
     }
@@ -65,9 +66,9 @@ final class IsBlankTest {
             "describes itself in terms of the text being matched against",
             new IsBlank(),
             new Mismatches<>(
-                "text",
+                new TextOf("text"),
                 "is blank",
-                "was \"text\""
+                "was <text>"
             )
         ).affirm();
     }
