@@ -29,7 +29,7 @@ package org.llorllale.cactoos.matchers;
 import org.hamcrest.comparator.ComparatorMatcherBuilder;
 
 /**
- * Is {@link Number} greater than or equal to.
+ * Is {@link Comparable} greater than or equal to.
  *
  * @param <T> Underlying type.
  * @since 1.0.0
