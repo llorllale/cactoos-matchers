@@ -40,13 +40,13 @@ public abstract class MatcherEnvelope<T> extends BaseMatcher<T> {
     /**
      * The matcher to test.
      */
-    private final Matcher<T> origin;
+    private final Matcher<? super T> origin;
 
     /**
      * Ctor.
      * @param origin Encapsulated matcher.
      */
-    protected MatcherEnvelope(final Matcher<T> origin) {
+    protected MatcherEnvelope(final Matcher<? super T> origin) {
         super();
         this.origin = origin;
     }

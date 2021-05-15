@@ -29,21 +29,24 @@ package org.llorllale.cactoos.matchers;
 import org.hamcrest.comparator.ComparatorMatcherBuilder;
 
 /**
- * Matcher for {@link Number} equality.
+ * Is {@link Comparable} object greater than.
  *
+ * @param <T> Underlying type.
  * @since 1.0.0
  */
-public final class IsNumber extends MatcherEnvelope<Number> {
+public final class IsComparableGreaterThan<T extends Comparable<? super T>> extends
+    MatcherEnvelope<T> {
 
     /**
      * Ctor.
+     *
      * @param expected The expected value
      */
-    public IsNumber(final Number expected) {
+    public IsComparableGreaterThan(final T expected) {
         super(
             ComparatorMatcherBuilder
-                .comparedBy(new NumberComparator())
-                .comparesEqualTo(expected)
+                .comparedBy(new NaturalOrdering<T>())
+                .greaterThan(expected)
         );
     }
 

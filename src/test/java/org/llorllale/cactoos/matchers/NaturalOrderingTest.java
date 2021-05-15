@@ -26,25 +26,45 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.comparator.ComparatorMatcherBuilder;
+import java.util.Comparator;
+import java.util.stream.Stream;
+import org.hamcrest.core.IsEqual;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 
 /**
- * Matcher for {@link Number} equality.
+ * Test for {@link NaturalOrdering}.
  *
  * @since 1.0.0
  */
-public final class IsNumber extends MatcherEnvelope<Number> {
+final class NaturalOrderingTest implements ArgumentsProvider {
 
-    /**
-     * Ctor.
-     * @param expected The expected value
-     */
-    public IsNumber(final Number expected) {
-        super(
-            ComparatorMatcherBuilder
-                .comparedBy(new NumberComparator())
-                .comparesEqualTo(expected)
+    @Override
+    public Stream<? extends Arguments> provideArguments(
+        final ExtensionContext context
+    ) throws Exception {
+        return Stream.of(
+            Arguments.of(1, 2),
+            Arguments.of(1d, 2d),
+            Arguments.of(0, 1),
+            Arguments.of(0, 0)
         );
     }
 
+    @ArgumentsSource(NaturalOrderingTest.class)
+    @ParameterizedTest
+    <T extends Comparable<T>> void actsTheSameAsNaturalOrder(
+        final T first, final T second
+    ) {
+        new Assertion<>(
+            "Must be the same",
+            new NaturalOrdering<T>().compare(first, second),
+            new IsEqual<>(
+                Comparator.<T>naturalOrder().compare(first, second)
+            )
+        ).affirm();
+    }
 }

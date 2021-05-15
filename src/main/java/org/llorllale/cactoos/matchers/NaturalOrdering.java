@@ -26,25 +26,30 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.comparator.ComparatorMatcherBuilder;
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
- * Matcher for {@link Number} equality.
+ * Type-safe re-implementation of {@link Comparator#naturalOrder()}.
  *
+ * @param <T> Type of comparable object.
  * @since 1.0.0
  */
-public final class IsNumber extends MatcherEnvelope<Number> {
+final class NaturalOrdering<T extends Comparable<? super T>> implements
+    Comparator<T>, Serializable {
 
     /**
-     * Ctor.
-     * @param expected The expected value
+     * Serial version UID.
      */
-    public IsNumber(final Number expected) {
-        super(
-            ComparatorMatcherBuilder
-                .comparedBy(new NumberComparator())
-                .comparesEqualTo(expected)
-        );
+    private static final long serialVersionUID = -1L;
+
+    @Override
+    public int compare(final T first, final T second) {
+        return first.compareTo(second);
     }
 
+    @Override
+    public String toString() {
+        return "NaturalOrdering";
+    }
 }
