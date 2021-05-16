@@ -26,72 +26,37 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.MaxOf;
+import org.hamcrest.core.AllOf;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test case for {@link IsNumber}.
- *
+ * Test for {@link IsComparableGreaterThan}.
  * @since 1.0.0
- * @checkstyle MagicNumberCheck (500 lines)
  */
-final class IsNumberTest {
-
+@SuppressWarnings("unchecked")
+final class IsComparableGreaterThanTest {
     @Test
-    void matchesDouble() {
+    void matches() {
         new Assertion<>(
-            "must match a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
-            new Matches<>(Double.POSITIVE_INFINITY)
-        ).affirm();
-    }
-
-    @Test
-    void mismatchesDouble() {
-        new Assertion<>(
-            "must mismatch a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
-            new Mismatches<>(
-                1234,
-                "a value equal to <Infinity> when compared by <NumberComparator>",
-                "<1234> was less than <Infinity> when compared by <NumberComparator>"
+            "Must match",
+            1,
+            new AllOf<>(
+                new IsComparableGreaterThan<>(0),
+                new IsComparableGreaterThan<>(-1)
             )
         ).affirm();
     }
 
     @Test
-    void matchesFloat() {
+    void mismatches() {
         new Assertion<>(
-            "must match a integer",
-            new IsNumber(10f),
-            new Matches<>(10f)
-        ).affirm();
-    }
-
-    @Test
-    void matchesLong() {
-        new Assertion<>(
-            "must match a long",
-            new IsNumber(10L),
-            new Matches<>(10L)
-        ).affirm();
-    }
-
-    @Test
-    void matchesInteger() {
-        new Assertion<>(
-            "must match an integer",
-            new IsNumber(10),
-            new Matches<>(10)
-        ).affirm();
-    }
-
-    @Test
-    void matchesNumber() {
-        new Assertion<>(
-            "must match max value via integer",
-            new IsNumber(12),
-            new Matches<>(new MaxOf(12L, 11L))
+            "Must mismatch",
+            new IsComparableGreaterThan<>(0),
+            new Mismatches<>(
+                -1,
+                "a value greater than <0> when compared by <NaturalOrdering>",
+                "<-1> was less than <0> when compared by <NaturalOrdering>"
+            )
         ).affirm();
     }
 }

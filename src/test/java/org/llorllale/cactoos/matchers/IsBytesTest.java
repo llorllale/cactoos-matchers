@@ -26,72 +26,47 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.MaxOf;
+import org.cactoos.bytes.BytesOf;
+import org.cactoos.bytes.HexOf;
+import org.cactoos.text.TextOf;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test case for {@link IsNumber}.
- *
+ * Test for {@link IsBytes}.
  * @since 1.0.0
  * @checkstyle MagicNumberCheck (500 lines)
  */
-final class IsNumberTest {
+final class IsBytesTest {
 
     @Test
-    void matchesDouble() {
+    void matchesExactly() {
         new Assertion<>(
-            "must match a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
-            new Matches<>(Double.POSITIVE_INFINITY)
+            "Must match with chars",
+            new BytesOf("ABC"),
+            new IsBytes('A', 'B', 'C')
         ).affirm();
     }
 
     @Test
-    void mismatchesDouble() {
+    void mismatches() {
         new Assertion<>(
-            "must mismatch a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
+            "Must mismatch with bytes",
+            new IsBytes((byte) 65, (byte) 66, (byte) 67),
             new Mismatches<>(
-                1234,
-                "a value equal to <Infinity> when compared by <NumberComparator>",
-                "<1234> was less than <Infinity> when compared by <NumberComparator>"
+                new BytesOf("abc"),
+                "<65, 66, 67>",
+                "<97, 98, 99>"
             )
         ).affirm();
     }
 
     @Test
-    void matchesFloat() {
+    void matchesAsString() {
         new Assertion<>(
-            "must match a integer",
-            new IsNumber(10f),
-            new Matches<>(10f)
+            "Must match with String",
+            new HexOf(new TextOf("6465616462656166")),
+            new IsBytes("deadbeaf")
         ).affirm();
     }
 
-    @Test
-    void matchesLong() {
-        new Assertion<>(
-            "must match a long",
-            new IsNumber(10L),
-            new Matches<>(10L)
-        ).affirm();
-    }
-
-    @Test
-    void matchesInteger() {
-        new Assertion<>(
-            "must match an integer",
-            new IsNumber(10),
-            new Matches<>(10)
-        ).affirm();
-    }
-
-    @Test
-    void matchesNumber() {
-        new Assertion<>(
-            "must match max value via integer",
-            new IsNumber(12),
-            new Matches<>(new MaxOf(12L, 11L))
-        ).affirm();
-    }
 }

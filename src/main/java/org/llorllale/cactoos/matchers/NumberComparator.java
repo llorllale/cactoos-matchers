@@ -26,25 +26,57 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.hamcrest.comparator.ComparatorMatcherBuilder;
+import java.io.Serializable;
+import java.util.Comparator;
 
 /**
- * Matcher for {@link Number} equality.
+ * Comparator for Numbers.
  *
  * @since 1.0.0
  */
-public final class IsNumber extends MatcherEnvelope<Number> {
+@edu.umd.cs.findbugs.annotations.SuppressFBWarnings("SE_TRANSIENT_FIELD_NOT_RESTORED")
+final class NumberComparator implements Comparator<Number>, Serializable {
+
+    /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = -1L;
+
+    /**
+     * Comparator of numbers.
+     */
+    private final transient Comparator<? super Number> comparator;
 
     /**
      * Ctor.
-     * @param expected The expected value
+     * @param comparator Comparator.
      */
-    public IsNumber(final Number expected) {
-        super(
-            ComparatorMatcherBuilder
-                .comparedBy(new NumberComparator())
-                .comparesEqualTo(expected)
+    private NumberComparator(
+        final Comparator<? super Number> comparator
+    ) {
+        this.comparator = comparator;
+    }
+
+    /**
+     * Ctor.
+     */
+    NumberComparator() {
+        this(
+            Comparator
+                .comparing(Number::doubleValue)
+                .thenComparing(Number::intValue)
+                .thenComparing(Number::longValue)
+                .thenComparing(Number::floatValue)
         );
     }
 
+    @Override
+    public int compare(final Number first, final Number second) {
+        return this.comparator.compare(first, second);
+    }
+
+    @Override
+    public String toString() {
+        return "NumberComparator";
+    }
 }

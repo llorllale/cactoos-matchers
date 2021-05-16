@@ -26,72 +26,37 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.MaxOf;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test case for {@link IsNumber}.
+ * Test for {@link IsComparableEqualTo}.
  *
  * @since 1.0.0
- * @checkstyle MagicNumberCheck (500 lines)
  */
-final class IsNumberTest {
+@SuppressWarnings("unchecked")
+final class IsComparableEqualToTest {
 
     @Test
-    void matchesDouble() {
+    void matches() {
         new Assertion<>(
-            "must match a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
-            new Matches<>(Double.POSITIVE_INFINITY)
+            "Must match",
+            0,
+            new IsComparableEqualTo<>(0)
         ).affirm();
     }
 
     @Test
-    void mismatchesDouble() {
+    void mismatches() {
         new Assertion<>(
-            "must mismatch a double",
-            new IsNumber(Double.POSITIVE_INFINITY),
+            "Must mismatch",
+            new IsComparableEqualTo<>(0),
             new Mismatches<>(
-                1234,
-                "a value equal to <Infinity> when compared by <NumberComparator>",
-                "<1234> was less than <Infinity> when compared by <NumberComparator>"
+                1,
+                "a value equal to <0> when compared by <NaturalOrdering>",
+                "<1> was greater than <0> when compared by <NaturalOrdering>"
             )
         ).affirm();
     }
 
-    @Test
-    void matchesFloat() {
-        new Assertion<>(
-            "must match a integer",
-            new IsNumber(10f),
-            new Matches<>(10f)
-        ).affirm();
-    }
-
-    @Test
-    void matchesLong() {
-        new Assertion<>(
-            "must match a long",
-            new IsNumber(10L),
-            new Matches<>(10L)
-        ).affirm();
-    }
-
-    @Test
-    void matchesInteger() {
-        new Assertion<>(
-            "must match an integer",
-            new IsNumber(10),
-            new Matches<>(10)
-        ).affirm();
-    }
-
-    @Test
-    void matchesNumber() {
-        new Assertion<>(
-            "must match max value via integer",
-            new IsNumber(12),
-            new Matches<>(new MaxOf(12L, 11L))
-        ).affirm();
-    }
 }
+

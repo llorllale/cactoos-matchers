@@ -26,23 +26,34 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import java.util.Comparator;
 import org.hamcrest.comparator.ComparatorMatcherBuilder;
 
 /**
- * Matcher for {@link Number} equality.
+ * Is {@link Comparable} equal to.
  *
+ * @param <T> Underlying type.
  * @since 1.0.0
  */
-public final class IsNumber extends MatcherEnvelope<Number> {
-
+public final class IsComparableEqualTo<T extends Comparable<? super T>> extends
+    MatcherEnvelope<T> {
     /**
      * Ctor.
      * @param expected The expected value
      */
-    public IsNumber(final Number expected) {
+    public IsComparableEqualTo(final T expected) {
+        this(new NaturalOrdering<>(), expected);
+    }
+
+    /**
+     * Ctor.
+     * @param comparator The comparator.
+     * @param expected The expected value
+     */
+    public IsComparableEqualTo(final Comparator<? super T> comparator, final T expected) {
         super(
             ComparatorMatcherBuilder
-                .comparedBy(new NumberComparator())
+                .comparedBy(comparator)
                 .comparesEqualTo(expected)
         );
     }
