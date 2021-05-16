@@ -26,6 +26,8 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.Text;
+import org.cactoos.text.TextOf;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -42,7 +44,7 @@ import org.hamcrest.StringDescription;
  *         new Assertion<>(
  *             "must match the string",
  *             new TextOf("string"),
- *             new TextIs("string")
+ *             new IsText("string")
  *         ).affirm();    // value is affirmed
  *     }
  * }
@@ -67,7 +69,7 @@ import org.hamcrest.StringDescription;
  *  Assertion, and ban all overloads of the former in forbidden-apis.txt.
  *  We should also look into banning common matchers like Matchers.is(), etc.
  */
-public final class Assertion<T> {
+public final class Assertion<T> implements Assert {
 
     /**
      * Message.
@@ -98,10 +100,7 @@ public final class Assertion<T> {
         this.matcher = matcher;
     }
 
-    /**
-     * Affirm this assertion.
-     * @throws AssertionError if this assertion is refuted
-     */
+    @Override
     public void affirm() throws AssertionError {
         if (!this.matcher.matches(this.test)) {
             final Description text = new StringDescription();
@@ -115,5 +114,10 @@ public final class Assertion<T> {
             this.matcher.describeMismatch(this.test, text);
             throw new AssertionError(text.toString());
         }
+    }
+
+    @Override
+    public Text description() {
+        return new TextOf(this.msg);
     }
 }

@@ -28,107 +28,82 @@ package org.llorllale.cactoos.matchers;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import org.cactoos.Scalar;
-import org.cactoos.text.Joined;
 import org.cactoos.text.TextOf;
-import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link Assertion}.
  * @since 1.0.0
  * @checkstyle ClassDataAbstractionCouplingCheck (500 lines)
  */
-@SuppressWarnings("PMD.AvoidDuplicateLiterals")
-final class AssertionTest {
-    /**
-     * Assertion can be affirmed if the operation being tested matches.
-     */
-    @Test
-    void affirmIfResultMatches() {
-        final String expected = "abc123";
-        new Assertion<>(
-            "must affirm the assertion if the test's result is as expected",
-            new TextOf(expected),
-            new IsText(expected)
-        ).affirm();
-    }
+@SuppressWarnings({"unchecked", "PMD.AvoidDuplicateLiterals",
+    "PMD.TestClassWithoutTestCases"})
+final class AssertionTest extends TestEnvelope {
 
-    /**
-     * Assertion must be refuted if the operation being tested does not
-     * match.
-     *
-     * @throws Exception if something goes wrong.
-     */
-    @Test
-    void refuteIfResultDoesNotMatch() throws Exception {
-        Assertions.assertThrows(
-            AssertionError.class,
-            () -> new Assertion<>(
-                "must refute the assertion if the test's result is not as expected",
-                new TextOf("test"),
-                new IsText("no match")
-            ).affirm(),
-            new Joined(
-                System.lineSeparator(),
-                "must refute the assertion if the test's result is not as expected",
-                "Expected: Text with value \"no match\"",
-                " but was: Text is \"test\""
-            ).asString()
+    AssertionTest() {
+        super(
+            new Assertion<>(
+                "Assertion can be affirmed if the operation being tested matches.",
+                new Assertion<>(
+                    "must affirm the assertion if the test's result is as expected",
+                    new TextOf("abc123"),
+                    new IsText("abc123")
+                ),
+                new Passes()
+            ),
+            new Assertion<>(
+                "Assertion must be refuted if the operation being tested does not match.",
+                new Assertion<>(
+                    "must refute the assertion if the test's result is not as expected",
+                    new TextOf("test"),
+                    new IsText("no match")
+                ),
+                new FailsWith(
+                    AssertionError.class
+                )
+            ),
+            new Assertion<>(
+                "Must not be affirmed if the operation being tested throws an unexpected error",
+                new Assertion<Scalar<String>>(
+                    "must fail if the test throws an unexpected error",
+                    () -> {
+                        throw new IllegalStateException();
+                    },
+                    new HasValue<>("no match")
+                ),
+                new FailsWith(
+                    IllegalStateException.class
+                )
+            ),
+            new Assertion<>(
+                "Assertion can be affirmed if the operation being tested throws an expected error.",
+                new Assertion<>(
+                    "must affirm the assertion if the test throws the expected error",
+                    () -> {
+                        throw new IllegalStateException("this is a test");
+                    },
+                    new Throws<>("this is a test", IllegalStateException.class)
+                ),
+                new Passes()
+            ),
+            new AssertWith<>(
+                new AtomicInteger(0),
+                quantity -> new AssertAll(
+                    "The scalar within Assertion executed is only once",
+                    new Assertion<>(
+                        "must match the exception",
+                        () -> {
+                            quantity.incrementAndGet();
+                            throw new IllegalStateException("this is a test");
+                        },
+                        new Throws<>("this is a test", IllegalStateException.class)
+                    ),
+                    new Assertion<>(
+                        "must execute scalar only once",
+                        quantity::get,
+                        new HasValue<>(1)
+                    )
+                )
+            )
         );
-    }
-
-    /**
-     * Assertion cannot be affirmed if the operation being tested throws an
-     * unexpected error.
-     */
-    @Test
-    void refuteIfErrorDoesNotMatch() {
-        Assertions.assertThrows(
-            IllegalStateException.class,
-            () -> new Assertion<Scalar<String>>(
-                "must fail if the test throws an unexpected error",
-                () -> {
-                    throw new IllegalStateException();
-                },
-                new HasValue<>("no match")
-            ).affirm()
-        );
-    }
-
-    /**
-     * Assertion can be affirmed if the operation being tested throws an
-     * expected error.
-     */
-    @Test
-    void affirmIfErrorMatches() {
-        new Assertion<>(
-            "must affirm the assertion if the test throws the expected error",
-            () -> {
-                throw new IllegalStateException("this is a test");
-            },
-            new Throws<>("this is a test", IllegalStateException.class)
-        ).affirm();
-    }
-
-    /**
-     * The scalar within Assertion executed is only once.
-     */
-    @Test
-    void scalarIsExecutedOnce() {
-        final AtomicInteger quantity = new AtomicInteger(0);
-        new Assertion<>(
-            "must match the exception",
-            () -> {
-                quantity.incrementAndGet();
-                throw new IllegalStateException("this is a test");
-            },
-            new Throws<>("this is a test", IllegalStateException.class)
-        ).affirm();
-        new Assertion<>(
-            "must execute scalar only once",
-            quantity.get(),
-            new IsEqual<>(1)
-        ).affirm();
     }
 }
