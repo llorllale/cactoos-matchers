@@ -27,26 +27,19 @@
 package org.llorllale.cactoos.matchers;
 
 import org.cactoos.Text;
-import org.cactoos.scalar.Unchecked;
-import org.hamcrest.Description;
-import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.Matchers;
 
 /**
  * The matcher to check that text is empty.
  *
  * @since 1.0.0
- * @checkstyle ProtectedMethodInFinalClassCheck (30 lines)
  */
-public final class IsBlank extends TypeSafeMatcher<Text> {
+public final class IsBlank extends MatcherEnvelope<Text> {
 
-    @Override
-    public void describeTo(final Description description) {
-        description.appendText("is blank");
+    /**
+     * Ctor.
+     */
+    public IsBlank() {
+        super(new TextMatcher(Matchers.blankString()));
     }
-
-    @Override
-    protected boolean matchesSafely(final Text item) {
-        return new Unchecked<>(new org.cactoos.text.IsBlank(item)).value();
-    }
-
 }

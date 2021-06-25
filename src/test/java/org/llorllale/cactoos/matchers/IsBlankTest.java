@@ -54,8 +54,8 @@ final class IsBlankTest {
             new IsBlank(),
             new Mismatches<>(
                 new TextOf("-.$%"),
-                "is blank",
-                "was <-.$%>"
+                "a blank string",
+                "was \"-.$%\""
             )
         ).affirm();
     }
@@ -67,8 +67,8 @@ final class IsBlankTest {
             new IsBlank(),
             new Mismatches<>(
                 new TextOf("text"),
-                "is blank",
-                "was <text>"
+                "a blank string",
+                "was \"text\""
             )
         ).affirm();
     }
