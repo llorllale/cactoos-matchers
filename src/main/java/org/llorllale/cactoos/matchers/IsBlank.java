@@ -26,22 +26,20 @@
  */
 package org.llorllale.cactoos.matchers;
 
+import org.cactoos.Text;
+import org.hamcrest.Matchers;
+
 /**
  * The matcher to check that text is empty.
  *
  * @since 1.0.0
  */
-public final class IsBlank extends MatcherEnvelope<String> {
+public final class IsBlank extends MatcherEnvelope<Text> {
+
     /**
      * Ctor.
      */
     public IsBlank() {
-        super(
-            new MatcherOf<>(
-                text -> text.trim().isEmpty(),
-                desc -> desc.appendText("is blank"),
-                (text, desc) -> desc.appendText("was ").appendValue(text)
-            )
-        );
+        super(new TextMatcher(Matchers.blankString()));
     }
 }

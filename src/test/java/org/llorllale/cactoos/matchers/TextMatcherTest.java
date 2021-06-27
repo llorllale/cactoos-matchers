@@ -68,15 +68,6 @@ final class TextMatcherTest {
     }
 
     @Test
-    void matchesFromMatcher() {
-        new Assertion<>(
-            "must match with matcher",
-            new TextMatcher(new IsBlank()),
-            new Matches<>(new TextOf(""))
-        ).affirm();
-    }
-
-    @Test
     void matchesFromFunc() {
         new Assertion<>(
             "must match with function",
