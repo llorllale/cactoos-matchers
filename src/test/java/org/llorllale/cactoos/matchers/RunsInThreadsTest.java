@@ -92,7 +92,7 @@ final class RunsInThreadsTest {
      *
      * @since 0.24
      */
-    private static class Safe implements Func<AtomicInteger, Boolean> {
+    private static final class Safe implements Func<AtomicInteger, Boolean> {
         @Override
         public Boolean apply(final AtomicInteger input) {
             input.incrementAndGet();
@@ -106,7 +106,7 @@ final class RunsInThreadsTest {
      *
      * @since 0.24
      */
-    private static class Unsafe implements Func<AtomicInteger, Boolean> {
+    private static final class Unsafe implements Func<AtomicInteger, Boolean> {
         /**
          * Special value indicating no thread has yet applied this func.
          */

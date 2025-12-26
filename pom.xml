@@ -30,7 +30,7 @@
   <parent>
     <groupId>com.jcabi</groupId>
     <artifactId>parent</artifactId>
-    <version>0.51.1</version>
+    <version>0.70.0</version>
   </parent>
   <groupId>org.llorllale</groupId>
   <artifactId>cactoos-matchers</artifactId>
@@ -67,15 +67,27 @@
     <system>rultor</system>
     <url>http://www.rultor.com/p/llorllale/cactoos-matchers</url>
   </ciManagement>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.junit</groupId>
+        <artifactId>junit-bom</artifactId>
+        <version>6.0.1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.cactoos</groupId>
       <artifactId>cactoos</artifactId>
-      <version>0.50</version>
+      <version>0.57.0</version>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest</artifactId>
+      <version>3.0</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -97,11 +109,12 @@
           <plugin>
             <groupId>com.qulice</groupId>
             <artifactId>qulice-maven-plugin</artifactId>
+            <version>0.25.0</version>
           </plugin>
           <plugin>
             <groupId>de.thetaphi</groupId>
             <artifactId>forbiddenapis</artifactId>
-            <version>2.6</version>
+            <version>3.10</version>
             <configuration>
               <signaturesFiles>
                 <signaturesFile>src/test/resources/forbidden-apis.txt</signaturesFile>
@@ -128,7 +141,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>sonar-maven-plugin</artifactId>
-            <version>3.4.0.905</version>
+            <version>4.0.0.4121</version>
             <executions>
               <execution>
                 <phase>package</phase>
@@ -145,9 +158,16 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.14.1</version>
+        <configuration>
+          <release>17</release>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>3.2.4</version>
+        <version>3.6.1</version>
         <executions>
           <execution>
             <phase>package</phase>
@@ -160,6 +180,14 @@
               <minimizeJar>true</minimizeJar>
               <createSourcesJar>true</createSourcesJar>
               <shadeSourcesContent>true</shadeSourcesContent>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                  </excludes>
+                </filter>
+              </filters>
               <artifactSet>
                 <includes>
                   <include>org.cactoos:cactoos</include>
@@ -183,6 +211,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.8.14</version>
         <configuration>
           <output>file</output>
           <outputDirectory>${project.build.directory}/coverage</outputDirectory>

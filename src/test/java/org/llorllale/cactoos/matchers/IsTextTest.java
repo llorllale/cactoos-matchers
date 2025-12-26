@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
  * Tests for {@link IsText}.
  * @since 1.0.0
  */
-public final class IsTextTest {
+final class IsTextTest {
 
     @Test
     void match() {
