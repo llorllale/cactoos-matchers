@@ -10,20 +10,20 @@ jobs:
     name: Tests
     strategy:
       matrix:
-        os: [ubuntu-18.04, macOS-10.15, windows-2019]
-        java: [8, 11, 15]
+        os: [ubuntu-24.04, macos-15, windows-2025]
+        java: [17, 21]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Java ${{ matrix.java }}
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
       - name: Test
         run: mvn clean test --errors --batch-mode
       - name: CodeCov
         uses: codecov/codecov-action@v1
-        if: matrix.os == 'ubuntu-18.04' && matrix.java == 8 && github.repository == 'llorllale/cactoos-matchers'
+        if: matrix.os == 'ubuntu-24.04' && matrix.java == 17 && github.repository == 'llorllale/cactoos-matchers'
         with:
           file: target/coverage/jacoco.xml
 
@@ -31,7 +31,7 @@ jobs:
     name: Linters
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Ruby 2.7
         uses: actions/setup-ruby@v1
         with:
@@ -40,10 +40,10 @@ jobs:
         run: |
           gem install pdd
           gem install xcop
-      - name: JDK 1.8
-        uses: actions/setup-java@v1
+      - name: Java 17
+        uses: actions/setup-java@v5
         with:
-          java-version: 1.8
+          java-version: 17
       - name: Puzzles
         run: pdd --file=/dev/null
       - name: Qulice
