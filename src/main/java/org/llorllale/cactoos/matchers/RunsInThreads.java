@@ -35,7 +35,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.cactoos.Func;
 import org.cactoos.iterable.Mapped;
-import org.cactoos.scalar.SumOf;
+import org.cactoos.number.SumOf;
 import org.cactoos.scalar.Ternary;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -105,7 +105,7 @@ public final class RunsInThreads<T> extends TypeSafeDiagnosingMatcher<Func<? sup
         }
         latch.countDown();
         final int matching = new SumOf(
-            new Mapped<>(
+            new Mapped<Integer>(
                 f -> new Ternary<>(f.get(), 1, 0).value(),
                 futures
             )

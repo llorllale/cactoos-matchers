@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  *
  * @since 1.0.0
  */
-public final class HasContentTest {
+final class HasContentTest {
 
     @Test
     void matchesInputContent() {

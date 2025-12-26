@@ -29,23 +29,18 @@ package org.llorllale.cactoos.matchers;
 import java.util.Comparator;
 import java.util.stream.Stream;
 import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Test for {@link NaturalOrdering}.
  *
  * @since 1.0.0
  */
-final class NaturalOrderingTest implements ArgumentsProvider {
+final class NaturalOrderingTest {
 
-    @Override
-    public Stream<? extends Arguments> provideArguments(
-        final ExtensionContext context
-    ) throws Exception {
+    static Stream<Arguments> provideArguments() {
         return Stream.of(
             Arguments.of(1, 2),
             Arguments.of(1d, 2d),
@@ -54,7 +49,7 @@ final class NaturalOrderingTest implements ArgumentsProvider {
         );
     }
 
-    @ArgumentsSource(NaturalOrderingTest.class)
+    @MethodSource("provideArguments")
     @ParameterizedTest
     <T extends Comparable<T>> void actsTheSameAsNaturalOrder(
         final T first, final T second

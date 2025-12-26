@@ -48,7 +48,7 @@ final class HasEntryTest {
             "must match an entry in the map",
             new HasEntry<>("a", 1),
             new Matches<>(
-                new MapOf<>(
+                new MapOf<String, Integer>(
                     new MapEntry<>("a", 1),
                     new MapEntry<>("b", 2)
                 )
