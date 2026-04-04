@@ -19,6 +19,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
+          distribution: temurin
       - name: Test
         run: mvn clean test --errors --batch-mode
       - name: CodeCov
@@ -29,7 +30,7 @@ jobs:
 
   lint:
     name: Linters
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
       - name: Ruby 2.7
@@ -44,6 +45,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: 17
+          distribution: temurin
       - name: Puzzles
         run: pdd --file=/dev/null
       - name: Qulice
