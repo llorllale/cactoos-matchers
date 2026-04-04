@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Ruby 2.7
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
       - name: Install pdd, xcop
