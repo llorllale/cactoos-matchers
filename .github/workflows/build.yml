@@ -36,7 +36,7 @@ jobs:
       - name: Ruby 2.7
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.7
+          ruby-version: 3.2.3
       - name: Install pdd, xcop
         run: |
           gem install pdd
