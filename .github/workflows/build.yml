@@ -30,10 +30,10 @@ jobs:
 
   lint:
     name: Linters
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v6
-      - name: Ruby 2.7
+      - name: Setup Ruby 3.2.x
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.3
