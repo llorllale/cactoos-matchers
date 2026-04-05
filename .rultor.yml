@@ -1,5 +1,5 @@
 docker:
-  image: g4s8/rultor:alpine3.10
+  image: yegor256/java
 assets:
   settings.xml: llorllale/home#assets/cactoos-matchers/settings.xml
   pubring.gpg: llorllale/home#assets/pubring.gpg
