@@ -37,7 +37,7 @@ import org.junit.jupiter.api.Test;
  *
  * @since 1.0
  */
-public final class HasValueTest {
+final class HasValueTest {
 
     @Test
     void matchesWithExpectedString() {

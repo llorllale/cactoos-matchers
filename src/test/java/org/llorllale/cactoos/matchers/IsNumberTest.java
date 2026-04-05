@@ -26,7 +26,7 @@
  */
 package org.llorllale.cactoos.matchers;
 
-import org.cactoos.scalar.MaxOf;
+import org.cactoos.number.MaxOf;
 import org.junit.jupiter.api.Test;
 
 /**

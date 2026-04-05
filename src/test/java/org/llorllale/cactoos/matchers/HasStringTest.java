@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  * @checkstyle ClassDataAbstractionCoupling (500 lines)
  */
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public final class HasStringTest {
+final class HasStringTest {
 
     @Test
     void matchesPrefix() {
